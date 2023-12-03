@@ -1,9 +1,10 @@
 fun main() {
     val initialState = ClassLoader.getSystemResource("input").readText().lines().map(::parseLine)
 
-    val finalState = calculateFinalState(initialState)
+    val (finalState, secondsPassed) = calculateFinalState(initialState)
 
     print(finalState)
+    println("Seconds passed: $secondsPassed")
 }
 
 fun parseLine(line: String): Star {
@@ -30,13 +31,13 @@ fun Field.height(): Int {
     return maxOf(Star::y) - minOf(Star::y)
 }
 
-tailrec fun calculateFinalState(currentState: Field): Field {
+tailrec fun calculateFinalState(currentState: Field, secondsPassed: Int = 0): Pair<Field, Int> {
     val newState = advanceTime(currentState)
 
     return if (newState.width() < currentState.width()) {
-        calculateFinalState(newState)
+        calculateFinalState(newState, secondsPassed + 1)
     } else {
-        currentState
+        currentState to secondsPassed
     }
 }
 
