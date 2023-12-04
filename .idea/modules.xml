@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Day 01 - Chronal Calibration/Day 01 - Chronal Calibration.iml" filepath="$PROJECT_DIR$/Day 01 - Chronal Calibration/Day 01 - Chronal Calibration.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 02 - Inventory Management System/Day 02 - Inventory Management System.iml" filepath="$PROJECT_DIR$/Day 02 - Inventory Management System/Day 02 - Inventory Management System.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 03 - No Matter How You Slice It/Day 03 - No Matter How You Slice It.iml" filepath="$PROJECT_DIR$/Day 03 - No Matter How You Slice It/Day 03 - No Matter How You Slice It.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 04 - Repose Record/Day 04 - Repose Record.iml" filepath="$PROJECT_DIR$/Day 04 - Repose Record/Day 04 - Repose Record.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 05 - Alchemical Reduction/Day 05 - Alchemical Reduction.iml" filepath="$PROJECT_DIR$/Day 05 - Alchemical Reduction/Day 05 - Alchemical Reduction.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 06 - Chronal Coordinates/Day 06 - Chronal Coordinates.iml" filepath="$PROJECT_DIR$/Day 06 - Chronal Coordinates/Day 06 - Chronal Coordinates.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 07 - The Sum of Its Parts/Day 07 - The Sum of Its Parts.iml" filepath="$PROJECT_DIR$/Day 07 - The Sum of Its Parts/Day 07 - The Sum of Its Parts.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 08 - Memory Maneuver/Day 08 - Memory Maneuver.iml" filepath="$PROJECT_DIR$/Day 08 - Memory Maneuver/Day 08 - Memory Maneuver.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 09 - Marble Mania/Day 09 - Marble Mania.iml" filepath="$PROJECT_DIR$/Day 09 - Marble Mania/Day 09 - Marble Mania.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Day 10 - The Stars Align/Day 10 - The Stars Align.iml" filepath="$PROJECT_DIR$/Day 10 - The Stars Align/Day 10 - The Stars Align.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Advent of Code test/Advent of Code.iml" filepath="$PROJECT_DIR$/../Advent of Code test/Advent of Code.iml" />
     </modules>
   </component>
 </project>
