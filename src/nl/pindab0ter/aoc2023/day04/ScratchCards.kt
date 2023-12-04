@@ -6,24 +6,45 @@ fun main() {
     val input = ClassLoader.getSystemResource("2023/day04/input").readText()
     val cards = input.lines().map(::parseLine)
 
-    val totalValue = cards.sumOf(ScratchCard::value)
+    val totalScore = cards.sumOf(ScratchCard::score)
+    println("Combined score of all cards: $totalScore")
 
-    println("Combined value of all cards: $totalValue")
+    val winnings = play(listOf(cards), cards)
+
+    println("Winnings: ${winnings.flatten().count()}")
 }
 
-fun Int.pow(exponent: Int): Int {
-    return toDouble().pow(exponent.toDouble()).toInt()
-}
-
+typealias Hand = List<ScratchCard>
+typealias CardNumber = Int
 
 data class ScratchCard(
     val number: Int,
-    val winningNumbers: Set<Int>,
-    val candidateNumbers: Set<Int>,
+    val winningNumbers: List<Number>,
+    val candidateNumbers: List<Number>,
 ) {
-    fun value(): Int {
-        val numbers = candidateNumbers.count { winningNumbers.contains(it) }
-        return 2.pow(numbers - 1)
+    /**
+     * @return The amount of winning numbers on this scratchcard.
+     */
+    private fun value(): Int {
+        return candidateNumbers.count { winningNumbers.contains(it) }
+    }
+
+    fun score(): Int {
+        return 2.toDouble().pow((value() - 1).toDouble()).toInt()
+    }
+
+    /**
+     * Determine the numbers of the scratchcards that have been won.
+     * You win an amount of scratchcards equal to the amount of winning numbers on the scratchcard.
+     *
+     * The cards you win are the cards with the numbers that are equal to the number of the scratchcard that is
+     * being played, plus the amount of winning numbers on the scratchcard.
+     *
+     * @return The numbers of the scratchcards that have been won.
+     */
+    fun determineWinnings(): List<CardNumber> = when {
+        value() == 0 -> listOf()
+        else -> (number + 1..number + value()).toList()
     }
 }
 
@@ -35,7 +56,28 @@ fun parseLine(line: String): ScratchCard {
     val (number, winningNumbers, candidateNumbers) = matchResult!!.destructured
     return ScratchCard(
         number.toInt(),
-        winningNumbers.trim().split(spaceRegex).map(String::toInt).toSet(),
-        candidateNumbers.trim().split(spaceRegex).map(String::toInt).toSet(),
+        winningNumbers.trim().split(spaceRegex).map(String::toInt).toList(),
+        candidateNumbers.trim().split(spaceRegex).map(String::toInt).toList(),
     )
+}
+
+
+/**
+ * Play a game of scratchcards.
+ *
+ * @param hands The [hands] of scratchcards that have been played so far. The last hand is the hand that will be played.
+ * @param givenCards The initial set of cards that have been given to the player. Used to find the won cards.
+ * @return The [hands] of scratchcards that have been played including the latest winnings.
+ */
+tailrec fun play(hands: List<Hand>, givenCards: Hand): List<Hand> {
+    val newlyWonCards: Hand = hands
+        .last()
+        .flatMap(ScratchCard::determineWinnings)
+        .map { cardNumber -> givenCards.first { card -> card.number == cardNumber } }
+
+    return if (newlyWonCards.isNotEmpty()) {
+        play(hands.plusElement(newlyWonCards), givenCards)
+    } else {
+        hands
+    }
 }
