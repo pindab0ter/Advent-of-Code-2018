@@ -22,19 +22,24 @@ val digitNames = mapOf(
 )
 
 fun getCalibrationValue(line: String): Int {
-    val digitRegex = Regex("""(one|two|three|four|five|six|seven|eight|nine|\d)""")
-    val matchFirst = digitRegex.find(line)!!.value
+    val digits = line.indices.fold(listOf<Int>()) { acc, i ->
+        val remainder = line.substring(i)
+        val firstCharacter: Char = remainder.first()
 
-    // Reversed digit regex to cover edge cases like "eightwo", as Regex doesn't support overlapping matches.
-    // Thanks, Bart
-    val reversedDigitRegex = Regex("""(eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|\d)""")
-    val matchLast = reversedDigitRegex.find(line.reversed())?.value?.reversed()
+        if (firstCharacter.isDigit()) {
+            return@fold acc.plus(firstCharacter.toString().toInt())
+        }
 
-    val firstDigit = digitNames[matchFirst] ?: matchFirst
-    val lastDigit = when (matchLast) {
-        null -> firstDigit
-        else -> digitNames[matchLast] ?: matchLast
+        val digit = digitNames.filter { (name, _) ->
+            remainder.startsWith(name)
+        }.values.firstOrNull()
+
+        if (digit != null) {
+            return@fold acc.plus(digit)
+        }
+
+        return@fold acc
     }
 
-    return "${firstDigit}${lastDigit}".toInt()
+    return "${digits.first()}${digits.last()}".toInt()
 }

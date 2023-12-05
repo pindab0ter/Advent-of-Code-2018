@@ -1,3 +1,5 @@
+@file:Suppress("RemoveRedundantBackticks", "SpellCheckingInspection")
+
 package nl.pindab0ter.aoc2023.day01
 
 import org.junit.jupiter.api.Assertions.assertEquals
