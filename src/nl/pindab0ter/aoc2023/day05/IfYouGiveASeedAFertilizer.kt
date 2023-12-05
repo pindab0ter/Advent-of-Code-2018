@@ -13,9 +13,8 @@ fun main() {
     val lowestLocationNumberPartOne = applyMaps(almanac.partOneSeeds, almanac.maps).min()
     println("Lowest location number, part one: $lowestLocationNumberPartOne")
 
-    // Fails due to Java heap space error
     timing("Reverse search") {
-        val lowestLocationNumberPartTwo = findLowestSeed(almanac.partTwoSeeds.toSet(), almanac.maps)
+        val lowestLocationNumberPartTwo = findLowestSeed(almanac.partTwoSeeds, almanac.maps)
         println("Lowest location number, part two: $lowestLocationNumberPartTwo")
     }
 }
@@ -23,7 +22,7 @@ fun main() {
 
 data class Almanac(
     val partOneSeeds: Sequence<ULong>,
-    val partTwoSeeds: Sequence<ULong>,
+    val partTwoSeeds: Sequence<ULongRange>,
     val maps: List<Map>,
 ) {
 
@@ -39,7 +38,6 @@ data class Almanac(
 
             val partTwoSeeds = partOneSeeds
                 .chunked(2) { (start, length) -> (start until start + length) }
-                .flatten()
 
             val maps = sections.drop(1).map { map ->
                 map.split(":")[1].trim().splitToSequence("\n").map { line ->
@@ -88,13 +86,12 @@ fun applyMapReverse(location: ULong, map: Map): ULong = map
         (sourceStart - destinationStart) + location
     } ?: location
 
-
-tailrec fun findLowestSeed(seeds: Set<ULong>, maps: List<Map>, location: ULong = 1u): ULong {
+tailrec fun findLowestSeed(seeds: Sequence<ULongRange>, maps: List<Map>, location: ULong = 1u): ULong {
     val seed = maps.reversed().fold(location) { acc, map ->
         applyMapReverse(acc, map)
     }
 
-    if (seeds.contains(seed)) return location
+    if (seeds.any { it.contains(seed) }) return location
 
     return findLowestSeed(seeds, maps, location + 1u)
 }

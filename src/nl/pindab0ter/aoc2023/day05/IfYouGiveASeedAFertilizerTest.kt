@@ -42,7 +42,7 @@ class IfYouGiveASeedAFertilizerTest {
     @Test
     fun `Part two - Reverse search through all maps`() {
         val almanac = Almanac(input)
-        val result = findLowestSeed(almanac.partTwoSeeds.toSet(), almanac.maps)
+        val result = findLowestSeed(almanac.partTwoSeeds, almanac.maps)
         assertEquals(46u.toULong(), result)
     }
 
