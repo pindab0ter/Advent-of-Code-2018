@@ -1,20 +1,12 @@
 package nl.pindab0ter.aoc2023.day05
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Test
 
 
 class IfYouGiveASeedAFertilizerTest {
     @Test
-    fun `Part one - Apply first map`() {
-        val almanac = Almanac(input)
-        val result = almanac.partOneSeeds.map { seed -> applyMap(seed, almanac.maps.first()) }
-        assertIterableEquals(listOf(81u.toULong(), 14u.toULong(), 57u.toULong(), 13u.toULong()), result.toList())
-    }
-
-    @Test
-    fun `Part two - Apply first map in reverse`() {
+    fun `Apply first map in reverse`() {
         val almanac = Almanac(input)
         mapOf(
             0u.toULong() to applyMapReverse(0u.toULong(), almanac.maps.first()),
@@ -33,16 +25,16 @@ class IfYouGiveASeedAFertilizerTest {
     }
 
     @Test
-    fun `Part two - Apply all maps in reverse`() {
+    fun `Apply all maps in reverse`() {
         val almanac = Almanac(input)
         val actual = almanac.maps.reversed().fold(82u.toULong()) { acc, map -> applyMapReverse(acc, map) }
         assertEquals(79u.toULong(), actual)
     }
 
     @Test
-    fun `Part two - Reverse search through all maps`() {
+    fun `Reverse search through all maps`() {
         val almanac = Almanac(input)
-        val result = findLowestSeed(almanac.partTwoSeeds, almanac.maps)
+        val result = findFirstSeed(almanac.partTwoSeeds, almanac.maps)
         assertEquals(46u.toULong(), result)
     }
 

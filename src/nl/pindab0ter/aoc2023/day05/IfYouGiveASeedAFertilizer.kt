@@ -1,97 +1,78 @@
 package nl.pindab0ter.aoc2023.day05
 
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
 import nl.pindab0ter.common.timing
 
 fun main() {
     val input = ClassLoader.getSystemResource("2023/day05/input").readText()
     val almanac = Almanac(input)
 
-    val lowestLocationNumberPartOne = applyMaps(almanac.partOneSeeds, almanac.maps).min()
+    val lowestLocationNumberPartOne = findFirstSeed(almanac.partOneSeeds, almanac.maps)
     println("Lowest location number, part one: $lowestLocationNumberPartOne")
 
     timing("Reverse search") {
-        val lowestLocationNumberPartTwo = findLowestSeed(almanac.partTwoSeeds, almanac.maps)
+        val lowestLocationNumberPartTwo = findFirstSeed(almanac.partTwoSeeds, almanac.maps)
         println("Lowest location number, part two: $lowestLocationNumberPartTwo")
     }
 }
 
+typealias Map = Set<Range>
+typealias Range = Pair<ULongRange, ULongRange>
 
 data class Almanac(
-    val partOneSeeds: Sequence<ULong>,
-    val partTwoSeeds: Sequence<ULongRange>,
-    val maps: List<Map>,
+    val partOneSeeds: Set<ULong>,
+    val partTwoSeeds: Set<ULongRange>,
+    val maps: Set<Map>,
 ) {
-
     companion object {
         operator fun invoke(input: String): Almanac {
             val sections = input.split("\n\n")
 
-            val partOneSeeds = sections
-                .first()
-                .split(":")[1].trim()
-                .splitToSequence(" ")
-                .map(String::toULong)
+            val partOneSeeds = sections.first()
+                .split(":").first().trim()
+                .split(" ").map(String::toULong)
+                .toSet()
 
             val partTwoSeeds = partOneSeeds
                 .chunked(2) { (start, length) -> (start until start + length) }
+                .toSet()
 
             val maps = sections.drop(1).map { map ->
-                map.split(":")[1].trim().splitToSequence("\n").map { line ->
-                    val (destination, source, length) = line.split(" ").map(String::toULong)
-                    Range(destination, source, length)
-                }.toList()
-            }
+                map.split(":").first().trim()
+                    .splitToSequence("\n")
+                    .map { line ->
+                        val (destination, source, length) = line.split(" ").map(String::toULong)
+                        (destination until destination + length) to (source until source + length)
+                    }.toSet()
+            }.toSet()
 
             return Almanac(partOneSeeds, partTwoSeeds, maps)
         }
     }
 }
 
-typealias Map = List<Range>
-
-data class Range(
-    val destinationStart: ULong,
-    val sourceStart: ULong,
-    val length: ULong,
-)
-
-//////////////
-// Part one //
-//////////////
-
-fun applyMap(seed: ULong, map: Map): ULong = map.firstOrNull { (_, sourceStart, length) ->
-    seed >= sourceStart && seed < sourceStart + length
-}?.let { (destinationStart, sourceStart, _) ->
-    destinationStart + (seed - sourceStart)
-} ?: seed
-
-fun applyMaps(seeds: Sequence<ULong>, maps: List<Map>): List<ULong> = runBlocking {
-    seeds.asFlow()
-        .map { seed -> maps.fold(seed) { acc, map -> applyMap(acc, map) } }
-        .toList()
-}
-
-//////////////
-// Part two //
-//////////////
-
 fun applyMapReverse(location: ULong, map: Map): ULong = map
-    .firstOrNull { (destinationStart, _, length) ->
-        location >= destinationStart && location < destinationStart + length
-    }?.let { (destinationStart, sourceStart, _) ->
-        (sourceStart - destinationStart) + location
+    .firstOrNull { (destination, _) ->
+        location in destination
+    }?.let { (destination, source) ->
+        (source.first - destination.first) + location
     } ?: location
 
-tailrec fun findLowestSeed(seeds: Sequence<ULongRange>, maps: List<Map>, location: ULong = 1u): ULong {
+tailrec fun findFirstSeed(seeds: Set<ULong>, maps: Set<Map>, location: ULong = 1u): ULong {
+    val seed = maps.reversed().fold(location) { acc, map ->
+        applyMapReverse(acc, map)
+    }
+
+    if (seed in seeds) return location
+
+    return findFirstSeed(seeds, maps, location + 1u)
+}
+
+tailrec fun findFirstSeed(seeds: Set<ULongRange>, maps: Set<Map>, location: ULong = 1u): ULong {
     val seed = maps.reversed().fold(location) { acc, map ->
         applyMapReverse(acc, map)
     }
 
     if (seeds.any { it.contains(seed) }) return location
 
-    return findLowestSeed(seeds, maps, location + 1u)
+    return findFirstSeed(seeds, maps, location + 1u)
 }
