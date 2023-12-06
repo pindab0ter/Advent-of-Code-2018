@@ -5,17 +5,19 @@ import nl.pindab0ter.common.productOf
 fun main() {
     val input = ClassLoader.getSystemResource("2023/day06/input").readText()
 
-    val games = Game(input)
+    val waysToWinPartOne = Game.partOne(input).productOf { game -> game.waysToWin() }
+    val waysToWinPartTwo = Game.partTwo(input).waysToWin()
 
-    println(games.productOf { game -> game.waysToWin() })
+    println("Ways to win (part one): $waysToWinPartOne")
+    println("Ways to win (part two): $waysToWinPartTwo")
 }
 
 data class Game(
-    val time: Int,
-    val recordDistance: Int,
+    val time: Long,
+    val recordDistance: Long,
 ) {
     @Suppress("UnnecessaryVariable")
-    fun play(chargeTime: Int): Int {
+    fun play(chargeTime: Long): Long {
         val speed = chargeTime
         val distance = speed * (time - chargeTime)
         return distance
@@ -26,11 +28,17 @@ data class Game(
     }
 
     companion object {
-        operator fun invoke(input: String): List<Game> = input.lines()
+        fun partOne(input: String): List<Game> = input.lines()
             .map { line -> line.split(""":\s+""".toRegex()).last() }
             .map { line -> line.split("""\s+""".toRegex()) }
-            .map { numbers -> numbers.map(String::toInt) }
+            .map { numbers -> numbers.map(String::toLong) }
             .let { (time, distance) -> time.zip(distance) }
             .map { (time, distance) -> Game(time, distance) }
+
+        fun partTwo(input: String): Game = input.lines()
+            .map { line -> line.split(""":\s+""".toRegex()).last() }
+            .map { line -> line.split("""\s+""".toRegex()).joinToString("") }
+            .map(String::toLong)
+            .let { (time, distance) -> Game(time, distance) }
     }
 }
