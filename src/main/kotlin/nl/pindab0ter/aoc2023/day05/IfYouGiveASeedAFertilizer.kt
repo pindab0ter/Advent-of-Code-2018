@@ -1,5 +1,6 @@
 package nl.pindab0ter.aoc2023.day05
 
+import nl.pindab0ter.common.tail
 import nl.pindab0ter.common.timing
 
 fun main() {
@@ -36,7 +37,7 @@ data class Almanac(
                 .chunked(2) { (start, length) -> (start until start + length) }
                 .toSet()
 
-            val maps = sections.drop(1).map { map ->
+            val maps = sections.tail().map { map ->
                 map.split(":").last().trim()
                     .splitToSequence("\n")
                     .map { line ->

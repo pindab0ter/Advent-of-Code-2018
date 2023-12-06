@@ -1,5 +1,6 @@
 package nl.pindab0ter.common
 
+fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
 fun <T> Iterable<T>.productOf(selector: (T) -> Int): Int = fold(1) { acc, element -> acc * selector(element) }
 
 fun <T> timing(name: String? = null, block: () -> T) {
