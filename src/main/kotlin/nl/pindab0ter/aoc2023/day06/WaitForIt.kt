@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day06
 
-import nl.pindab0ter.common.productOf
+import nl.pindab0ter.common.helpers.productOf
 
 fun main() {
     val input = ClassLoader.getSystemResource("2023/day06/input").readText()

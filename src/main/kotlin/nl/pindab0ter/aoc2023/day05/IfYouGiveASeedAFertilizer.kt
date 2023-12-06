@@ -1,7 +1,7 @@
 package nl.pindab0ter.aoc2023.day05
 
-import nl.pindab0ter.common.tail
-import nl.pindab0ter.common.timing
+import nl.pindab0ter.common.helpers.tail
+import nl.pindab0ter.common.helpers.timing
 
 fun main() {
     val input = ClassLoader.getSystemResource("2023/day05/input").readText()
