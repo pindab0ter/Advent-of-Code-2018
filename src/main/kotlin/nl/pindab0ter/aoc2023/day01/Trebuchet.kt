@@ -30,9 +30,9 @@ fun getCalibrationValue(line: String): Int {
             return@fold acc.plus(firstCharacter.toString().toInt())
         }
 
-        val digit = digitNames.filter { (name, _) ->
+        val digit = digitNames.entries.firstOrNull { (name, _) ->
             remainder.startsWith(name)
-        }.values.firstOrNull()
+        }?.value
 
         if (digit != null) {
             return@fold acc.plus(digit)
