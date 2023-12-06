@@ -15,10 +15,8 @@ class MarbleManiaKtTest {
     )
 
     @Test
-    fun highScore() {
-        values.forEach { (players, lastMarble, expected) ->
-            val actual = MarbleMania(players, lastMarble).play()
-            Assertions.assertEquals(expected.toLong(), actual)
-        }
+    fun highScore() = values.forEach { (players, lastMarble, expected) ->
+        val actual = MarbleMania(players, lastMarble).play()
+        Assertions.assertEquals(expected.toLong(), actual)
     }
 }

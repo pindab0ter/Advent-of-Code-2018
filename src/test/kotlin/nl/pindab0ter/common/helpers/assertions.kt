@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
  *
  * @param pair The [pair]s to compare. The first element is the actual value, the second element is the expected value.
  */
-fun <T> assertEquals(vararg pair: Pair<T, T>) {
+fun <T> assertAllEquals(vararg pair: Pair<T, T>) {
     pair.forEach { (actual, expected) ->
         assertEquals(expected, actual)
     }

@@ -1,5 +1,6 @@
 package nl.pindab0ter.aoc2023.day05
 
+import nl.pindab0ter.common.helpers.assertAllEquals
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -7,7 +8,7 @@ class IfYouGiveASeedAFertilizerKtTest {
     @Test
     fun `Apply first map in reverse`() {
         val almanac = Almanac(input)
-        mapOf(
+        assertAllEquals(
             0u.toULong() to applyMapReverse(0u.toULong(), almanac.maps.first()),
             1u.toULong() to applyMapReverse(1u.toULong(), almanac.maps.first()),
             48u.toULong() to applyMapReverse(48u.toULong(), almanac.maps.first()),
@@ -18,9 +19,7 @@ class IfYouGiveASeedAFertilizerKtTest {
             97u.toULong() to applyMapReverse(99u.toULong(), almanac.maps.first()),
             98u.toULong() to applyMapReverse(50u.toULong(), almanac.maps.first()),
             99u.toULong() to applyMapReverse(51u.toULong(), almanac.maps.first()),
-        ).forEach { (expected, actual) ->
-            Assertions.assertEquals(expected, actual)
-        }
+        )
     }
 
     @Test

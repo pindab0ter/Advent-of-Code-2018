@@ -43,11 +43,10 @@ data class Grid(val width: Int, val height: Int, val cells: List<List<Int>>) {
 
         if (index + 1 == (searchableWidth) * (searchableHeight)) return mostPowerfulSquareYet
 
-        return if (powerLevel > mostPowerfulSquareYet.powerLevel) {
-            findMostPowerfulSquare(index + 1, Square(x, y, powerLevel))
-        } else {
-            findMostPowerfulSquare(index + 1, mostPowerfulSquareYet)
-        }
+        return findMostPowerfulSquare(index + 1, when(powerLevel > mostPowerfulSquareYet.powerLevel) {
+            true -> Square(x, y, powerLevel)
+            false -> mostPowerfulSquareYet
+        })
     }
 
     companion object {
