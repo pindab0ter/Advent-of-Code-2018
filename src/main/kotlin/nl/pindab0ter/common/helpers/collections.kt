@@ -1,9 +1,9 @@
 package nl.pindab0ter.common.helpers
 
 /**
- * @return Everything but the first element of the iterable.
+ * @return A collection of lists of characters grouped by their value.
  */
-fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
+fun CharSequence.group(): Collection<List<Char>> = groupBy { it }.values
 
 /**
  * Returns the product of the result of [selector] for each element in the iterable.
@@ -12,3 +12,9 @@ fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
  * @return The product of the result of [selector] for each element in the iterable.
  */
 fun <T> Iterable<T>.productOf(selector: (T) -> Int): Int = fold(1) { acc, element -> acc * selector(element) }
+
+/**
+ * @return Everything but the first element of the iterable.
+ */
+fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
+
