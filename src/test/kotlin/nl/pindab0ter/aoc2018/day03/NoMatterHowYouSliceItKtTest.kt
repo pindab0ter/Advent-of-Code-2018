@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2018.day03
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2018 Day03 - No Matter How You Slice It")
 class NoMatterHowYouSliceItKtTest {
 
     private val input = listOf(

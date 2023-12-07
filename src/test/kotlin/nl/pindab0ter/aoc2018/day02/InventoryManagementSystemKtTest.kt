@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2018.day02
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2018 Day02 - Inventory Management System")
 internal class InventoryManagementSystemKtTest {
     @Test
     fun boxCount() {

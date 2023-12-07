@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2018.day07
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2018 Day07 - Sum Of Its Parts")
 class SumOfItsPartsKtTest {
 
     private val input = listOf(

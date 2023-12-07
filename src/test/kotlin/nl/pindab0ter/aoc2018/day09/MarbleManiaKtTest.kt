@@ -1,22 +1,20 @@
 package nl.pindab0ter.aoc2018.day09
 
-import org.junit.jupiter.api.Assertions
+import nl.pindab0ter.common.helpers.assertAllEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2018 Day09 - Marble Mania")
 class MarbleManiaKtTest {
 
-    private val values = listOf(
-        listOf(9, 25, 32),
-        listOf(10, 1618, 8317),
-        listOf(13, 7999, 146373),
-        listOf(17, 1104, 2764),
-        listOf(21, 6111, 54718),
-        listOf(30, 5807, 37305)
+    @Test
+    fun `Calculate the high score`() = assertAllEquals(
+        MarbleMania(9, 25).play() to 32,
+        MarbleMania(10, 1618).play() to 8317,
+        MarbleMania(13, 7999).play() to 146373,
+        MarbleMania(17, 1104).play() to 2764,
+        MarbleMania(21, 6111).play() to 54718,
+        MarbleMania(30, 5807).play() to 37305
     )
 
-    @Test
-    fun highScore() = values.forEach { (players, lastMarble, expected) ->
-        val actual = MarbleMania(players, lastMarble).play()
-        Assertions.assertEquals(expected.toLong(), actual)
-    }
 }

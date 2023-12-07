@@ -2,8 +2,10 @@ package nl.pindab0ter.aoc2023.day05
 
 import nl.pindab0ter.common.helpers.assertAllEquals
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2023 Day 05 - If You Give A Seed A Fertilizer")
 class IfYouGiveASeedAFertilizerKtTest {
     @Test
     fun `Apply first map in reverse`() {

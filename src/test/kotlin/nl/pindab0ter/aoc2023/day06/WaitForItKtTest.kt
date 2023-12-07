@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2023.day06
 
 import nl.pindab0ter.common.helpers.assertAllEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2023 Day 06 - Wait For It")
 class WaitForItKtTest {
 
     @Test

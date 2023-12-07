@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2023.day03
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2023 Day 03 - Gear Ratios")
 internal class GearRatiosKtTest {
 
     //////////////
@@ -10,7 +12,7 @@ internal class GearRatiosKtTest {
     //////////////
 
     @Test
-    fun `symbol to the right`() {
+    fun `Symbol to the right`() {
         val input = """
             ....
             123*
@@ -21,7 +23,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol to the left`() {
+    fun `Symbol to the left`() {
         val input = """
             ....
             *123
@@ -32,7 +34,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol to the left and right`() {
+    fun `Symbol to the left and right`() {
         val input = """
             .....
             *123*
@@ -44,7 +46,7 @@ internal class GearRatiosKtTest {
 
 
     @Test
-    fun `symbol in between`() {
+    fun `Symbol in between`() {
         val input = """
             .....
             12*34
@@ -55,7 +57,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol above first digit`() {
+    fun `Symbol above first digit`() {
         val input = """
             *..
             123
@@ -66,7 +68,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol above middle digit`() {
+    fun `Symbol above middle digit`() {
         val input = """
             .*.
             123
@@ -77,7 +79,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol above last digit`() {
+    fun `Symbol above last digit`() {
         val input = """
             ..*
             123
@@ -88,7 +90,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol to the top right of the last digit`() {
+    fun `Symbol to the top right of the last digit`() {
         val input = """
             ...*
             123
@@ -99,7 +101,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol too far from the top right of the last digit`() {
+    fun `Symbol too far from the top right of the last digit`() {
         val input = """
             ....*
             123..
@@ -110,7 +112,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol to the top left of the first digit`() {
+    fun `Symbol to the top left of the first digit`() {
         val input = """
             *...
             .123
@@ -121,7 +123,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `symbol too far from the top left of the first digit`() {
+    fun `Symbol too far from the top left of the first digit`() {
         val input = """
             *....
             ..123
@@ -132,7 +134,7 @@ internal class GearRatiosKtTest {
     }
 
     @Test
-    fun `example input`() {
+    fun `Example input`() {
         val input = """
             467..114..
             ...*......
@@ -154,7 +156,7 @@ internal class GearRatiosKtTest {
     //////////////
 
     @Test
-    fun `find all gears`() {
+    fun `Find all gears`() {
         val input = """
             467..114..
             ...*......
@@ -170,5 +172,5 @@ internal class GearRatiosKtTest {
         val result = getGearRatios(input)
         Assertions.assertEquals(listOf(16345, 451490), result)
     }
-    
+
 }

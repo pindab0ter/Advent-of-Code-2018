@@ -1,10 +1,12 @@
 package nl.pindab0ter.aoc2023.day02
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-internal class CubeConundrumKtTest {
+@DisplayName("2023 Day 02 - Cube Conundrum")
+class CubeConundrumKtTest {
 
     //////////////
     // Part One //

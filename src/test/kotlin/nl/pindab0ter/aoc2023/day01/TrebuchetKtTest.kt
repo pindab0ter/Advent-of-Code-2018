@@ -2,9 +2,11 @@ package nl.pindab0ter.aoc2023.day01
 
 import nl.pindab0ter.common.helpers.assertAllEquals
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 @Suppress("SpellCheckingInspection")
+@DisplayName("2023 Day 01 - Trebuchet?!")
 internal class TrebuchetKtTest {
 
     @Test
@@ -39,7 +41,7 @@ internal class TrebuchetKtTest {
     }
 
     @Test
-    fun `sum of all part two`() {
+    fun `Sum of all part two`() {
         val result = """
             two1nine
             eightwothree

@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2018.day11
 
 import nl.pindab0ter.common.helpers.assertAllEquals
+import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 
+@DisplayName("2018 Day 11 - Chronal Charge")
 class ChronalChargeKtTest {
 
     @Test
@@ -24,4 +26,5 @@ class ChronalChargeKtTest {
         Grid(18).findMostPowerfulSquare().powerLevel to 29,
         Grid(42).findMostPowerfulSquare().powerLevel to 30,
     )
+
 }

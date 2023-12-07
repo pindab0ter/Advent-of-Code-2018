@@ -1,10 +1,13 @@
 package nl.pindab0ter.aoc2018.day04
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2018 Day04 - Repose Record")
 class ReposeRecordKtTest {
-    private val input = listOf(
+
+    val input = listOf(
         "[1518-11-01 00:00] Guard #10 begins shift",
         "[1518-11-01 00:05] falls asleep",
         "[1518-11-01 00:25] wakes up",
