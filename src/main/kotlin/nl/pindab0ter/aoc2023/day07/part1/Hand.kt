@@ -1,22 +1,7 @@
-package nl.pindab0ter.aoc2023.day07
+package nl.pindab0ter.aoc2023.day07.part1
 
 
 data class Hand(val cards: CharSequence, val bid: Int) : Comparable<Hand> {
-    private val cardValues = mapOf(
-        '2' to 2,
-        '3' to 3,
-        '4' to 4,
-        '5' to 5,
-        '6' to 6,
-        '7' to 7,
-        '8' to 8,
-        '9' to 9,
-        'T' to 10,
-        'J' to 11,
-        'Q' to 12,
-        'K' to 13,
-        'A' to 14,
-    )
 
     /**
      * Compare this hand to another hand.
@@ -32,7 +17,7 @@ data class Hand(val cards: CharSequence, val bid: Int) : Comparable<Hand> {
         if (typeOrdering != 0) return typeOrdering
 
         (0 until SIZE).forEach { index ->
-            val cardOrdering = cardValues[other.cards[index]]!!.compareTo(cardValues[this.cards[index]]!!)
+            val cardOrdering = VALUES.indexOf(other.cards[index]).compareTo(VALUES.indexOf(this.cards[index]))
             if (cardOrdering != 0) return cardOrdering
         }
 
@@ -41,6 +26,9 @@ data class Hand(val cards: CharSequence, val bid: Int) : Comparable<Hand> {
 
     companion object {
         const val SIZE = 5
+
+        @Suppress("SpellCheckingInspection")
+        private const val VALUES = "23456789TJQKA"
 
         operator fun invoke(input: String) = input.split(" ").let { (hand, bid) -> Hand(hand, bid.toInt()) }
     }

@@ -3,7 +3,7 @@ package nl.pindab0ter.common.helpers
 /**
  * @return A collection of lists of characters grouped by their value.
  */
-fun CharSequence.group(): Collection<List<Char>> = groupBy { it }.values
+fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
 
 /**
  * Returns the product of the result of [selector] for each element in the iterable.

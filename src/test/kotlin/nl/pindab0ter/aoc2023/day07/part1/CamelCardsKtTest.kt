@@ -1,23 +1,22 @@
-package nl.pindab0ter.aoc2023.day07
+package nl.pindab0ter.aoc2023.day07.part1
 
-import nl.pindab0ter.aoc2023.day07.Type.*
 import nl.pindab0ter.common.helpers.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@DisplayName("2023 Day 07 - Camel Cards")
+@DisplayName("2023 Day 07 - Camel Cards - Part one")
 class CamelCardsKtTest {
 
     @Test
     fun `Correctly find hand types`() = assertAllEquals(
-        Type.of("AAAAA") to FIVE_OF_A_KIND,
-        Type.of("AA8AA") to FOUR_OF_A_KIND,
-        Type.of("23332") to FULL_HOUSE,
-        Type.of("TTT98") to THREE_OF_A_KIND,
-        Type.of("23432") to TWO_PAIR,
-        Type.of("A23A4") to ONE_PAIR,
-        Type.of("23456") to HIGH_CARD,
+        Type.of("AAAAA") to Type.FIVE_OF_A_KIND,
+        Type.of("AA8AA") to Type.FOUR_OF_A_KIND,
+        Type.of("23332") to Type.FULL_HOUSE,
+        Type.of("TTT98") to Type.THREE_OF_A_KIND,
+        Type.of("23432") to Type.TWO_PAIR,
+        Type.of("A23A4") to Type.ONE_PAIR,
+        Type.of("23456") to Type.HIGH_CARD,
     )
 
     @Test
