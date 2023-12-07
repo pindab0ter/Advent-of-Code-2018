@@ -1,9 +1,29 @@
 package nl.pindab0ter.common.helpers
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+
 /**
  * @return A collection of lists of characters grouped by their value.
  */
 fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
+
+/**
+ * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
+ * until all transformations are complete.
+ *
+ * @param transform The function to apply to each element. This function is invoked asynchronously on a separate coroutine.
+ * @return A new iterable with the transformed elements.
+ */
+fun <A, B> Iterable<A>.mapAsync(transform: (A) -> B): Iterable<B> = runBlocking {
+    map {
+        async(Dispatchers.Default) {
+            transform(it)
+        }
+    }.awaitAll()
+}
 
 /**
  * Returns the product of the result of [selector] for each element in the iterable.

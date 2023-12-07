@@ -17,14 +17,22 @@ class ChronalChargeKtTest {
 
     @Test
     fun `Determine the power level of a 3x3 square`() = assertAllEquals(
-        Grid(18).powerLevelFor(33, 45) to 29,
-        Grid(42).powerLevelFor(21, 61) to 30,
+        Grid(18).powerLevelFor(33, 45, 3) to 29,
+        Grid(42).powerLevelFor(21, 61, 3) to 30,
     )
 
     @Test
     fun `Find the most powerful square`() = assertAllEquals(
-        Grid(18).findMostPowerfulSquare().powerLevel to 29,
-        Grid(42).findMostPowerfulSquare().powerLevel to 30,
+        Grid(18).findMostPowerfulSquare(3).powerLevel to 29,
+        Grid(42).findMostPowerfulSquare(3).powerLevel to 30,
+        Grid(18).findMostPowerfulSquare(16).powerLevel to 113,
+        Grid(42).findMostPowerfulSquare(12).powerLevel to 119,
     )
 
+    @Test
+    fun `Find the most powerful square of any size`() = assertAllEquals(
+        // TODO: Move size into square
+        Grid(18).findMostPowerfulSquareOfAnySize() to (Square(90,269,113) to 16),
+        Grid(42).findMostPowerfulSquareOfAnySize() to (Square(232,251,119) to 12),
+    )
 }
