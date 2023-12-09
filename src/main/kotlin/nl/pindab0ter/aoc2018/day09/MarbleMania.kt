@@ -1,11 +1,10 @@
 package nl.pindab0ter.aoc2018.day09
 
+import nl.pindab0ter.common.helpers.getInput
 import java.util.*
 import kotlin.math.absoluteValue
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day09/input")
-    .readText(Charsets.UTF_8)
+fun main() = getInput(2018, 9)
     .let { input ->
         Regex("""(\d+).*?(\d+)""")
             .find(input)!!
@@ -28,7 +27,7 @@ fun main() = ClassLoader
         )
     }
 
-// Solution based on Todd Ginsberg
+// Solution based on Todd Ginsberg’s
 // https://todd.ginsberg.com/post/advent-of-code/2018/day9/#d9p1
 class MarbleMania(private val players: Int, private val lastMarble: Int) {
     private val marbles = ArrayDeque<Int>().also { it.add(0) }

@@ -1,12 +1,12 @@
 package nl.pindab0ter.aoc2023.day08
 
+import nl.pindab0ter.common.helpers.getInput
+
 const val START = "AAA"
 const val DESTINATION = "ZZZ"
 
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day08/input").readText()
-
-    val (instructions, network) = parse(input)
+    val (instructions, network) = parse(getInput(2023, 8))
     val steps = findDestination(instructions, network)
 
     println("Found $DESTINATION in $steps steps")
@@ -31,9 +31,7 @@ fun parse(input: String): Pair<String, Network> {
 }
 
 fun findDestination(instructions: String, network: Network): Int {
-    /**
-     * Accidentally reinvented the `when` statement here.
-     */
+    // Accidentally reinvented the `when` statement here.
     val applyInstructions: Map<Char, (Node) -> String> = mapOf('L' to Node::left, 'R' to Node::right)
 
     tailrec fun goTo(currentNode: Node, index: Int = 0): Int {

@@ -1,10 +1,12 @@
 package nl.pindab0ter.aoc2018.day11
 
+import nl.pindab0ter.common.helpers.getInput
 import nl.pindab0ter.common.helpers.mapAsync
 import nl.pindab0ter.common.helpers.nthDigitFromRight
 
 fun main() {
-    val grid = Grid(9005)
+    val input = getInput(2018, 11).toInt()
+    val grid = Grid(input)
 
     val square1 = grid.findMostPowerfulSquare(3)
     println("The most powerful square is at ${square1.x},${square1.y} with a power level of ${square1.powerLevel}")

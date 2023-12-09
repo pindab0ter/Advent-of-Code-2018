@@ -1,10 +1,9 @@
 package nl.pindab0ter.aoc2018.day04
 
 import nl.pindab0ter.aoc2018.day04.ReposeRecord.Shift.Nap
+import nl.pindab0ter.common.helpers.getInput
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day04/input")
-    .readText(Charsets.UTF_8)
+fun main() = getInput(2018, 4)
     .lines()
     .sorted()
     .let(::ReposeRecord)

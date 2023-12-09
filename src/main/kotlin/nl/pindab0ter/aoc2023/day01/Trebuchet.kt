@@ -2,9 +2,10 @@
 
 package nl.pindab0ter.aoc2023.day01
 
+import nl.pindab0ter.common.helpers.getInput
+
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day01/input").readText()
-    val result = input.lines().sumOf(::getCalibrationValue)
+    val result = getInput(2023, 1).lines().sumOf(::getCalibrationValue)
 
     println(result)
 }

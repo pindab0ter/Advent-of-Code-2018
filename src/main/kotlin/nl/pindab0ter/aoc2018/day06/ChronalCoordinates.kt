@@ -1,11 +1,10 @@
 package nl.pindab0ter.aoc2018.day06
 
+import nl.pindab0ter.common.helpers.getInput
 import java.util.*
 import kotlin.math.abs
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day06/input")
-    .readText(Charsets.UTF_8)
+fun main() = getInput(2018, 6)
     .lines()
     .map { it.split(", ").map(String::toInt) }
     .map { (x, y) -> Point(x, y) }

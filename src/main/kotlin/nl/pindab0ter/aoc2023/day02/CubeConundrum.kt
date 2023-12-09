@@ -1,9 +1,9 @@
 package nl.pindab0ter.aoc2023.day02
 
-fun main() {
-    val input = ClassLoader.getSystemResource("2023/day02/input").readText()
+import nl.pindab0ter.common.helpers.getInput
 
-    val games = input.lines().map(::parseLine)
+fun main() {
+    val games = parse(getInput(2023, 2))
 
     val idSum = games.filter(::enoughCubesAreAvailable).sumOf { game -> game.id }
     println("Sum of valid game IDs: $idSum")
@@ -28,6 +28,8 @@ data class Cubes(
     val green: Int = 0,
     val blue: Int = 0,
 )
+
+fun parse(input: String): List<Game> = input.lines().map(::parseLine)
 
 fun parseLine(line: String): Game {
     val gameRegex = Regex("""Game (\d+): """)

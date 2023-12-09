@@ -1,8 +1,8 @@
 package nl.pindab0ter.aoc2018.day01
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day01/input")
-    .readText(Charsets.UTF_8)
+import nl.pindab0ter.common.helpers.getInput
+
+fun main() = getInput(2018, 1)
     .lines()
     .map(String::toInt)
     .let { input ->

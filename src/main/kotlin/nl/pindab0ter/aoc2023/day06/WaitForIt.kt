@@ -1,14 +1,15 @@
 package nl.pindab0ter.aoc2023.day06
 
+import nl.pindab0ter.common.helpers.getInput
 import nl.pindab0ter.common.helpers.productOf
 
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day06/input").readText()
+    val input = getInput(2023, 6)
 
     val waysToWinPartOne = Game.partOne(input).productOf { game -> game.waysToWin() }
-    val waysToWinPartTwo = Game.partTwo(input).waysToWin()
-
     println("Ways to win (part one): $waysToWinPartOne")
+
+    val waysToWinPartTwo = Game.partTwo(input).waysToWin()
     println("Ways to win (part two): $waysToWinPartTwo")
 }
 

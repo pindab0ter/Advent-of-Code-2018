@@ -1,7 +1,9 @@
 package nl.pindab0ter.aoc2023.day03
 
+import nl.pindab0ter.common.helpers.getInput
+
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day03/input").readText()
+    val input = getInput(2023, 3)
 
     val partNumbers = getPartNumbers(input)
     println("Sum of all part numbers: ${partNumbers.sum()}")

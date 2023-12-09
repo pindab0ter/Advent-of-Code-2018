@@ -1,7 +1,9 @@
 package nl.pindab0ter.aoc2018.day10
 
+import nl.pindab0ter.common.helpers.getInput
+
 fun main() {
-    val initialState = ClassLoader.getSystemResource("2018/day10/input").readText().lines().map(::parseLine)
+    val initialState = getInput(2018, 10).lines().map(::parseLine)
     val (finalState, secondsPassed) = calculateFinalState(initialState)
 
     println(finalState)

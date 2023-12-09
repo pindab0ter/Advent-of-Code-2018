@@ -1,16 +1,15 @@
 package nl.pindab0ter.aoc2023.day04
 
+import nl.pindab0ter.common.helpers.getInput
 import kotlin.math.pow
 
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day04/input").readText()
-    val cards = input.lines().map(::parseLine)
+    val cards = parse(getInput(2023, 4))
 
     val totalScore = cards.sumOf(ScratchCard::score)
     println("Combined score of all cards: $totalScore")
 
     val winnings = play(listOf(cards), cards)
-
     println("Winnings: ${winnings.flatten().count()}")
 }
 
@@ -51,9 +50,12 @@ data class ScratchCard(
 val cardRegex = Regex("""^Card\s*(\d+): ([\s\d]+) \| ([\s\d]+)$""")
 val spaceRegex = Regex("""\s{1,2}""")
 
+fun parse(input: String): List<ScratchCard> = input.lines().map(::parseLine)
+
 fun parseLine(line: String): ScratchCard {
     val matchResult = cardRegex.find(line)
     val (number, winningNumbers, candidateNumbers) = matchResult!!.destructured
+
     return ScratchCard(
         number.toInt(),
         winningNumbers.trim().split(spaceRegex).map(String::toInt).toList(),

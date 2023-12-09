@@ -126,3 +126,6 @@ gradle-app.setting
 hs_err_pid*
 replay_pid*
 
+### Custom ignores
+src/main/resources/[0-9][0-9][0-9][0-9]/
+.session-cookie

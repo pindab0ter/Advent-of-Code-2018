@@ -1,22 +1,21 @@
 package nl.pindab0ter.aoc2018.day05
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day05/input")
-    .readText(Charsets.UTF_8)
-    .let { input ->
-        print(
-            """
-            --- Day 5: Alchemical Reduction ---
+import nl.pindab0ter.common.helpers.getInput
 
-            Part one: How many units remain after fully reacting the polymer you scanned?
-            ${reduce(input).length}
+fun main() = getInput(2018, 5).let { input ->
+    print(
+        """
+        --- Day 5: Alchemical Reduction ---
 
-            Part two: What is the length of the shortest polymer you can produce by removing all units of exactly one type and fully reacting the result?
-            ${shortestPolymer(input)}
+        Part one: How many units remain after fully reacting the polymer you scanned?
+        ${reduce(input).length}
 
-            """.trimIndent()
-        )
-    }
+        Part two: What is the length of the shortest polymer you can produce by removing all units of exactly one type and fully reacting the result?
+        ${shortestPolymer(input)}
+
+        """.trimIndent()
+    )
+}
 
 fun shortestPolymer(input: String): Int = ('a'..'z').fold(emptyList<String>()) { acc, unit ->
     acc + reduce(input.filter { it.equals(unit, true).not() })

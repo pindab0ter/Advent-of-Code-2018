@@ -1,9 +1,10 @@
 package nl.pindab0ter.aoc2023.day07.part1
 
+import nl.pindab0ter.common.helpers.getInput
+
 
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day07/input").readText()
-    val hands = parse(input)
+    val hands = parse(getInput(2023, 7))
 
     println(hands.totalWinnings())
 }

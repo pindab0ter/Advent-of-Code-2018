@@ -1,24 +1,25 @@
 package nl.pindab0ter.aoc2018.day03
 
-fun main() {
-    val input = ClassLoader
-        .getSystemResource("2018/day03/input")
-        .readText(Charsets.UTF_8)
-        .lines()
-        .map(Claim.Factory::fromString)
+import nl.pindab0ter.aoc2018.day03.Claim.Factory
+import nl.pindab0ter.common.helpers.getInput
 
-    print(
-        """
-        --- Day 3: No Matter How You Slice It ---
+fun main() = getInput(2018, 3)
+    .lines()
+    .map(Factory::fromString)
+    .let { claims ->
+        print(
+            """
+            --- Day 3: No Matter How You Slice It ---
 
-        Part one: How many square inches of fabric are within two or more claims?
-        ${contestedAreas(input)}
+            Part one: How many square inches of fabric are within two or more claims?
+            ${contestedAreas(claims)}
 
-        Part two: What is the ID of the only claim that doesn't overlap?
-        ${findNonOverlappingClaim(input)}
-        """.trimIndent()
-    )
-}
+            Part two: What is the ID of the only claim that doesn't overlap?
+            ${findNonOverlappingClaim(claims)}
+            
+            """.trimIndent()
+        )
+    }
 
 fun contestedAreas(claims: List<Claim>): Int = claims
     .flatMap { it.area.occupies }

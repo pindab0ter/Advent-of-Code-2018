@@ -1,8 +1,8 @@
 package nl.pindab0ter.aoc2018.day08
 
-fun main() = ClassLoader
-    .getSystemResource("2018/day08/input")
-    .readText(Charsets.UTF_8)
+import nl.pindab0ter.common.helpers.getInput
+
+fun main() = getInput(2018, 8)
     .split(" ")
     .map(String::toInt)
     .iterator()
@@ -13,11 +13,9 @@ fun main() = ClassLoader
             --- Day 8: Memory Maneuver ---
 
             Part one: What is the sum of all metadata entries?
-
             ${node.dataSum}
 
             Part two: What is the value of the root node?
-
             ${node.value}
 
             """.trimIndent()

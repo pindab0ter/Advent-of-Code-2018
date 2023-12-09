@@ -1,11 +1,11 @@
 package nl.pindab0ter.aoc2023.day05
 
+import nl.pindab0ter.common.helpers.getInput
 import nl.pindab0ter.common.helpers.tail
 import nl.pindab0ter.common.helpers.timing
 
 fun main() {
-    val input = ClassLoader.getSystemResource("2023/day05/input").readText()
-    val almanac = Almanac(input)
+    val almanac = Almanac(getInput(2023, 5))
 
     val lowestLocationNumberPartOne = findFirstSeedSingles(almanac.partOneSeeds, almanac.maps)
     println("Lowest location number, part one: $lowestLocationNumberPartOne")
