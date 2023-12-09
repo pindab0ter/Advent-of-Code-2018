@@ -6,7 +6,15 @@ fun main() {
     val initialState = getInput(2018, 10).lines().map(::parseLine)
     val (finalState, secondsPassed) = calculateFinalState(initialState)
 
-    println(finalState)
+    buildString {
+        (finalState.minOf(Star::y)..finalState.maxOf(Star::y)).forEach { y ->
+            (finalState.minOf(Star::x)..finalState.maxOf(Star::x)).forEach { x ->
+                if (finalState.any { it.x == x && it.y == y }) append("#") else append(".")
+            }
+            append("\n")
+        }
+    }.let(::println)
+
     println("Seconds passed: $secondsPassed")
 }
 
