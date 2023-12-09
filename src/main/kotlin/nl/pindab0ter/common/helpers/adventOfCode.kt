@@ -31,7 +31,12 @@ fun getInput(year: Int, day: Int): String {
 
                 file
             }
-            .appendHeader("cookie", "session=$sessionCookie")
+            // https://www.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/
+            .appendHeader(
+                "User-Agent" to "https://github.com/pindab0ter/AdventOfCode",
+                "From" to "hansvanluttikhuizen@me.com",
+                "Cookie" to "session=$sessionCookie",
+            )
             .awaitUnit()
     }
 
