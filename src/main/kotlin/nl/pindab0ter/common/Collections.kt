@@ -35,6 +35,12 @@ fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coo
 fun <T> Iterable<Iterable<T>>.find(predicate: (T) -> Boolean): T? = flatten().find(predicate)
 
 /**
+ * @return The element at the given [coordinates], or null if the coordinates are out of bounds.
+ * @see Coordinates
+ */
+operator fun <T> List<List<T>>.get(coordinates: Coordinates): T? = this[coordinates.y][coordinates.x]
+
+/**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
  * until all transformations are complete.
  *

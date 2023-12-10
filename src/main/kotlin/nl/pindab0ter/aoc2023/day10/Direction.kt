@@ -1,5 +1,8 @@
 package nl.pindab0ter.aoc2023.day10
 
+import nl.pindab0ter.common.Coordinates
+import nl.pindab0ter.common.get
+
 /**
  * Represents a direction in a 2D grid.
  *
@@ -23,15 +26,14 @@ enum class Direction(val dx: Int, val dy: Int) {
     abstract fun opposite(): Direction
 
     companion object {
+        private fun Coordinates.toThe(direction: Direction) = copy(x = x + direction.dx, y = y + direction.dy)
+
         fun getDirectionsPointingTo(
-            x: Int,
-            y: Int,
+            coordinates: Coordinates,
             grid: List<List<Char>>,
-        ): Set<Direction> = setOfNotNull(
-            Section.from(grid.getOrNull(y - 1)?.getOrNull(x))?.directions?.firstOrNull { it == SOUTH },
-            Section.from(grid.getOrNull(y)?.getOrNull(x + 1))?.directions?.firstOrNull { it == WEST },
-            Section.from(grid.getOrNull(y + 1)?.getOrNull(x))?.directions?.firstOrNull { it == NORTH },
-            Section.from(grid.getOrNull(y)?.getOrNull(x - 1))?.directions?.firstOrNull { it == EAST },
-        ).also(::println)
+        ): Set<Direction> = setOf(NORTH, EAST, SOUTH, WEST).mapNotNull { direction ->
+            val character = grid[coordinates.toThe(direction)]
+            Section.from(character)?.directions?.firstOrNull { it == direction.opposite() }
+        }.toSet()
     }
 }

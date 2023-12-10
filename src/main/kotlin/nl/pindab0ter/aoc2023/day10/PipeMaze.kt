@@ -13,33 +13,26 @@ fun main() {
     println("Furthest distance from the start: ${furthestDistanceFromStart(maze)}")
 }
 
-fun print(maze: Maze) = buildString {
-    maze.tiles.forEach { row -> appendLine(row.joinToString("") { it.toString() }) }
-}.let(::println)
-
 
 fun furthestDistanceFromStart(maze: Maze): Int {
-    fun followPipe(coordinates: Coordinates, origin: Direction): Pair<Coordinates, Direction> {
-        val direction = maze
-            .getDirections(coordinates)!!
-            .minus(origin.opposite())
-            .first()
+    fun List<Pair<Coordinates, Direction>>.coordinates() = map(Pair<Coordinates, Direction>::first)
 
-        return Coordinates(coordinates.x + direction.dx, coordinates.y + direction.dy) to direction
+    tailrec fun calculateDistance(steps: List<Pair<Coordinates, Direction>>, distance: Int): Int = when {
+        steps.coordinates().allElementsEqual() && distance > 0 -> distance
+        else -> calculateDistance(
+            steps = steps.map { (coordinates, origin) ->
+                val direction = maze.directionFor(coordinates, origin)
+
+                Coordinates(coordinates.x + direction.dx, coordinates.y + direction.dy) to direction
+            },
+            distance = distance + 1
+        )
     }
-
-    val startTile = maze.tiles.find(Tile::isStart)!!
-    var distance = 0
 
     // Start with all directions pointing away from the start
-    var steps = startTile.section!!.directions.map { direction ->
-        maze.tiles.coordinatesOfFirst { it == startTile }!! to direction.opposite()
+    val initialSteps = maze.start.directions.map { direction ->
+        maze.startCoordinates to direction.opposite()
     }
 
-    do {
-        steps = steps.map { (coordinates, direction) -> followPipe(coordinates, direction) }
-        distance++
-    } while (!steps.map(Pair<Coordinates, Direction>::first).allElementsEqual())
-
-    return distance
+    return calculateDistance(initialSteps, 0)
 }
