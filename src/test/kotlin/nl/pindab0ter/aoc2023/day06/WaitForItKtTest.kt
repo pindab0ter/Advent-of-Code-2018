@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day06
 
-import nl.pindab0ter.common.helpers.assertAllEquals
+import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -12,14 +12,14 @@ class WaitForItKtTest {
         val game = Game.partOne(input).first()
 
         assertAllEquals(
-            game.play(0) to 0L,
-            game.play(1) to 6L,
-            game.play(2) to 10L,
-            game.play(3) to 12L,
-            game.play(4) to 12L,
-            game.play(5) to 10L,
-            game.play(6) to 6L,
-            game.play(7) to 0L,
+            0L to game.play(0),
+            6L to game.play(1),
+            10L to game.play(2),
+            12L to game.play(3),
+            12L to game.play(4),
+            10L to game.play(5),
+            6L to game.play(6),
+            0L to game.play(7),
         )
     }
 
@@ -27,9 +27,9 @@ class WaitForItKtTest {
     fun `Calculate ways to win`() {
         val games = Game.partOne(input)
         assertAllEquals(
-            games[0].waysToWin() to 4,
-            games[1].waysToWin() to 8,
-            games[2].waysToWin() to 9,
+            4 to games[0].waysToWin(),
+            8 to games[1].waysToWin(),
+            9 to games[2].waysToWin(),
         )
     }
 

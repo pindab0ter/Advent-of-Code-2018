@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day04
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 import kotlin.math.pow
 
 fun main() {

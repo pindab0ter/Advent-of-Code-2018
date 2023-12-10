@@ -1,4 +1,4 @@
-package nl.pindab0ter.common.helpers
+package nl.pindab0ter.common
 
 fun <T> timing(name: String? = null, block: () -> T) {
     val start = System.currentTimeMillis()

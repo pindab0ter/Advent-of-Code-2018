@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2018.day10
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 fun main() {
     val initialState = getInput(2018, 10).lines().map(::parseLine)

@@ -1,7 +1,7 @@
 package nl.pindab0ter.aoc2018.day03
 
 import nl.pindab0ter.aoc2018.day03.Claim.Factory
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 fun main() = getInput(2018, 3)
     .lines()

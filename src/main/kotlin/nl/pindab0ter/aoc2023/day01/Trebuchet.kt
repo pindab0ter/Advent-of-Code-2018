@@ -2,7 +2,7 @@
 
 package nl.pindab0ter.aoc2023.day01
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 fun main() {
     val result = getInput(2023, 1).lines().sumOf(::getCalibrationValue)

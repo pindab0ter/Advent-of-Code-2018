@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day07.part2
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 
 fun main() {

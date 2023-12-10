@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2018.day06
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 import java.util.*
 import kotlin.math.abs
 

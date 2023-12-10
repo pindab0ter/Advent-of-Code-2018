@@ -1,6 +1,5 @@
 package nl.pindab0ter.aoc2023.day08
 
-import nl.pindab0ter.common.helpers.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -24,6 +23,15 @@ class HauntedWastelandKtTest {
         """.trimIndent()
         )
 
+        val actual1 = findStepsToDestination(
+            instructions = instructions1,
+            network = network1,
+            isStart = { equals("AAA") },
+            isDestination = { equals("ZZZ") }
+        )
+
+        assertEquals(2, actual1)
+
         val (instructions2, network2) = parse(
             """
             LLR
@@ -34,10 +42,14 @@ class HauntedWastelandKtTest {
         """.trimIndent()
         )
 
-        assertAllEquals(
-            findStepsToDestination(instructions1, network1, { equals("AAA") }, { equals("ZZZ") }) to 2,
-            findStepsToDestination(instructions2, network2, { equals("AAA") }, { equals("ZZZ") }) to 6,
+        val actual2 = findStepsToDestination(
+            instructions = instructions2,
+            network = network2,
+            isStart = { equals("AAA") },
+            isDestination = { equals("ZZZ") }
         )
+
+        assertEquals(6, actual2)
     }
 
     @Test

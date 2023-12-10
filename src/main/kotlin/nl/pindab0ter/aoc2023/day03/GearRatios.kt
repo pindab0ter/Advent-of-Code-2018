@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day03
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 fun main() {
     val input = getInput(2023, 3)

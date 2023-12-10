@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day05
 
-import nl.pindab0ter.common.helpers.assertAllEquals
+import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,16 +11,16 @@ class IfYouGiveASeedAFertilizerKtTest {
     fun `Apply first map in reverse`() {
         val almanac = Almanac(input)
         assertAllEquals(
-            0u.toULong() to applyMapReverse(0u.toULong(), almanac.maps.first()),
-            1u.toULong() to applyMapReverse(1u.toULong(), almanac.maps.first()),
-            48u.toULong() to applyMapReverse(48u.toULong(), almanac.maps.first()),
-            49u.toULong() to applyMapReverse(49u.toULong(), almanac.maps.first()),
-            50u.toULong() to applyMapReverse(52u.toULong(), almanac.maps.first()),
-            51u.toULong() to applyMapReverse(53u.toULong(), almanac.maps.first()),
-            96u.toULong() to applyMapReverse(98u.toULong(), almanac.maps.first()),
-            97u.toULong() to applyMapReverse(99u.toULong(), almanac.maps.first()),
-            98u.toULong() to applyMapReverse(50u.toULong(), almanac.maps.first()),
-            99u.toULong() to applyMapReverse(51u.toULong(), almanac.maps.first()),
+            applyMapReverse(0u.toULong(), almanac.maps.first()) to 0u.toULong(),
+            applyMapReverse(1u.toULong(), almanac.maps.first()) to 1u.toULong(),
+            applyMapReverse(48u.toULong(), almanac.maps.first()) to 48u.toULong(),
+            applyMapReverse(49u.toULong(), almanac.maps.first()) to 49u.toULong(),
+            applyMapReverse(52u.toULong(), almanac.maps.first()) to 50u.toULong(),
+            applyMapReverse(53u.toULong(), almanac.maps.first()) to 51u.toULong(),
+            applyMapReverse(98u.toULong(), almanac.maps.first()) to 96u.toULong(),
+            applyMapReverse(99u.toULong(), almanac.maps.first()) to 97u.toULong(),
+            applyMapReverse(50u.toULong(), almanac.maps.first()) to 98u.toULong(),
+            applyMapReverse(51u.toULong(), almanac.maps.first()) to 99u.toULong(),
         )
     }
 

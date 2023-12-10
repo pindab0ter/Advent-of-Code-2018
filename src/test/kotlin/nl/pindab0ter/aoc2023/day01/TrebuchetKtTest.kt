@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day01
 
-import nl.pindab0ter.common.helpers.assertAllEquals
+import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,22 +11,22 @@ internal class TrebuchetKtTest {
 
     @Test
     fun `Get the calibration value`() = assertAllEquals(
-        getCalibrationValue("1abc2") to 12,
-        getCalibrationValue("pqr3stu8vwx") to 38,
-        getCalibrationValue("a1b2c3d4e5f") to 15,
-        getCalibrationValue("treb7uchet") to 77,
-        getCalibrationValue("two1nine") to 29,
-        getCalibrationValue("eightwothree") to 83,
-        getCalibrationValue("abcone2threexyz") to 13,
-        getCalibrationValue("xtwone3four") to 24,
-        getCalibrationValue("4nineeightseven2") to 42,
-        getCalibrationValue("zoneight234") to 14,
-        getCalibrationValue("7pqrstsixteen") to 76,
+        12 to getCalibrationValue("1abc2"),
+        38 to getCalibrationValue("pqr3stu8vwx"),
+        15 to getCalibrationValue("a1b2c3d4e5f"),
+        77 to getCalibrationValue("treb7uchet"),
+        29 to getCalibrationValue("two1nine"),
+        83 to getCalibrationValue("eightwothree"),
+        13 to getCalibrationValue("abcone2threexyz"),
+        24 to getCalibrationValue("xtwone3four"),
+        42 to getCalibrationValue("4nineeightseven2"),
+        14 to getCalibrationValue("zoneight234"),
+        76 to getCalibrationValue("7pqrstsixteen"),
 
         // The following cases are not specified in the assignment, but are present in the input.
-        getCalibrationValue("7g") to 77,
-        getCalibrationValue("eighthree") to 83,
-        getCalibrationValue("45") to 45,
+        77 to getCalibrationValue("7g"),
+        83 to getCalibrationValue("eighthree"),
+        45 to getCalibrationValue("45"),
     )
 
     @Test

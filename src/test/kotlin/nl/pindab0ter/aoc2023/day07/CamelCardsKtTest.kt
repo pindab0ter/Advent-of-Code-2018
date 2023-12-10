@@ -3,7 +3,7 @@ package nl.pindab0ter.aoc2023.day07
 import nl.pindab0ter.aoc2023.day07.part2.Hand
 import nl.pindab0ter.aoc2023.day07.part2.parse
 import nl.pindab0ter.aoc2023.day07.part2.totalWinnings
-import nl.pindab0ter.common.helpers.assertAllEquals
+import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -23,13 +23,13 @@ class CamelCardsKtTest {
 
         @Test
         fun `Correctly find hand types`() = assertAllEquals(
-            Part1Type.of("AAAAA") to Part1Type.FIVE_OF_A_KIND,
-            Part1Type.of("AA8AA") to Part1Type.FOUR_OF_A_KIND,
-            Part1Type.of("23332") to Part1Type.FULL_HOUSE,
-            Part1Type.of("TTT98") to Part1Type.THREE_OF_A_KIND,
-            Part1Type.of("23432") to Part1Type.TWO_PAIR,
-            Part1Type.of("A23A4") to Part1Type.ONE_PAIR,
-            Part1Type.of("23456") to Part1Type.HIGH_CARD,
+            Part1Type.FIVE_OF_A_KIND to Part1Type.of("AAAAA"),
+            Part1Type.FOUR_OF_A_KIND to Part1Type.of("AA8AA"),
+            Part1Type.FULL_HOUSE to Part1Type.of("23332"),
+            Part1Type.THREE_OF_A_KIND to Part1Type.of("TTT98"),
+            Part1Type.TWO_PAIR to Part1Type.of("23432"),
+            Part1Type.ONE_PAIR to Part1Type.of("A23A4"),
+            Part1Type.HIGH_CARD to Part1Type.of("23456"),
         )
 
         @Test

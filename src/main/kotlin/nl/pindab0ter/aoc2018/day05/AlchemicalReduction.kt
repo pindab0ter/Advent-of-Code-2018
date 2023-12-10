@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2018.day05
 
-import nl.pindab0ter.common.helpers.getInput
+import nl.pindab0ter.common.getInput
 
 fun main() = getInput(2018, 5).let { input ->
     print(

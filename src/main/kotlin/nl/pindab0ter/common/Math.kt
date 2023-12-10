@@ -1,4 +1,4 @@
-package nl.pindab0ter.common.helpers
+package nl.pindab0ter.common
 
 import kotlin.math.abs
 

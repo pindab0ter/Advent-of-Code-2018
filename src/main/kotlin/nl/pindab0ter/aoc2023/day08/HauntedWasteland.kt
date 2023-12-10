@@ -1,7 +1,7 @@
 package nl.pindab0ter.aoc2023.day08
 
-import nl.pindab0ter.common.helpers.getInput
-import nl.pindab0ter.common.helpers.lcm
+import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.lcm
 
 fun main() {
     val (instructions, network) = parse(getInput(2023, 8))
