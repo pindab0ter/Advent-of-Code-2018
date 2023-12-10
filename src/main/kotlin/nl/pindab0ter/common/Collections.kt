@@ -6,9 +6,33 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
 /**
+ * @return True if all elements in the iterable are equal, false otherwise.
+ */
+fun <T> Iterable<T>.allElementsEqual(): Boolean = toSet().size == 1
+
+/**
  * @return A collection of lists of characters grouped by their value.
  */
 fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
+
+/**
+ * @return Coordinates (x, y) of the first element matching the given predicate, or null if the collection does not
+ * contain such element.
+ */
+fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coordinates? {
+    for ((y, row) in this.withIndex()) {
+        for ((x, cell) in row.withIndex()) {
+            if (predicate(cell)) return Coordinates(x, y)
+        }
+    }
+
+    return null
+}
+
+/**
+ * @return The first element matching the given predicate, or null if no such element was found.
+ */
+fun <T> Iterable<Iterable<T>>.find(predicate: (T) -> Boolean): T? = flatten().find(predicate)
 
 /**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
