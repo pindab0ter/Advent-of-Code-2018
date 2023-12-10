@@ -32,7 +32,7 @@ class ChronalChargeKtTest {
     @Test
     fun `Find the most powerful square of any size`() = assertAllEquals(
         // TODO: Move size into square
-        (Square(90, 269, 113) to 16) to Grid(18).findMostPowerfulSquareOfAnySize(),
-        (Square(232, 251, 119) to 12) to Grid(42).findMostPowerfulSquareOfAnySize(),
+        Square(90, 269, 16, 113) to Grid(18).findMostPowerfulSquareOfAnySize(),
+        Square(232, 251, 12, 119) to Grid(42).findMostPowerfulSquareOfAnySize(),
     )
 }

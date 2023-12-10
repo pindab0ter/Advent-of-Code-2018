@@ -11,11 +11,11 @@ fun main() {
     val square1 = grid.findMostPowerfulSquare(3)
     println("The most powerful square is at ${square1.x},${square1.y} with a power level of ${square1.powerLevel}")
 
-    val (square2, size) = grid.findMostPowerfulSquareOfAnySize()
-    println("The most powerful square of any size is at ${square2.x},${square2.y},$size with a power level of ${square2.powerLevel}")
+    val square2 = grid.findMostPowerfulSquareOfAnySize()
+    println("The most powerful square of any size is at ${square2.x},${square2.y},${square2.size} with a power level of ${square2.powerLevel}")
 }
 
-data class Square(val x: Int, val y: Int, val powerLevel: Int)
+data class Square(val x: Int, val y: Int, val size: Int, val powerLevel: Int)
 
 data class Grid(val width: Int, val height: Int, val cells: List<List<Int>>) {
 
@@ -59,15 +59,15 @@ data class Grid(val width: Int, val height: Int, val cells: List<List<Int>>) {
                         summedAreaTable[i][j - size] +
                         summedAreaTable[i - size][j - size]
 
-                Square(i - size, j - size, power)
+                Square(i - size, j - size, size, power)
             }
         }.maxBy { it.powerLevel }
     }
 
     // Using mapAsync only saves about 20% on what is otherwise already a fast operation, but I made it, so I'll use it.
-    fun findMostPowerfulSquareOfAnySize(): Pair<Square, Int> = (3..300).mapAsync { size ->
-        findMostPowerfulSquare(size) to size
-    }.maxBy { (square, _) -> square.powerLevel }
+    fun findMostPowerfulSquareOfAnySize(): Square = (3..300)
+        .mapAsync(::findMostPowerfulSquare)
+        .maxBy(Square::powerLevel)
 
     companion object {
         operator fun invoke(serialNumber: Int, width: Int = 300, height: Int = 300): Grid {
