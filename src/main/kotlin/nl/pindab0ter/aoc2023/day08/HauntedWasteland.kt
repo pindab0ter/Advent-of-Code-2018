@@ -1,47 +1,44 @@
 package nl.pindab0ter.aoc2023.day08
 
 import nl.pindab0ter.common.helpers.getInput
-
-const val START = "AAA"
-const val DESTINATION = "ZZZ"
+import nl.pindab0ter.common.helpers.lcm
 
 fun main() {
     val (instructions, network) = parse(getInput(2023, 8))
-    val steps = findDestination(instructions, network)
 
-    println("Found $DESTINATION in $steps steps")
+    val stepsToDestination = findStepsToDestination(instructions, network, { equals("AAA") }, { equals("ZZZ") })
+    println("Found destination in $stepsToDestination steps")
+
+
+    val stepsToAllDestinations = findStepsToDestination(instructions, network, { endsWith('A') }, { endsWith('Z') })
+    println("Found all destinations in $stepsToAllDestinations steps")
 }
 
 typealias Network = Map<String, Node>
 
 data class Node(val left: String, val right: String)
 
-fun parse(input: String): Pair<String, Network> {
-    val nodeRegex = Regex("""^([A-Z]{3}) = \(([A-Z]{3}), ([A-Z]{3})\)$""")
-    return input.split("\n\n").let { (directions, nodes) ->
-        directions to nodes.lines().associate { line ->
-            nodeRegex
-                .find(line)!!
-                .groupValues
-                .let { (_, location, left, right) ->
-                    location to Node(left, right)
-                }
-        }
-    }
-}
-
-fun findDestination(instructions: String, network: Network): Int {
+fun findStepsToDestination(
+    instructions: String,
+    network: Network,
+    isStart: String.() -> Boolean,
+    isDestination: String.() -> Boolean,
+): Long {
     // Accidentally reinvented the `when` statement here.
     val applyInstructions: Map<Char, (Node) -> String> = mapOf('L' to Node::left, 'R' to Node::right)
 
-    tailrec fun goTo(currentNode: Node, index: Int = 0): Int {
-        val instruction = instructions[index % instructions.length]
+    tailrec fun followInstructions(currentNode: Node, index: Long = 0L): Long {
+        val instruction = instructions[(index % instructions.length).toInt()]
+        val nextLocation = applyInstructions[instruction]!!(currentNode)
 
-        return when (val nextNode = applyInstructions[instruction]!!(currentNode)) {
-            DESTINATION -> index + 1
-            else -> goTo(network.getValue(nextNode), index + 1)
+        return when {
+            nextLocation.isDestination() -> index + 1
+            else -> followInstructions(network.getValue(nextLocation), index + 1)
         }
     }
 
-    return goTo(network.getValue(START))
+    val startingLocations = network.filterKeys(isStart).values
+    val stepsToDestinations = startingLocations.map(::followInstructions).toLongArray()
+
+    return lcm(*stepsToDestinations)
 }

@@ -17,7 +17,7 @@ fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
  * @param transform The function to apply to each element. This function is invoked asynchronously on a separate coroutine.
  * @return A new iterable with the transformed elements.
  */
-fun <A, B> Iterable<A>.mapAsync(transform: (A) -> B): Iterable<B> = runBlocking {
+fun <T, R> Iterable<T>.mapAsync(transform: (T) -> R): List<R> = runBlocking {
     map {
         async(Dispatchers.Default) {
             transform(it)
