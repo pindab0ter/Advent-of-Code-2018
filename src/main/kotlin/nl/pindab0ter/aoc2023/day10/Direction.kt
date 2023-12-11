@@ -1,6 +1,6 @@
 package nl.pindab0ter.aoc2023.day10
 
-import nl.pindab0ter.common.Coordinates
+import nl.pindab0ter.common.Coordinate
 import nl.pindab0ter.common.get
 
 /**
@@ -26,10 +26,10 @@ enum class Direction(val dx: Int, val dy: Int) {
     abstract fun opposite(): Direction
 
     companion object {
-        private fun Coordinates.toThe(direction: Direction) = copy(x = x + direction.dx, y = y + direction.dy)
+        private fun Coordinate.toThe(direction: Direction) = copy(x = x + direction.dx, y = y + direction.dy)
 
         fun getDirectionsPointingTo(
-            coordinates: Coordinates,
+            coordinates: Coordinate,
             grid: List<List<Char>>,
         ): Set<Direction> = setOf(NORTH, EAST, SOUTH, WEST).mapNotNull { direction ->
             val character = grid[coordinates.toThe(direction)]

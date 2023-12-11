@@ -1,27 +1,82 @@
 package nl.pindab0ter.aoc2023.day10
 
-import nl.pindab0ter.common.Coordinates
-import nl.pindab0ter.common.coordinatesOfFirst
-import nl.pindab0ter.common.get
+import com.github.ajalt.mordant.rendering.TextColors.*
+import com.github.ajalt.mordant.rendering.TextStyles.*
+import nl.pindab0ter.common.*
 
-data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordinates) {
-    val start: Section
-        get() = sections[startCoordinates]!!
+data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordinate) {
+    private val start: Section = sections[startCoordinates]!!
+    private val loopSections: Set<Coordinate>
+    val tilesEnclosedByLoop: Set<Coordinate>
+    val furthestDistanceFromStart: Int
 
-    fun directionFor(
-        coordinates: Coordinates,
+    init {
+        val (coordinates, distance) = determineLoopAndFurthestDistance()
+
+        loopSections = coordinates
+        furthestDistanceFromStart = distance
+
+        tilesEnclosedByLoop = determineTilesEnclosedByLoop()
+    }
+
+    private fun directionFor(
+        coordinates: Coordinate,
         comingFrom: Direction,
-    ) = sections[coordinates.y][coordinates.x]?.directions!!
-        .minus(comingFrom.opposite())
-        .first()
+    ) = sections[coordinates]?.directions!!.minus(comingFrom.opposite()).first()
+
+    private fun determineLoopAndFurthestDistance(): Pair<Set<Coordinate>, Int> {
+        fun List<Pair<Coordinate, Direction>>.coordinates() = map(Pair<Coordinate, Direction>::first)
+
+        tailrec fun calculateDistance(
+            steps: List<Pair<Coordinate, Direction>>,
+            loopSections: Set<Coordinate>,
+            distance: Int,
+        ): Pair<Set<Coordinate>, Int> {
+            val nextSteps = steps.map { (coordinates, origin) ->
+                val direction = directionFor(coordinates, origin)
+                Coordinate(coordinates.x + direction.dx, coordinates.y + direction.dy) to direction
+            }
+
+            return when {
+                steps.coordinates().allElementsEqual() && distance > 0 -> loopSections to distance
+                else -> {
+                    calculateDistance(
+                        steps = nextSteps,
+                        loopSections = loopSections.plus(nextSteps.map { (coordinates, _) -> coordinates }.toSet()),
+                        distance = distance + 1
+                    )
+                }
+            }
+        }
+
+        // Start with all directions pointing away from the start
+        val initialSteps = start.directions.map { direction ->
+            startCoordinates to direction.opposite()
+        }
+
+        return calculateDistance(initialSteps, setOf(startCoordinates), 0)
+    }
+
+    private fun determineTilesEnclosedByLoop(): Set<Coordinate> = sections.withIndex().flatMap { (y, column) ->
+        column.indices.map { x -> if (isEnclosedByLoop(x, y)) Coordinate(x, y) else null }
+    }.filterNotNull().toSet()
+
+    private fun isEnclosedByLoop(x: Int, y: Int): Boolean {
+        val isNotPartOfLoop = !loopSections.contains(Coordinate(x, y))
+        val isEnclosedByLoop = (0..x).count { rayX ->
+            loopSections.contains(rayX, y) && sections[rayX, y]!!.directions.contains(Direction.NORTH)
+        }.isOdd()
+        return (isNotPartOfLoop && isEnclosedByLoop)
+    }
 
     override fun toString(): String = buildString {
         sections.forEachIndexed { y, column ->
             column.forEachIndexed { x, section ->
                 when {
-                    startCoordinates.x == x && startCoordinates.y == y -> append('●')
-                    section == null -> append('·')
-                    else -> append(section.representation)
+                    startCoordinates.x == x && startCoordinates.y == y -> append(red("●"))
+                    loopSections.contains(x, y) -> append(white(section!!.representation))
+                    tilesEnclosedByLoop.contains(x, y) -> append(green("·"))
+                    else -> append(black("·"))
                 }
             }
             appendLine()
@@ -37,7 +92,7 @@ data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordi
                 row.mapIndexed { x, character ->
                     when (character) {
                         'S' -> {
-                            val directions = Direction.getDirectionsPointingTo(Coordinates(x, y), grid)
+                            val directions = Direction.getDirectionsPointingTo(Coordinate(x, y), grid)
                             Section.from(directions.map(Direction::opposite).toSet())
                         }
 

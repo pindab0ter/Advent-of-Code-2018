@@ -38,20 +38,20 @@ class CollectionsKtTest {
     inner class TwoDimensionalArray {
         @Nested
         @DisplayName("coordinatesOfFirst")
-        inner class CoordinatesOfFirst {
+        inner class CoordinateOfFirst {
             @Test
             fun `Returns the coordinates of the first match`() = assertAllEquals(
-                Coordinates(0, 0) to listOf(
+                Coordinate(0, 0) to listOf(
                     listOf(1)
                 ).coordinatesOfFirst { it == 1 },
-                Coordinates(1, 1) to listOf(
+                Coordinate(1, 1) to listOf(
                     listOf(0, 0),
                     listOf(0, 1)
                 ).coordinatesOfFirst { it == 1 },
-                Coordinates(0, 2) to listOf(
+                Coordinate(0, 2) to listOf(
                     listOf(0), listOf(0), listOf(1)
                 ).coordinatesOfFirst { it == 1 },
-                Coordinates(2, 0) to listOf(
+                Coordinate(2, 0) to listOf(
                     listOf(0, 0, 1)
                 ).coordinatesOfFirst { it == 1 },
                 null to listOf(

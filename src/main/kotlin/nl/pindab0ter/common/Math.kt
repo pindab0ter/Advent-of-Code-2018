@@ -2,6 +2,9 @@ package nl.pindab0ter.common
 
 import kotlin.math.abs
 
+fun Int.isOdd(): Boolean = this % 2 != 0
+fun Int.isEvent(): Boolean = this % 2 == 0
+
 /**
  * Returns the [position]th digit from the right.
  *

@@ -2,13 +2,13 @@ package nl.pindab0ter.aoc2023.day10
 
 import nl.pindab0ter.aoc2023.day10.Direction.*
 
-enum class Section(val directions: Set<Direction>, val representation: Char) {
-    VERTICAL(setOf(NORTH, SOUTH), '│'),
-    HORIZONTAL(setOf(EAST, WEST), '─'),
-    TOP_LEFT_BEND(setOf(SOUTH, EAST), '╭'),
-    TOP_RIGHT_BEND(setOf(WEST, SOUTH), '╮'),
-    BOTTOM_LEFT_BEND(setOf(EAST, NORTH), '╰'),
-    BOTTOM_RIGHT_BEND(setOf(NORTH, WEST), '╯');
+enum class Section(val directions: Set<Direction>, val representation: String) {
+    VERTICAL(setOf(NORTH, SOUTH), "│"),
+    HORIZONTAL(setOf(EAST, WEST), "─"),
+    TOP_LEFT_BEND(setOf(SOUTH, EAST), "╭"),
+    TOP_RIGHT_BEND(setOf(WEST, SOUTH), "╮"),
+    BOTTOM_LEFT_BEND(setOf(EAST, NORTH), "╰"),
+    BOTTOM_RIGHT_BEND(setOf(NORTH, WEST), "╯");
 
     companion object {
         private val sections = mapOf(

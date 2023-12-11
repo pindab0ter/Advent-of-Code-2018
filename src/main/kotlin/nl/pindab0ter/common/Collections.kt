@@ -19,10 +19,10 @@ fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
  * @return Coordinates (x, y) of the first element matching the given predicate, or null if the collection does not
  * contain such element.
  */
-fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coordinates? {
+fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coordinate? {
     for ((y, row) in this.withIndex()) {
         for ((x, cell) in row.withIndex()) {
-            if (predicate(cell)) return Coordinates(x, y)
+            if (predicate(cell)) return Coordinate(x, y)
         }
     }
 
@@ -35,10 +35,18 @@ fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coo
 fun <T> Iterable<Iterable<T>>.find(predicate: (T) -> Boolean): T? = flatten().find(predicate)
 
 /**
- * @return The element at the given [coordinates], or null if the coordinates are out of bounds.
- * @see Coordinates
+ * @return The element at the given [coordinate], or null if the coordinates are out of bounds.
+ * @see Coordinate
  */
-operator fun <T> List<List<T>>.get(coordinates: Coordinates): T? = this[coordinates.y][coordinates.x]
+operator fun <T> List<List<T>>.get(coordinate: Coordinate): T? = this
+    .getOrNull(coordinate.y)
+    ?.getOrNull(coordinate.x)
+
+/**
+ * @return The element at the given [x] and [y] coordinate, or null if the coordinates are out of bounds.
+ * @see Coordinate
+ */
+operator fun <T> List<List<T>>.get(x: Int, y: Int): T? = this.getOrNull(y)?.getOrNull(x)
 
 /**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
