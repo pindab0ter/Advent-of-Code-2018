@@ -15,18 +15,15 @@ fun <T> Set<T>.allCombinations(): Set<Pair<T, T>> = withIndex().flatMap { (i, a)
 }.toSet()
 
 fun Set<Coordinate>.expand(multiplier: Long = 1): Set<Coordinate> {
-    val emptyRows = (minOf(Coordinate::x)..(maxOf(Coordinate::x)))
+    val emptyX = (minOf(Coordinate::x)..(maxOf(Coordinate::x)))
         .filter { y -> none { it.y == y } }.toSet().contiguousToRanges()
-    val emptyColumns = (minOf(Coordinate::y)..(maxOf(Coordinate::y)))
+    val emptyY = (minOf(Coordinate::y)..(maxOf(Coordinate::y)))
         .filter { x -> none { it.x == x } }.toSet().contiguousToRanges()
 
     return map { galaxy ->
         galaxy.copy(
-            x = galaxy.x + (emptyColumns.filter { it.last < galaxy.x }.sumOf(LongRange::count) * max(
-                1L,
-                multiplier - 1L
-            )),
-            y = galaxy.y + (emptyRows.filter { it.last < galaxy.y }.sumOf(LongRange::count) * max(1L, multiplier - 1L)),
+            x = galaxy.x + (emptyY.filter { it.last < galaxy.x }.sumOf(LongRange::count) * max(1L, multiplier - 1L)),
+            y = galaxy.y + (emptyX.filter { it.last < galaxy.y }.sumOf(LongRange::count) * max(1L, multiplier - 1L)),
         )
     }.toSet()
 }
