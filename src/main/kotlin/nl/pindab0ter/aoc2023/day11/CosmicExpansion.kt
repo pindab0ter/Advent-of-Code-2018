@@ -6,8 +6,11 @@ fun main() {
     val input = getInput(2023, 11)
 
     val universe = parse(input)
-    val expandedUniverse = universe.expand()
-    val shortestDistances = expandedUniverse.allCombinations().map { (a, b) -> manhattanDistance(a, b) }
 
-    println("Sum of shortest distances: ${shortestDistances.sum()}")
+    println("Sum of shortest distances for a universe expanded once: ${
+        universe.sumOfDistancesBetweenGalaxies(1)
+    }")
+    println("Sum of shortest distances for a universe expanded one MILLION times: ${
+        universe.sumOfDistancesBetweenGalaxies(1_000_000)
+    }")
 }

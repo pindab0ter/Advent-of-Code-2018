@@ -3,7 +3,6 @@ package nl.pindab0ter.common
 import kotlin.math.abs
 
 fun Int.isOdd(): Boolean = this % 2 != 0
-fun Int.isEvent(): Boolean = this % 2 == 0
 
 /**
  * Returns the [position]th digit from the right.
@@ -22,7 +21,7 @@ fun Int.nthDigitFromRight(position: Int): Int? {
 }
 
 /**
- * Greatest common divisor, see [Euclidian algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm).
+ * Greatest common divisor, see [Euclidean algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm).
  *
  * @return The greatest common divisor of [a] and [b].
  */

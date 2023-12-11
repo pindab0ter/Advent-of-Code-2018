@@ -1,8 +1,10 @@
 package nl.pindab0ter.common
 
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-class MathKtTest {
+@DisplayName("Math")
+class MathTest {
 
     @Test
     fun `Calculate the Greatest Common Divisor`() = assertAllEquals(

@@ -62,7 +62,7 @@ data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordi
     }.filterNotNull().toSet()
 
     private fun isEnclosedByLoop(x: Int, y: Int): Boolean {
-        val isNotPartOfLoop = !loopSections.contains(Coordinate(x, y))
+        val isNotPartOfLoop = !loopSections.contains(x, y)
         val isEnclosedByLoop = (0..x).count { rayX ->
             loopSections.contains(rayX, y) && sections[rayX, y]!!.directions.contains(Direction.NORTH)
         }.isOdd()
@@ -73,7 +73,7 @@ data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordi
         sections.forEachIndexed { y, column ->
             column.forEachIndexed { x, section ->
                 when {
-                    startCoordinates.x == x && startCoordinates.y == y -> append(red("●"))
+                    startCoordinates.x == x.toLong() && startCoordinates.y == y.toLong() -> append(red("●"))
                     loopSections.contains(x, y) -> append(white(section!!.representation))
                     tilesEnclosedByLoop.contains(x, y) -> append(green("·"))
                     else -> append(black("·"))
