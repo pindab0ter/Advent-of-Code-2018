@@ -22,8 +22,8 @@ fun Set<Coordinate>.contains(x: Long, y: Long) = contains(Coordinate(x, y))
 fun Set<Coordinate>.contains(x: Int, y: Int) = contains(x.toLong(), y.toLong())
 
 /**
- * The Manhattan distance is the shortest distance between two points on a
- * [Cartesian](https://simple.wikipedia.org/wiki/Cartesian_coordinate_system) plane.
+ * The [Manhattan distance](https://simple.wikipedia.org/wiki/Manhattan_distance) is the shortest distance between two
+ * points on a [Cartesian](https://simple.wikipedia.org/wiki/Cartesian_coordinate_system) plane.
  *
  * @return The Manhattan distance between the two [Coordinate]s.
  */
