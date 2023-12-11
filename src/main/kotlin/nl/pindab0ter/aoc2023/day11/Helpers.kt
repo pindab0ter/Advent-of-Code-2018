@@ -15,11 +15,17 @@ fun <T> Set<T>.allCombinations(): Set<Pair<T, T>> = withIndex().flatMap { (i, a)
 }.toSet()
 
 fun Set<Coordinate>.expand(multiplier: Long = 1): Set<Coordinate> {
-    val (emptyRows, emptyColumns) = emptyRowsAndColumns()
+    val emptyRows = (minOf(Coordinate::x)..(maxOf(Coordinate::x)))
+        .filter { y -> none { it.y == y } }.toSet().contiguousToRanges()
+    val emptyColumns = (minOf(Coordinate::y)..(maxOf(Coordinate::y)))
+        .filter { x -> none { it.x == x } }.toSet().contiguousToRanges()
 
     return map { galaxy ->
         galaxy.copy(
-            x = galaxy.x + (emptyColumns.filter { it.last < galaxy.x }.sumOf(LongRange::count) * max(1L, multiplier - 1L)),
+            x = galaxy.x + (emptyColumns.filter { it.last < galaxy.x }.sumOf(LongRange::count) * max(
+                1L,
+                multiplier - 1L
+            )),
             y = galaxy.y + (emptyRows.filter { it.last < galaxy.y }.sumOf(LongRange::count) * max(1L, multiplier - 1L)),
         )
     }.toSet()
@@ -30,10 +36,3 @@ fun Set<Long>.contiguousToRanges(): Set<LongRange> = tail().fold(listOf(LongRang
     if (currentRange.last + 1L == x) acc.dropLast(1).plusElement(LongRange(currentRange.first, x))
     else acc.plusElement(x..x)
 }.toSet()
-
-fun Set<Coordinate>.emptyRowsAndColumns(): Pair<Set<LongRange>, Set<LongRange>> = Pair(
-    first = (minOf(Coordinate::x)..(maxOf(Coordinate::x)))
-        .filter { y -> none { it.y == y } }.toSet().contiguousToRanges(),
-    second = (minOf(Coordinate::y)..(maxOf(Coordinate::y)))
-        .filter { x -> none { it.x == x } }.toSet().contiguousToRanges()
-)
