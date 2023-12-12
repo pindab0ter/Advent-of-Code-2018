@@ -1,41 +1,35 @@
 package nl.pindab0ter.aoc2023.day07
 
-import nl.pindab0ter.aoc2023.day07.part2.Hand
-import nl.pindab0ter.aoc2023.day07.part2.parse
-import nl.pindab0ter.aoc2023.day07.part2.totalWinnings
 import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import nl.pindab0ter.aoc2023.day07.part1.Hand as Part1Hand
-import nl.pindab0ter.aoc2023.day07.part1.Type as Part1Type
-import nl.pindab0ter.aoc2023.day07.part1.parse as part1Parse
-import nl.pindab0ter.aoc2023.day07.part1.totalWinnings as part1TotalWinnings
 
 @Suppress("SpellCheckingInspection")
 @DisplayName("2023 Day 07 - Camel Cards")
 class CamelCardsKtTest {
 
     @Nested
-    @DisplayName("Part 1")
-    inner class Part1 {
+    @DisplayName("Without jokers")
+    inner class WithoutJokers {
+        private val withJokers = false
 
         @Test
         fun `Correctly find hand types`() = assertAllEquals(
-            Part1Type.FIVE_OF_A_KIND to Part1Type.of("AAAAA"),
-            Part1Type.FOUR_OF_A_KIND to Part1Type.of("AA8AA"),
-            Part1Type.FULL_HOUSE to Part1Type.of("23332"),
-            Part1Type.THREE_OF_A_KIND to Part1Type.of("TTT98"),
-            Part1Type.TWO_PAIR to Part1Type.of("23432"),
-            Part1Type.ONE_PAIR to Part1Type.of("A23A4"),
-            Part1Type.HIGH_CARD to Part1Type.of("23456"),
+            Type.FIVE_OF_A_KIND to Type.of("AAAAA", withJokers),
+            Type.FOUR_OF_A_KIND to Type.of("AA8AA", withJokers),
+            Type.FULL_HOUSE to Type.of("23332", withJokers),
+            Type.THREE_OF_A_KIND to Type.of("TTT98", withJokers),
+            Type.TWO_PAIR to Type.of("23432", withJokers),
+            Type.ONE_PAIR to Type.of("A23A4", withJokers),
+            Type.HIGH_CARD to Type.of("23456", withJokers),
         )
 
         @Test
         fun `Correctly order hands of differing types`() {
-            val leastValuableHand = Part1Hand("AA8AA", 0)
-            val mostValuableHand = Part1Hand("AAAAA", 0)
+            val leastValuableHand = Hand("AA8AA", 0, withJokers)
+            val mostValuableHand = Hand("AAAAA", 0, withJokers)
 
             val actual = listOf(leastValuableHand, mostValuableHand).sorted()
             val expected = listOf(mostValuableHand, leastValuableHand)
@@ -45,8 +39,8 @@ class CamelCardsKtTest {
 
         @Test
         fun `Don't match a one pair before a two pair`() {
-            val mostValuableHand = Part1Hand("22322", 0)
-            val leastValuableHand = Part1Hand("JQKAA", 0)
+            val mostValuableHand = Hand("22322", 0, withJokers)
+            val leastValuableHand = Hand("JQKAA", 0, withJokers)
 
             val actual = listOf(leastValuableHand, mostValuableHand).sorted()
             val expected = listOf(mostValuableHand, leastValuableHand)
@@ -56,8 +50,8 @@ class CamelCardsKtTest {
 
         @Test
         fun `Correctly order a hands of the same type`() {
-            val mostValuableHand = Part1Hand("KK677", 0)
-            val leastValuableHand = Part1Hand("KTJJT", 0)
+            val mostValuableHand = Hand("KK677", 0, withJokers)
+            val leastValuableHand = Hand("KTJJT", 0, withJokers)
 
             val actual = listOf(leastValuableHand, mostValuableHand).sorted()
             val expected = listOf(mostValuableHand, leastValuableHand)
@@ -67,8 +61,8 @@ class CamelCardsKtTest {
 
         @Test
         fun `A full house is worth more than a three of a kind`() {
-            val mostValuableHand = Part1Hand("Q2Q2Q", 0)
-            val leastValuableHand = Part1Hand("QQQJA", 0)
+            val mostValuableHand = Hand("Q2Q2Q", 0, withJokers)
+            val leastValuableHand = Hand("QQQJA", 0, withJokers)
 
             val actual = listOf(leastValuableHand, mostValuableHand).sorted()
             val expected = listOf(mostValuableHand, leastValuableHand)
@@ -86,13 +80,13 @@ class CamelCardsKtTest {
             QQQJA 483
         """.trimIndent()
 
-            val actual = part1Parse(input).sorted()
+            val actual = parse(input, withJokers).sorted()
             val expected = listOf(
-                Part1Hand("QQQJA", 483),
-                Part1Hand("T55J5", 684),
-                Part1Hand("KK677", 28),
-                Part1Hand("KTJJT", 220),
-                Part1Hand("32T3K", 765),
+                Hand("QQQJA", 483, withJokers),
+                Hand("T55J5", 684, withJokers),
+                Hand("KK677", 28, withJokers),
+                Hand("KTJJT", 220, withJokers),
+                Hand("32T3K", 765, withJokers),
             )
 
             assertEquals(expected, actual)
@@ -119,24 +113,24 @@ class CamelCardsKtTest {
             JJJJ2 34
         """.trimIndent()
 
-            val actual = part1Parse(input).sorted()
+            val actual = parse(input, withJokers).sorted()
             val expected = listOf(
-                Part1Hand("AAAAA", 59),
-                Part1Hand("JJJJJ", 31),
-                Part1Hand("AAAAJ", 53),
-                Part1Hand("JAAAA", 43),
-                Part1Hand("JJJJ2", 34),
-                Part1Hand("2AAAA", 17),
-                Part1Hand("2JJJJ", 47),
-                Part1Hand("Q2Q2Q", 13),
-                Part1Hand("QQQJA", 23),
-                Part1Hand("T55J5", 19),
-                Part1Hand("KK677", 11),
-                Part1Hand("KTJJT", 29),
-                Part1Hand("32T3K", 7),
-                Part1Hand("J345A", 3),
-                Part1Hand("2345A", 2),
-                Part1Hand("2345J", 5),
+                Hand("AAAAA", 59, withJokers),
+                Hand("JJJJJ", 31, withJokers),
+                Hand("AAAAJ", 53, withJokers),
+                Hand("JAAAA", 43, withJokers),
+                Hand("JJJJ2", 34, withJokers),
+                Hand("2AAAA", 17, withJokers),
+                Hand("2JJJJ", 47, withJokers),
+                Hand("Q2Q2Q", 13, withJokers),
+                Hand("QQQJA", 23, withJokers),
+                Hand("T55J5", 19, withJokers),
+                Hand("KK677", 11, withJokers),
+                Hand("KTJJT", 29, withJokers),
+                Hand("32T3K", 7, withJokers),
+                Hand("J345A", 3, withJokers),
+                Hand("2345A", 2, withJokers),
+                Hand("2345J", 5, withJokers),
             )
 
             assertEquals(actual, expected)
@@ -152,9 +146,9 @@ class CamelCardsKtTest {
             QQQJA 483
         """.trimIndent()
 
-            val hands = part1Parse(input)
+            val hands = parse(input, withJokers)
 
-            assertEquals(6440, hands.part1TotalWinnings())
+            assertEquals(6440, hands.totalWinnings())
         }
 
         @Test
@@ -178,15 +172,16 @@ class CamelCardsKtTest {
             JJJJ2 34
         """.trimIndent()
 
-            val hands = part1Parse(input)
+            val hands = parse(input, withJokers)
 
-            assertEquals(4466, hands.part1TotalWinnings())
+            assertEquals(4466, hands.totalWinnings())
         }
     }
 
     @Nested
-    @DisplayName("Part 2")
-    inner class Part2 {
+    @DisplayName("With jokers")
+    inner class WithJokers {
+        private val withJokers = true
 
         @Test
         fun `Correctly order a list of hands`() {
@@ -198,13 +193,13 @@ class CamelCardsKtTest {
             QQQJA 483
         """.trimIndent()
 
-            val actual = parse(input).sorted()
+            val actual = parse(input, withJokers).sorted()
             val expected = listOf(
-                Hand("KTJJT", 220),
-                Hand("QQQJA", 483),
-                Hand("T55J5", 684),
-                Hand("KK677", 28),
-                Hand("32T3K", 765),
+                Hand("KTJJT", 220, withJokers),
+                Hand("QQQJA", 483, withJokers),
+                Hand("T55J5", 684, withJokers),
+                Hand("KK677", 28, withJokers),
+                Hand("32T3K", 765, withJokers),
             )
 
             assertEquals(expected, actual)
@@ -234,27 +229,27 @@ class CamelCardsKtTest {
             JJJJ2 41
         """.trimIndent()
 
-            val actual = parse(input).sorted()
+            val actual = parse(input, withJokers).sorted()
             val expected = listOf(
-                Hand("AAAAA", 61),
-                Hand("AAAAJ", 59),
-                Hand("2JJJJ", 53),
-                Hand("JAAAA", 43),
-                Hand("JJJJ2", 41),
-                Hand("JJJJJ", 37),
-                Hand("KTJJT", 34),
-                Hand("QQQJA", 31),
-                Hand("T55J5", 29),
-                Hand("2AAAA", 23),
-                Hand("Q2Q2Q", 19),
-                Hand("T3T3J", 17),
-                Hand("Q2KJJ", 13),
-                Hand("T3Q33", 11),
-                Hand("KK677", 7),
-                Hand("32T3K", 5),
-                Hand("2345J", 3),
-                Hand("J345A", 2),
-                Hand("2345A", 1),
+                Hand("AAAAA", 61, withJokers),
+                Hand("AAAAJ", 59, withJokers),
+                Hand("2JJJJ", 53, withJokers),
+                Hand("JAAAA", 43, withJokers),
+                Hand("JJJJ2", 41, withJokers),
+                Hand("JJJJJ", 37, withJokers),
+                Hand("KTJJT", 34, withJokers),
+                Hand("QQQJA", 31, withJokers),
+                Hand("T55J5", 29, withJokers),
+                Hand("2AAAA", 23, withJokers),
+                Hand("Q2Q2Q", 19, withJokers),
+                Hand("T3T3J", 17, withJokers),
+                Hand("Q2KJJ", 13, withJokers),
+                Hand("T3Q33", 11, withJokers),
+                Hand("KK677", 7, withJokers),
+                Hand("32T3K", 5, withJokers),
+                Hand("2345J", 3, withJokers),
+                Hand("J345A", 2, withJokers),
+                Hand("2345A", 1, withJokers),
             )
 
             assertEquals(actual, expected)
@@ -270,7 +265,7 @@ class CamelCardsKtTest {
             QQQJA 483
         """.trimIndent()
 
-            val hands = parse(input)
+            val hands = parse(input, withJokers)
 
             assertEquals(5905, hands.totalWinnings())
         }
@@ -299,11 +294,9 @@ class CamelCardsKtTest {
             JJJJ2 41
         """.trimIndent()
 
-            val hands = parse(input)
+            val hands = parse(input, withJokers)
 
             assertEquals(6839, hands.totalWinnings())
         }
-
     }
-
 }
