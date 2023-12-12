@@ -1,16 +1,21 @@
 package nl.pindab0ter.aoc2023.day04
 
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.timing
 import kotlin.math.pow
 
 fun main() {
     val cards = parse(getInput(2023, 4))
 
-    val totalScore = cards.sumOf(ScratchCard::score)
-    println("Combined score of all cards: $totalScore")
+    timing {
+        val totalScore = cards.sumOf(ScratchCard::score)
+        println("Combined score of all cards: $totalScore")
+    }
 
-    val winnings = play(listOf(cards), cards)
-    println("Winnings: ${winnings.flatten().count()}")
+    timing {
+        val winnings = play(listOf(cards), cards)
+        println("\nWinnings: ${winnings.flatten().count()}")
+    }
 }
 
 typealias Hand = List<ScratchCard>

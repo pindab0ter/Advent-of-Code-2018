@@ -1,9 +1,9 @@
 package nl.pindab0ter.common
 
-fun <T> timing(name: String? = null, block: () -> T) {
+fun <T> timing(name: String? = null, block: () -> T): T {
     val start = System.currentTimeMillis()
     try {
-        block.invoke()
+        return block.invoke()
     } finally {
         val end = System.currentTimeMillis()
 
@@ -21,4 +21,4 @@ fun <T> timing(name: String? = null, block: () -> T) {
 /**
  * Prints the given [messages] separated by `", "`, and a line separator to the standard output stream.
  */
-fun println(vararg messages: Any) = kotlin.io.println(messages.joinToString(", "))
+fun println(vararg messages: Any?) = kotlin.io.println(messages.joinToString(", "))

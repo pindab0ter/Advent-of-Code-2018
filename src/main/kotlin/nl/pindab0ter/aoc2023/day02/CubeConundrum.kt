@@ -9,7 +9,7 @@ fun main() {
     println("Sum of valid game IDs: $idSum")
 
     val sumOfPowers = games.sumOf(::powerOfMinimalRequiredCubes)
-    println("Sum of power of minimal required cubes: $sumOfPowers")
+    println("\nSum of power of minimal required cubes: $sumOfPowers")
 }
 
 val availableCubes = mapOf(

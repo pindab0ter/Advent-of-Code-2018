@@ -1,15 +1,20 @@
 package nl.pindab0ter.aoc2023.day03
 
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.timing
 
 fun main() {
     val input = getInput(2023, 3)
 
-    val partNumbers = getPartNumbers(input)
-    println("Sum of all part numbers: ${partNumbers.sum()}")
+    timing {
+        val partNumbers = getPartNumbers(input)
+        println("Sum of all part numbers: ${partNumbers.sum()}")
+    }
 
-    val gearRatios = getGearRatios(input)
-    println("Sum of all gear ratios: ${gearRatios.sum()}")
+    timing {
+        val gearRatios = getGearRatios(input)
+        println("\nSum of all gear ratios: ${gearRatios.sum()}")
+    }
 }
 
 typealias Schematic = String
@@ -55,13 +60,11 @@ fun getGearRatios(schematic: Schematic): List<Int> {
 
 fun MatchResult.isAdjacentTo(other: MatchResult, lineLength: Int): Boolean {
     val widenedRange = range.first - 1..range.last + 1
+
     val toTheLeft = widenedRange.first == other.range.last
     val toTheRight = widenedRange.last == other.range.first
-
-    if (toTheLeft || toTheRight) return true
-
     val above = widenedRange.any { it == other.range.first + (lineLength + 1) }
     val below = widenedRange.any { it == other.range.first - (lineLength + 1) }
 
-    return above || below
+    return above || below || toTheLeft || toTheRight
 }

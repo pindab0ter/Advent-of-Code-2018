@@ -7,8 +7,10 @@ import nl.pindab0ter.common.timing
 fun main() {
     val almanac = Almanac(getInput(2023, 5))
 
-    val lowestLocationNumberPartOne = findFirstSeedSingles(almanac.partOneSeeds, almanac.maps)
-    println("Lowest location number, part one: $lowestLocationNumberPartOne")
+    timing {
+        val lowestLocationNumberPartOne = findFirstSeedSingles(almanac.partOneSeeds, almanac.maps)
+        println("Lowest location number, part one: $lowestLocationNumberPartOne")
+    }
 
     timing("Reverse search") {
         val lowestLocationNumberPartTwo = findFirstSeedRanges(almanac.partTwoSeeds, almanac.maps)

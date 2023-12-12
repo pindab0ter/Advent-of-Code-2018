@@ -3,11 +3,15 @@
 package nl.pindab0ter.aoc2023.day01
 
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.timing
 
 fun main() {
-    val result = getInput(2023, 1).lines().sumOf(::getCalibrationValue)
+    val lines = getInput(2023, 1).lines()
 
-    println(result)
+    timing("Calculating the calibration value") {
+        val result = lines.sumOf(::getCalibrationValue)
+        println(result)
+    }
 }
 
 val digitNames = mapOf(

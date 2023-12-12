@@ -5,11 +5,11 @@ import nl.pindab0ter.common.getInput
 fun main() {
     val sequences = parse(getInput(2023, 9))
 
-    val sumOfExtrapolatedNextValues = sequences.sumOf(::extrapolateValue)
-    println("The sum of the extrapolated values is $sumOfExtrapolatedNextValues")
+    val sumOfExtrapolatedFollowingValues = sequences.sumOf(::extrapolateValue)
+    println("The sum of the extrapolated next values is $sumOfExtrapolatedFollowingValues")
 
-    val sumOfExtrapolatedPreviousValues = sequences.map { it.asReversed() }.sumOf(::extrapolateValue)
-    println("The sum of the extrapolated values is $sumOfExtrapolatedPreviousValues")
+    val sumOfExtrapolatedPrecedingValues = sequences.map { it.asReversed() }.sumOf(::extrapolateValue)
+    println("The sum of the extrapolated preceding values is $sumOfExtrapolatedPrecedingValues")
 }
 
 fun parse(input: String) = input.lines().map { line -> line.split(' ').map(String::toInt) }

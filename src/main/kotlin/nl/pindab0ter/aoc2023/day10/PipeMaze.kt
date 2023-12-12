@@ -1,11 +1,14 @@
 package nl.pindab0ter.aoc2023.day10
 
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.timing
 
 fun main() {
     val input = getInput(2023, 10)
 
-    val maze = Maze.from(input)
+    val maze = timing("Parsing and calculating both answers") {
+        Maze.from(input)
+    }
 
     print(maze)
 
