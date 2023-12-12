@@ -1,27 +1,24 @@
 package nl.pindab0ter.aoc2023.day05
 
-import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
+import kotlin.test.assertEquals
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("2023 Day 05 - If You Give A Seed A Fertilizer")
 class IfYouGiveASeedAFertilizerKtTest {
-    @Test
-    fun `Apply first map in reverse`() {
-        val almanac = Almanac(input)
-        assertAllEquals(
-            applyMapReverse(0u.toULong(), almanac.maps.first()) to 0u.toULong(),
-            applyMapReverse(1u.toULong(), almanac.maps.first()) to 1u.toULong(),
-            applyMapReverse(48u.toULong(), almanac.maps.first()) to 48u.toULong(),
-            applyMapReverse(49u.toULong(), almanac.maps.first()) to 49u.toULong(),
-            applyMapReverse(52u.toULong(), almanac.maps.first()) to 50u.toULong(),
-            applyMapReverse(53u.toULong(), almanac.maps.first()) to 51u.toULong(),
-            applyMapReverse(98u.toULong(), almanac.maps.first()) to 96u.toULong(),
-            applyMapReverse(99u.toULong(), almanac.maps.first()) to 97u.toULong(),
-            applyMapReverse(50u.toULong(), almanac.maps.first()) to 98u.toULong(),
-            applyMapReverse(51u.toULong(), almanac.maps.first()) to 99u.toULong(),
-        )
+    @ParameterizedTest(name = "{0} → {1}")
+    @MethodSource("firstMapReverseProvider")
+    @DisplayName("Apply first map in reverse")
+    fun `Apply first map in reverse`(actual: UInt, location: UInt) {
+        assertEquals(actual.toULong(), applyMapReverse(location.toULong(), almanac.maps.first()))
     }
 
     @Test
@@ -39,7 +36,7 @@ class IfYouGiveASeedAFertilizerKtTest {
     }
 
     companion object {
-        val input = """
+        private val input = """
             seeds: 79 14 55 13
     
             seed-to-soil map:
@@ -74,6 +71,20 @@ class IfYouGiveASeedAFertilizerKtTest {
             60 56 37
             56 93 4
         """.trimIndent()
-    }
+        private val almanac = Almanac(input)
 
+        @JvmStatic
+        private fun firstMapReverseProvider(): Stream<Arguments> = Stream.of(
+            arguments("0", "0"),
+            arguments("1", "1"),
+            arguments("48", "48"),
+            arguments("49", "49"),
+            arguments("50", "52"),
+            arguments("51", "53"),
+            arguments("96", "98"),
+            arguments("97", "99"),
+            arguments("98", "50"),
+            arguments("99", "51"),
+        )
+    }
 }

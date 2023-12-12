@@ -16,6 +16,8 @@ dependencies {
     implementation("com.github.ajalt.mordant", "mordant", "2.2.0")
 
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.8.1")
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.8.1")
+
     testImplementation(kotlin("test"))
 }
 
