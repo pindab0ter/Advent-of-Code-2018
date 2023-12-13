@@ -55,6 +55,22 @@ operator fun <T> List<List<T>>.get(x: Int, y: Int): T? = getOrNull(y)?.getOrNull
 operator fun <T> List<List<T>>.get(x: Long, y: Long): T? = this[x.toInt(), y.toInt()]
 
 /**
+ * @return A new list with element [element] prepended.
+ */
+fun <T> List<T>.prepend(element: T): List<T> = buildList(this.size + 1) {
+    add(element)
+    addAll(this@prepend)
+}
+
+/**
+ * @return A new list with the element at [index] replaced by the given [element].
+ */
+fun <T> List<T>.replace(index: Int, element: T): List<T> = buildList {
+    addAll(this@replace)
+    if (size > 0) set(index, element)
+}
+
+/**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
  * until all transformations are complete.
  *
