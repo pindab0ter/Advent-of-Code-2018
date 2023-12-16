@@ -70,6 +70,16 @@ fun <T> List<T>.replace(index: Int, element: T): List<T> = buildList {
     if (size > 0) set(index, element)
 }
 
+fun <T> List<T>.replaceFirst(element: T): List<T> {
+    if (isEmpty()) return emptyList()
+    return replace(0, element)
+}
+
+fun <T> List<T>.replaceFirst(transform: (T) -> T): List<T> {
+    if (isEmpty()) return emptyList()
+    return replace(0, transform(first()))
+}
+
 /**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
  * until all transformations are complete.

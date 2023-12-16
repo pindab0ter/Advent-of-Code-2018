@@ -19,13 +19,32 @@ class HotSpringsKtTest {
     companion object {
         @JvmStatic
         fun arrangementCountProvider(): Stream<Arguments> = Stream.of(
+            arguments(1, "# 1"),
+            arguments(1, "#. 1"),
+            arguments(1, "? 1"),
+            arguments(1, "## 2"),
+            arguments(1, "#? 2"),
+            arguments(1, "?# 2"),
+            arguments(2, "?? 1"),
+            arguments(1, "### 3"),
+            arguments(1, "??? 3"),
+            arguments(1, "??? 1,1"),
+            arguments(2, "??? 2"),
             arguments(1, "###.??? 3,1,1"),
+
+            // Provided test inputs
+            arguments(1, "#.#.### 1,1,3"),
+            arguments(1, ".#...#....###. 1,1,3"),
+            arguments(1, ".#.###.#.###### 1,3,1,6"),
+            arguments(1, "####.#...#... 4,1,1"),
+            arguments(1, "#....######..#####. 1,6,5"),
+            arguments(1, ".###.##....# 3,2,1"),
             arguments(1, "???.### 1,1,3"),
             arguments(4, ".??..??...?##. 1,1,3"),
             arguments(1, "?#?#?#?#?#?#?#? 1,3,1,6"),
             arguments(1, "????.#...#... 4,1,1"),
             arguments(4, "????.######..#####. 1,6,5"),
-            arguments(1, "?###???????? 3,2,1"),
+            arguments(10, "?###???????? 3,2,1"),
         )
     }
 }
