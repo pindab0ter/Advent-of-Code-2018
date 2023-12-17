@@ -1,29 +1,20 @@
 package nl.pindab0ter.aoc2023.day12
 
-import com.github.ajalt.mordant.rendering.TextColors
-import com.github.ajalt.mordant.rendering.TextColors.gray
-import com.github.ajalt.mordant.rendering.TextColors.white
+import com.github.ajalt.mordant.rendering.TextColors.*
 import nl.pindab0ter.aoc2023.day12.Spring.*
+import nl.pindab0ter.common.getInput
 import nl.pindab0ter.common.println
 import nl.pindab0ter.common.replaceFirst
+import nl.pindab0ter.common.timing
 
 fun main() {
-    val input = """
-        ???.### 1,1,3
-        .??..??...?##. 1,1,3
-        ?#?#?#?#?#?#?#? 1,3,1,6
-        ????.#...#... 4,1,1
-        ????.######..#####. 1,6,5
-        ?###???????? 3,2,1
-    """.trimIndent()
+    val input = getInput(2023, 12)
     val records = parse(input)
 
-    println(records.last())
-    println(records.last().countArrangements())
+    timing {
+        println(records.map(Record::countArrangements).sum())
+    }
 }
-
-private const val damagedIndicator = "✗"
-private const val operationalIndicator = "○"
 
 data class Record(val springs: List<Spring>, val groups: List<Int>) {
 //    private val cache = mutableMapOf<???>()
@@ -35,9 +26,10 @@ data class Record(val springs: List<Spring>, val groups: List<Int>) {
         groupIndex: Int = 0,
         groupElementIndex: Int = 0,
         previousDamaged: Boolean = false,
+        output: List<Spring> = emptyList(),
         depth: Int = 0,
     ): Long {
-        val indentation = "    ".repeat(depth)
+        val indentation = "".repeat(depth)
         val currentGroupSize = groups.getOrNull(groupIndex) ?: 0
         val passedLastIndex = index == springs.size
         val isLastInGroup = groupElementIndex == currentGroupSize - 1
@@ -46,31 +38,32 @@ data class Record(val springs: List<Spring>, val groups: List<Int>) {
         val expectedDamagedSpringsRemaining = groups.drop(groupIndex).sum() - groupElementIndex
 
 
-        println(
-            gray(buildString {
-                append(white(if (previousDamaged) damagedIndicator else operationalIndicator))
-                append(" Springs: ")
-                append(white(springs.drop(index).toString().padStart(springs.toString().length)))
-                append(", Groups: ")
-                append(
-                    white(
-                        groups.drop(groupIndex).replaceFirst { it - groupElementIndex }.toString()
-                            .padStart(groups.toString().length)
-                    )
+        val representation = gray(buildString {
+            append("Springs: ")
+            append(white("["))
+            append(brightWhite(output.joinToString(", ")))
+            if (output.isNotEmpty() && springs.drop(index).isNotEmpty()) append(", ")
+            append(white(springs.drop(index).joinToString(", ")))
+            append(white("]"))
+            append(", Groups: ")
+            append(
+                white(
+                    groups.drop(groupIndex).replaceFirst { it - groupElementIndex }.toString()
+                        .padStart(groups.toString().length)
                 )
-            }).prependIndent(indentation)
-        )
+            )
+        }).prependIndent(indentation)
 
         if (passedLastIndex) {
             return when {
                 // If there are no more groups left, we have found a valid arrangement.
                 expectedDamagedSpringsRemaining == 0 -> {
-                    println(TextColors.green("Valid arrangement").prependIndent(indentation))
+                    println(representation, green("Valid arrangement"))
                     1L
                 }
 
                 else -> {
-                    println(TextColors.red("Damaged springs remaining").prependIndent(indentation))
+                    println(representation, red("Damaged springs remaining"))
                     0L
                 }
             }
@@ -78,31 +71,46 @@ data class Record(val springs: List<Spring>, val groups: List<Int>) {
 
         fun nextGroup(nextDepth: Int = depth) = when {
             groupIndex == groups.size -> {
-                println(TextColors.red("Not enough groups").prependIndent(indentation))
+                println(representation, red("Not enough groups"))
                 0L
             }
 
-            else -> countArrangements(acc, index + 1, groupIndex + 1, 0, true, nextDepth)
+            else -> countArrangements(acc, index + 1, groupIndex + 1, 0, true, output.plus(DAMAGED), nextDepth)
         }
 
         fun nextDamaged(nextDepth: Int = depth): Long = when {
             isFirstInGroup && previousDamaged -> {
-                println(TextColors.red("Damaged after damaged group").prependIndent(indentation))
+                println(representation, red("Damaged after damaged group"))
+                0L
+            }
+
+            groupIndex == groups.size -> {
+                println(representation, red("Not enough groups"))
                 0L
             }
 
             isLastInGroup -> nextGroup()
-            else -> countArrangements(acc, index + 1, groupIndex, groupElementIndex + 1, true, nextDepth)
+            else -> countArrangements(
+                acc,
+                index + 1,
+                groupIndex,
+                groupElementIndex + 1,
+                true,
+                output.plus(DAMAGED),
+                nextDepth
+            )
         }
 
         fun next(nextDepth: Int = depth) = when {
             !passedLastInGroup && groupElementIndex > 0 -> {
-                println(TextColors.red("Still in a group").prependIndent(indentation))
+                println(representation, red("Still in a group"))
                 0L
             }
 
-            else -> countArrangements(acc, index + 1, groupIndex, 0, false, nextDepth)
+            else -> countArrangements(acc, index + 1, groupIndex, 0, false, output.plus(OPERATIONAL), nextDepth)
         }
+
+        println(representation)
 
         return acc + when (springs[index]) {
             OPERATIONAL -> next()
