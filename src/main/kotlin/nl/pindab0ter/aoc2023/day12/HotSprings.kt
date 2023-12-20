@@ -2,6 +2,7 @@ package nl.pindab0ter.aoc2023.day12
 
 import nl.pindab0ter.aoc2023.day12.Spring.*
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.mapAsync
 import nl.pindab0ter.common.println
 import nl.pindab0ter.common.timing
 
@@ -13,12 +14,24 @@ fun main() {
         val sumOfArrangements = records.sumOf(Record::countArrangements)
         println("Sum of arrangements: $sumOfArrangements")
     }
+
+    timing {
+        val sumOfArrangements = records.map(Record::unfold).mapAsync(Record::countArrangements).sum()
+        println("\nSum of arrangements (unfolded): $sumOfArrangements")
+    }
 }
 
 typealias Group = Int
 typealias Groups = List<Group>
 
 data class Record(val springs: List<Spring>, val groups: Groups) {
+    private val cache: HashMap<Record, Long> = hashMapOf()
+
+    fun unfold() = copy(
+        springs = (1..5).flatMap { springs + UNKNOWN }.dropLast(1),
+        groups = (1..5).flatMap { groups }
+    )
+
     fun countArrangements(
         springs: List<Spring> = this.springs,
         groups: Groups = this.groups,
@@ -38,10 +51,12 @@ data class Record(val springs: List<Spring>, val groups: Groups) {
             ) countArrangements(springs.drop(group + 1), groups.drop(1)) else 0
         }
 
-        return when (springs.first()) {
-            OPERATIONAL -> operationalSpring()
-            DAMAGED -> damagedSpring()
-            UNKNOWN -> operationalSpring() + damagedSpring()
+        return cache.getOrPut(Record(springs, groups)) {
+            when (springs.first()) {
+                OPERATIONAL -> operationalSpring()
+                DAMAGED -> damagedSpring()
+                UNKNOWN -> operationalSpring() + damagedSpring()
+            }
         }
     }
 
