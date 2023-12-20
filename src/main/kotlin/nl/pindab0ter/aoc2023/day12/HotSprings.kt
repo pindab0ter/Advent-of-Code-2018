@@ -1,10 +1,8 @@
 package nl.pindab0ter.aoc2023.day12
 
-import com.github.ajalt.mordant.rendering.TextColors.*
 import nl.pindab0ter.aoc2023.day12.Spring.*
 import nl.pindab0ter.common.getInput
 import nl.pindab0ter.common.println
-import nl.pindab0ter.common.replaceFirst
 import nl.pindab0ter.common.timing
 
 fun main() {
@@ -12,111 +10,45 @@ fun main() {
     val records = parse(input)
 
     timing {
-        println(records.map(Record::countArrangements).sum())
+        val sumOfArrangements = records.sumOf(Record::countArrangements)
+        println("Sum of arrangements: $sumOfArrangements")
     }
 }
 
-data class Record(val springs: List<Spring>, val groups: List<Int>) {
-//    private val cache = mutableMapOf<???>()
+typealias Group = Int
+typealias Groups = List<Group>
 
-    // TODO: Tailrec?
+data class Record(val springs: List<Spring>, val groups: Groups) {
     fun countArrangements(
+        springs: List<Spring> = this.springs,
+        groups: Groups = this.groups,
         acc: Long = 0L,
-        index: Int = 0,
-        groupIndex: Int = 0,
-        groupElementIndex: Int = 0,
-        previousDamaged: Boolean = false,
-        output: List<Spring> = emptyList(),
-        depth: Int = 0,
     ): Long {
-        val indentation = "".repeat(depth)
-        val currentGroupSize = groups.getOrNull(groupIndex) ?: 0
-        val passedLastIndex = index == springs.size
-        val isLastInGroup = groupElementIndex == currentGroupSize - 1
-        val passedLastInGroup = groupElementIndex >= currentGroupSize
-        val isFirstInGroup = groupElementIndex == 0
-        val expectedDamagedSpringsRemaining = groups.drop(groupIndex).sum() - groupElementIndex
+        if (groups.isEmpty()) return if (DAMAGED in springs) 0 else acc + 1
+        if (springs.isEmpty()) return acc
 
-
-        val representation = gray(buildString {
-            append("Springs: ")
-            append(white("["))
-            append(brightWhite(output.joinToString(", ")))
-            if (output.isNotEmpty() && springs.drop(index).isNotEmpty()) append(", ")
-            append(white(springs.drop(index).joinToString(", ")))
-            append(white("]"))
-            append(", Groups: ")
-            append(
-                white(
-                    groups.drop(groupIndex).replaceFirst { it - groupElementIndex }.toString()
-                        .padStart(groups.toString().length)
-                )
-            )
-        }).prependIndent(indentation)
-
-        if (passedLastIndex) {
-            return when {
-                // If there are no more groups left, we have found a valid arrangement.
-                expectedDamagedSpringsRemaining == 0 -> {
-                    println(representation, green("Valid arrangement"))
-                    1L
-                }
-
-                else -> {
-                    println(representation, red("Damaged springs remaining"))
-                    0L
-                }
-            }
+        fun operationalSpring() = countArrangements(springs.drop(1), groups)
+        fun damagedSpring(): Long {
+            val group = groups.first()
+            return if (
+                group <= springs.size &&               // Enough springs remain to satisfy group
+                OPERATIONAL !in springs.take(group) && // The group doesn't contain operational springs
+                (springs.size == group ||              // These are the last remaining springs, or
+                        springs[group] != DAMAGED)     // The spring after this group is not damaged
+            ) countArrangements(springs.drop(group + 1), groups.drop(1)) else 0
         }
 
-        fun nextGroup(nextDepth: Int = depth) = when {
-            groupIndex == groups.size -> {
-                println(representation, red("Not enough groups"))
-                0L
-            }
-
-            else -> countArrangements(acc, index + 1, groupIndex + 1, 0, true, output.plus(DAMAGED), nextDepth)
+        return when (springs.first()) {
+            OPERATIONAL -> operationalSpring()
+            DAMAGED -> damagedSpring()
+            UNKNOWN -> operationalSpring() + damagedSpring()
         }
+    }
 
-        fun nextDamaged(nextDepth: Int = depth): Long = when {
-            isFirstInGroup && previousDamaged -> {
-                println(representation, red("Damaged after damaged group"))
-                0L
-            }
-
-            groupIndex == groups.size -> {
-                println(representation, red("Not enough groups"))
-                0L
-            }
-
-            isLastInGroup -> nextGroup()
-            else -> countArrangements(
-                acc,
-                index + 1,
-                groupIndex,
-                groupElementIndex + 1,
-                true,
-                output.plus(DAMAGED),
-                nextDepth
-            )
-        }
-
-        fun next(nextDepth: Int = depth) = when {
-            !passedLastInGroup && groupElementIndex > 0 -> {
-                println(representation, red("Still in a group"))
-                0L
-            }
-
-            else -> countArrangements(acc, index + 1, groupIndex, 0, false, output.plus(OPERATIONAL), nextDepth)
-        }
-
-        println(representation)
-
-        return acc + when (springs[index]) {
-            OPERATIONAL -> next()
-            DAMAGED -> nextDamaged()
-            UNKNOWN -> nextDamaged(depth + 1) + next()
-        }
+    override fun toString(): String = buildString {
+        append(springs.joinToString(""))
+        append(" ")
+        append(groups.joinToString(""))
     }
 }
 

@@ -13,7 +13,8 @@ class HotSpringsKtTest {
     @ParameterizedTest(name = "{1} → {0}")
     @MethodSource("arrangementCountProvider")
     fun `Count possible arrangements`(expected: Long, input: String) {
-        assertEquals(expected, parse(input)[0].countArrangements())
+        val record = parse(input)[0]
+        assertEquals(expected, countArrangements(record.springs, record.groups))
     }
 
     companion object {
