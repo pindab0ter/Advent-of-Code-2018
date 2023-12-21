@@ -67,16 +67,3 @@ data class Record(val springs: List<Spring>, val groups: Groups) {
     }
 }
 
-enum class Spring(val representation: Char) {
-    OPERATIONAL('.'),
-    DAMAGED('#'),
-    UNKNOWN('?');
-
-    override fun toString(): String {
-        return this.representation.toString()
-    }
-
-    companion object {
-        fun from(character: Char) = entries.first { it.representation == character }
-    }
-}
