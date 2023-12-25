@@ -6,7 +6,7 @@ fun parse(input: String): List<Grid<Surface>> = input
     .split("\n\n")
     .map { patternString ->
         patternString.lines().map { line ->
-            line.mapNotNull(Surface.Companion::from)
+            line.mapNotNull(Surface::from)
         }
     }
     .map(::Grid)
