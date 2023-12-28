@@ -12,12 +12,13 @@
     [(+ x1 x2) (+ y1 y2)]))
 
 (defn follow [directions]
-  (reduce (fn [positions direction]
-            (let [last-position (last positions)
-                  new-position  (move last-position direction)]
-              (conj positions new-position)))
-          [[0 0]]
-          directions))
+  (let [positions     (transient #{[0 0]})
+        last-position (atom [0 0])]
+    (doseq [direction directions]
+      (let [new-position (move @last-position direction)]
+        (conj! positions new-position)
+        (reset! last-position new-position)))
+    (persistent! positions)))
 
 (defn -main []
   (let [directions (get-input 2015 3)
