@@ -2,27 +2,26 @@
   (:require [clojure.string :as str])
   (:import (nl.pindab0ter.common AdventOfCodeKt)))
 
-(defn line-to-dimensions
-  "Parse a line `2x3x4` into a list of Integers `(2 3 4)`"
-  [line]
-  (map #(Integer/parseInt %) (str/split line #"x")))
-
 (defn parse
   "Parse a multiline string into a list of dimensions"
   [input]
-  (map line-to-dimensions (str/split-lines input)))
+  (for [line (str/split-lines input)]
+    (map #(Integer/parseInt %) (str/split line #"x"))))
 
 (defn wrapping-paper
-  "Calculate the amount of wrapping paper required for a box with the given dimensions `l w h`"
+  "Calculate the amount of wrapping paper required for a box with the given dimensions"
   [[l w h]]
-  (let [sides (list (* l w) (* l h) (* w h))]
-    (+
-      (apply min sides)
-      (reduce + (map #(* 2 %) sides)))))
+  (let [sides        (list (* l w) (* l h) (* w h))
+        min-side     (apply min sides)
+        surface-area (reduce + (map #(* 2 %) sides))]
+    (+ min-side surface-area)))
 
 (defn -main []
-  (let [input  (AdventOfCodeKt/getInput 2015 2)
-        parsed (parse input)]
-    (print
+  (let [input                   (AdventOfCodeKt/getInput 2015 2)
+        required-wrapping-paper (->> input
+                                     parse
+                                     (map wrapping-paper)
+                                     (reduce +))]
+    (println
       "Required wrapping paper for all boxes:"
-      (reduce + (map wrapping-paper parsed)))))
+      required-wrapping-paper)))
