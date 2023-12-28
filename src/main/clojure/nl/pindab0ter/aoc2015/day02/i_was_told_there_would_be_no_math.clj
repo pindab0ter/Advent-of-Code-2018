@@ -1,5 +1,6 @@
 (ns nl.pindab0ter.aoc2015.day02.i-was-told-there-would-be-no-math
-  (:require [clojure.string :as str])
+  (:require [clojure.string :as str]
+            [nl.pindab0ter.common.math :refer [sum]])
   (:import (nl.pindab0ter.common AdventOfCodeKt)))
 
 (defn parse
@@ -13,7 +14,7 @@
   [[l w h]]
   (let [sides        (list (* l w) (* l h) (* w h))
         min-side     (apply min sides)
-        surface-area (reduce + (map #(* 2 %) sides))]
+        surface-area (sum (map #(* 2 %) sides))]
     (+ min-side surface-area)))
 
 (defn -main []
@@ -21,7 +22,6 @@
         required-wrapping-paper (->> input
                                      parse
                                      (map wrapping-paper)
-                                     (reduce +))]
-    (println
-      "Required wrapping paper for all boxes:"
-      required-wrapping-paper)))
+                                     sum)]
+    (println "Required wrapping paper for all boxes:"
+             required-wrapping-paper)))

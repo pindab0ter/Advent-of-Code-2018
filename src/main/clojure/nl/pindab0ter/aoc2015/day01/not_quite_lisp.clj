@@ -1,17 +1,16 @@
 (ns nl.pindab0ter.aoc2015.day01.not-quite-lisp
+  (:require [nl.pindab0ter.common.math :refer [sum]])
   (:import (nl.pindab0ter.common AdventOfCodeKt)))
 
 (defn interpret
   "Interprets an instruction and calculates its impact on the floor."
   [instruction]
-  (case instruction
-    \( 1
-    \) -1))
+  (if (= instruction \() 1 -1))
 
 (defn final-floor
   "Calculates the final floor based on a sequence of instructions"
   [input]
-  (reduce + (map interpret input)))
+  (sum (map interpret input)))
 
 (defn basement-instruction
   "Finds the position of the first instruction that leads to the basement"
@@ -25,7 +24,7 @@
 
 (defn -main []
   (let [input (AdventOfCodeKt/getInput 2015 1)]
-    (print
+    (println
       "The final floor is:"
       (final-floor input)
       "\nThe location of the first instruction leading to the basement is:"
