@@ -4,7 +4,7 @@ import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2023 Day 11: Cosmic Expansion")
+@DisplayName("2023 Day 11 - Cosmic Expansion")
 class CosmicExpansionKtTest {
 
     @Test

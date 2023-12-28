@@ -4,7 +4,7 @@ import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day01 - Chronal Calibration")
+@DisplayName("2018 Day 01 - Chronal Calibration")
 internal class ChronalCalibrationKtTest {
     @Test
     fun findFinalFrequency() = assertAllEquals(

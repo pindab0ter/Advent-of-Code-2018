@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day07 - Sum Of Its Parts")
+@DisplayName("2018 Day 07 - Sum Of Its Parts")
 class SumOfItsPartsKtTest {
 
     private val input = listOf(

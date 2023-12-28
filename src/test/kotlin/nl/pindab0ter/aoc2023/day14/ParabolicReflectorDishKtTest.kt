@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@DisplayName("2023 Day 14: Parabolic Reflector Dish")
+@DisplayName("2023 Day 14 - Parabolic Reflector Dish")
 class ParabolicReflectorDishKtTest {
     @Test
     fun `Calculate the load on the north support beams`() {

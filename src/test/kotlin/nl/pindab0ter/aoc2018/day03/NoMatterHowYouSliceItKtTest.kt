@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day03 - No Matter How You Slice It")
+@DisplayName("2018 Day 03 - No Matter How You Slice It")
 class NoMatterHowYouSliceItKtTest {
 
     private val input = listOf(

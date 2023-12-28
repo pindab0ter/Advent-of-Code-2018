@@ -4,7 +4,7 @@ import nl.pindab0ter.common.assertAllEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day09 - Marble Mania")
+@DisplayName("2018 Day 09 - Marble Mania")
 class MarbleManiaKtTest {
 
     @Test

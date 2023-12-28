@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day05 - Alchemical Reduction")
+@DisplayName("2018 Day 05 - Alchemical Reduction")
 class AlchemicalReductionKtTest {
 
     private val input = "dabAcCaCBAcCcaDA"

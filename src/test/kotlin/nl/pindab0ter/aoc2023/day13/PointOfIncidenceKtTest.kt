@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.Arguments.*
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-@DisplayName("2023 Day 13: Point of Incidence")
+@DisplayName("2023 Day 13 - Point of Incidence")
 class PointOfIncidenceKtTest {
     @ParameterizedTest
     @MethodSource("verticalReflectionLineProvider")

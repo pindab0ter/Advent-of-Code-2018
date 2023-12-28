@@ -1,8 +1,10 @@
 package nl.pindab0ter.aoc2015.day02
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("2015 Day 02 - I Was Told There Would Be No Math")
 class IWasToldThereWouldBeNoMathKtTest {
     @Test
     fun `Calculate the required amount of wrapping paper`() {

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day06 - Chronal Coordinates")
+@DisplayName("2018 Day 06 - Chronal Coordinates")
 class ChronalCoordinatesKtTest {
 
     private val input = listOf(

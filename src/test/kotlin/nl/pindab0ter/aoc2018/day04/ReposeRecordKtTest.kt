@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-@DisplayName("2018 Day04 - Repose Record")
+@DisplayName("2018 Day 04 - Repose Record")
 class ReposeRecordKtTest {
 
     val input = listOf(

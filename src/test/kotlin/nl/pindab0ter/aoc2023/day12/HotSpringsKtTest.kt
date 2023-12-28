@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.test.assertEquals
 
-@DisplayName("2023 Day 12: Hot Springs")
+@DisplayName("2023 Day 12 - Hot Springs")
 class HotSpringsKtTest {
     @ParameterizedTest(name = "{1} → {0}")
     @MethodSource("arrangementCountProvider")

@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.test.assertEquals
 
-@DisplayName("2015 Day 01: Not Quite Lisp")
+@DisplayName("2015 Day 01 - Not Quite Lisp")
 class NotQuiteLispKtTest {
 
     @ParameterizedTest(name = "{1} -> {0}")
