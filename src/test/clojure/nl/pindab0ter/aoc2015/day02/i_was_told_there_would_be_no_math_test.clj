@@ -10,3 +10,9 @@
     (= actual (wrapping-paper (first (parse input))))
     58 "2x3x4"
     43 "1x1x10"))
+
+(deftest ribbon-test
+  (are [actual input]
+    (= actual (ribbon (first (parse input))))
+    34 "2x3x4"
+    14 "1x1x10"))

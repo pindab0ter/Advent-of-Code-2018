@@ -31,6 +31,8 @@ dependencies {
     // Clojure
     implementation("org.clojure", "clojure", "1.11.1")
     implementation("org.clojure", "tools.namespace", "1.3.0")
+    implementation("clj-http", "clj-http", "3.12.3")
+
     testRuntimeOnly("org.ajoberstar", "jovial", "0.3.0")
 }
 

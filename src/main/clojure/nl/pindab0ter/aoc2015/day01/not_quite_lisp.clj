@@ -1,6 +1,6 @@
 (ns nl.pindab0ter.aoc2015.day01.not-quite-lisp
-  (:require [nl.pindab0ter.common.math :refer [sum]])
-  (:import (nl.pindab0ter.common AdventOfCodeKt)))
+  (:require [nl.pindab0ter.common.math :refer [sum]]
+            [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
 (defn interpret
   "Interprets an instruction and calculates its impact on the floor."
@@ -23,9 +23,9 @@
                            (drop 1 instructions)))))
 
 (defn -main []
-  (let [input (AdventOfCodeKt/getInput 2015 1)]
+  (let [input (get-input 2015 1)]
     (println
       "The final floor is:"
       (final-floor input)
-      "\nThe location of the first instruction leading to the basement is:"
+      "\n\nThe location of the first instruction leading to the basement is:"
       (basement-instruction input))))
