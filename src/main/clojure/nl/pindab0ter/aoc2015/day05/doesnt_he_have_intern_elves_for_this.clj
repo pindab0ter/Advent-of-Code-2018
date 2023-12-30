@@ -2,25 +2,13 @@
   (:require [clojure.string :as str]
             [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
-(defn three-vowels? [col]
-  (let [vowels #{\a \e \i \o \u}]
-    (>= (count (filter vowels col)) 3)))
-
-(defn contains-double? [col]
-  (cond
-    (< (count col) 2) false
-    (= (first col) (second col)) true
-    :else (recur (rest col))))
-
-(defn contains-forbidden? [s]
-  (let [forbidden #{"ab" "cd" "pq" "xy"}]
-    (some #(str/includes? s %) forbidden)))
-
-(defn nice? [string]
-  (and
-    (three-vowels? string)
-    (contains-double? string)
-    (not (contains-forbidden? string))))
+(defn nice? [s]
+  (let [vowels          #{\a \e \i \o \u}
+        forbidden       #{"ab" "cd" "pq" "xy"}
+        three-vowels?   (>= (count (filter vowels s)) 3)
+        double-letters? (boolean (some (fn [[a b]] (= a b)) (partition 2 s)))
+        no-forbidden?   (not (some #(str/includes? s %) forbidden))]
+    (and three-vowels? double-letters? no-forbidden?)))
 
 (defn -main []
   (let [lines (str/split-lines (get-input 2015 5))]

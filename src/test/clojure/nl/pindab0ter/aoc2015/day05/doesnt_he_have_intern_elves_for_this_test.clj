@@ -4,7 +4,7 @@
 
 (deftest nice?-test
   (are [input expected]
-    (= expected (nice? input))
+    (= (nice? input) expected)
     "ugknbfddgicrmopn" true
     "aaa" true
     "jchzalrnumimnmhp" false
