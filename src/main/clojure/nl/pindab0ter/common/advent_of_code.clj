@@ -1,6 +1,7 @@
 (ns nl.pindab0ter.common.advent-of-code
   (:require [clj-http.client :as http]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 (defn get-input
   "Returns the input for the given year and day."
@@ -15,9 +16,10 @@
                                       "Cookie"     (str "session=" session-cookie)}
                             :as      :byte-array}
             response       (http/get (str "https://adventofcode.com/" year "/day/" day "/input") headers)
-            status         (:status response)]
+            status         (:status response)
+            body           (str/trim-newline (String. ^bytes (:body response)))]
         (cond
           (= 400 status) (throw (Exception. "Invalid session cookie"))
           (not= 200 status) (throw (Exception. (str "Unexpected status code: " (:status response))))
-          :else (spit file (String. (:body response))))))
+          :else (spit file body))))
     (slurp file)))
