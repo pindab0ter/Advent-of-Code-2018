@@ -6,13 +6,13 @@
   (is '((2 3 4) (1 1 10) (parse "2x3x4\n1x1x10"))))
 
 (deftest wrapping-paper-test
-  (are [actual input]
-    (= actual (wrapping-paper (first (parse input))))
+  (are [expected input]
+    (= expected (wrapping-paper (first (parse input))))
     58 "2x3x4"
     43 "1x1x10"))
 
 (deftest ribbon-test
-  (are [actual input]
-    (= actual (ribbon (first (parse input))))
+  (are [expected input]
+    (= expected (ribbon (first (parse input))))
     34 "2x3x4"
     14 "1x1x10"))

@@ -3,10 +3,10 @@
   (:require [nl.pindab0ter.aoc2015.day05.doesnt-he-have-intern-elves-for-this :refer [nice?]]))
 
 (deftest nice?-test
-  (are [input expected]
-    (= (nice? input) expected)
-    "ugknbfddgicrmopn" true
-    "aaa" true
-    "jchzalrnumimnmhp" false
-    "haegwjzuvuyypxyu" false
-    "dvszwmarrgswjxmb" false))
+  (are [expected input]
+    (= expected (nice? input))
+    true "ugknbfddgicrmopn"
+    true "aaa"
+    false "jchzalrnumimnmhp"
+    false "haegwjzuvuyypxyu"
+    false "dvszwmarrgswjxmb"))

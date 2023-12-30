@@ -3,8 +3,8 @@
   (:require [nl.pindab0ter.aoc2015.day01.not-quite-lisp :refer :all]))
 
 (deftest final-floor-test
-  (are [actual input]
-    (= actual (final-floor input))
+  (are [expected input]
+    (= expected (final-floor input))
     0 "(())"
     0 "()()"
     3 "((("
@@ -16,7 +16,7 @@
     -3 ")())())"))
 
 (deftest basement-instruction-test
-  (are [actual input]
-    (= actual (basement-instruction input))
+  (are [expected input]
+    (= expected (basement-instruction input))
     1 ")"
     5 "()())"))
