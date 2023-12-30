@@ -4,6 +4,6 @@
 
 (deftest mine-test
   (are [input expected]
-    (= expected (mine input))
+    (= expected (mine input 5))
     "abcdef" 609043
     "pqrstuv" 1048970))
