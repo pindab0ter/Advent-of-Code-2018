@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]
             [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
-;; Challenging myself to do this without regex
+;; Without regex
 
 (defn old-nice? [s]
   (let [vowels          #{\a \e \i \o \u}
@@ -34,6 +34,19 @@
 
 (defn new-nice? [s]
   (and (contains-two-pairs? s) (contains-split-pair? s)))
+
+;; With regex
+
+(defn old-nice?' [s]
+  (and
+    (>= (count (re-seq #"[aeiou]" s)) 3)
+    (some? (re-find #"([a-z])\1" s))
+    (not (some? (re-find #"(ab|cd|pq|xy)" s)))))
+
+(defn new-nice?' [s]
+  (and
+    (some? (re-find #"([a-z]{2}).*\1" s))
+    (some? (re-find #"([a-z]).\1" s))))
 
 (defn -main []
   (let [lines (str/split-lines (get-input 2015 5))]
