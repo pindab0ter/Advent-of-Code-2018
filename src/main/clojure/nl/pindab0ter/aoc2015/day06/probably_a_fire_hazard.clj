@@ -1,5 +1,6 @@
 (ns nl.pindab0ter.aoc2015.day06.probably-a-fire-hazard
-  (:require [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
+  (:require [nl.pindab0ter.common.math :refer [sum]]
+            [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
 (def width 1000)
 
@@ -27,15 +28,27 @@
   (reduce
     (fn [acc [instruction square]]
       (case instruction
-        "turn on" (update-lights acc square (constantly true))
-        "turn off" (update-lights acc square (constantly false))
-        "toggle" (update-lights acc square not)))
+        "turn on" (update-lights acc square (constantly 1))
+        "turn off" (update-lights acc square (constantly 0))
+        "toggle" (update-lights acc square #(if (= 0 %) 1 0))))
+    grid
+    instructions))
+
+(defn setup' [grid instructions]
+  (reduce
+    (fn [acc [instruction square]]
+      (case instruction
+        "turn on" (update-lights acc square inc)
+        "turn off" (update-lights acc square #(max 0 (dec %)))
+        "toggle" (update-lights acc square #(+ 2 %))))
     grid
     instructions))
 
 (defn -main []
-  (let [input         (get-input 2015 6)
-        grid          (vec (repeat (* width width) false))
-        instructions  (parse input)
-        finished-grid (setup grid instructions)]
-    (println (count (filter identity finished-grid)))))
+  (let [input        (get-input 2015 6)
+        grid         (vec (repeat (* width width) 0))
+        instructions (parse input)
+        first-grid   (setup grid instructions)
+        second-grid  (setup' grid instructions)]
+    (println "Amount of lights that are on after following the instructions:" (sum first-grid))
+    (println "Amount of lights that are on after following the instructions as read in Elvish:" (sum second-grid))))
