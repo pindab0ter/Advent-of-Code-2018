@@ -1,7 +1,10 @@
 package nl.pindab0ter.aoc2015.day07
 
-import nl.pindab0ter.common.*
-import kotlin.io.println
+import arrow.core.Either
+import arrow.core.identity
+import arrow.core.left
+import arrow.core.right
+import nl.pindab0ter.common.getInput
 
 
 data class Instruction(
@@ -16,9 +19,9 @@ fun parse(input: String): Map<String, Instruction> = input.lines()
     .mapNotNull { regex.matchEntire(it)?.destructured }
     .associate { (a, operator, b, target) ->
         target to Instruction(
-            a = a.toUShortOrNull()?.asLeft() ?: if (a.isNotEmpty()) a.asRight() else null,
+            a = a.toUShortOrNull()?.left() ?: if (a.isNotEmpty()) a.right() else null,
             operator = Operator.from(operator),
-            b = b.toUShortOrNull()?.asLeft() ?: if (b.isNotEmpty()) b.asRight() else null,
+            b = b.toUShortOrNull()?.left() ?: if (b.isNotEmpty()) b.right() else null,
         )
     }
 
