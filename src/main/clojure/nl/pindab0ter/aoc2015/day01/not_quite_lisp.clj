@@ -10,7 +10,7 @@
 (defn final-floor
   "Calculates the final floor based on a sequence of instructions"
   [input]
-  (sum (map interpret input)))
+  (->> input (map interpret) sum))
 
 (defn basement-instruction
   "Finds the position of the first instruction that leads to the basement"
@@ -18,9 +18,9 @@
   ([acc i instructions]
    (case acc
      -1 i
-     (basement-instruction (+ acc (interpret (first instructions)))
-                           (inc i)
-                           (drop 1 instructions)))))
+     (recur (->> instructions first interpret (+ acc))
+            (inc i)
+            (drop 1 instructions)))))
 
 (defn -main []
   (let [input (get-input 2015 1)]
