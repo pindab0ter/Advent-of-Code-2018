@@ -3,7 +3,5 @@
   (:require [nl.pindab0ter.aoc2015.day04.the-ideal-stocking-stuffer :refer [mine]]))
 
 (deftest mine-test
-  (are [expected input]
-    (= expected (mine input 5))
-    609043 "abcdef"
-    1048970 "pqrstuv"))
+  (is (= 609043 (mine "abcdef" "00000" 600000)))
+  (is (= 1048970 (mine "pqrstuv" "00000" 1000000))))

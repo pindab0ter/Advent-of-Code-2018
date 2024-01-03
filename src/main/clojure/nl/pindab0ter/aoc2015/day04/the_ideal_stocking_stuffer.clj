@@ -14,19 +14,19 @@
 
 (defn mine
   "Find the lowest number that produces a hash with `n` leading zeroes"
-  ([key n] (mine key n (str/join (repeat n \0)) 0))
-  ([key n zeroes i]
+  ([key prefix] (mine key prefix 0))
+  ([key prefix i]
    (let [hash (md5 (str key i))]
      (cond
-       (str/starts-with? hash zeroes) i
-       :else (recur key n zeroes (inc i))))))
+       (str/starts-with? hash prefix) i
+       :else (recur key prefix (inc i))))))
 
 (defn -main []
   (let [input (get-input 2015 4)]
     (println
       "The lowest number that produces a hash with 5 leading zeroes: "
-      (time (mine input 5))
+      (time (mine input "00000"))
       \newline)
     (println
       "The lowest number that produces a hash with 6 leading zeroes: "
-      (time (mine input 6)))))
+      (time (mine input "000000")))))
