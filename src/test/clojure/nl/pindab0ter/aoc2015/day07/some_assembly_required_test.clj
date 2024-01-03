@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [nl.pindab0ter.aoc2015.day07.some-assembly-required :refer [parse get-signal]]))
 
-(deftest signal-test
+(deftest get-signal-test
   (let [input   "123 -> x\n456 -> y\nx AND y -> d\nx OR y -> e\nx LSHIFT 2 -> f\ny RSHIFT 2 -> g\nNOT x -> h\nNOT y -> i"
         circuit (parse input)]
     (are [expected wire]

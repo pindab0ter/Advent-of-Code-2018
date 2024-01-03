@@ -40,7 +40,14 @@ fun Map<String, Instruction>.getSignal(wire: String): UShort = memo.getOrPut(wir
 }
 
 fun main() {
-    val input = getInput(2015, 7)
-    val circuit = parse(input)
-    println("Wire A is provided with signal ${circuit.getSignal("a")}")
+    val circuit = parse(getInput(2015, 7))
+
+    val signal = circuit.getSignal("a")
+    println("Wire a is provided with signal: $signal")
+
+    val updatedCircuit = circuit.toMutableMap().apply {
+        this["b"] = Instruction(signal.left(), null, null)
+    }
+    memo.clear()
+    println("After updating wire b, wire a is provided with signal: ${updatedCircuit.getSignal("a")}")
 }
