@@ -1,7 +1,7 @@
 (ns nl.pindab0ter.aoc2015.day02.i-was-told-there-would-be-no-math
   (:require [clojure.string :as str]
             [nl.pindab0ter.common.advent-of-code :refer [get-input]]
-            [nl.pindab0ter.common.math :refer [sum]]))
+            [nl.pindab0ter.common.collections :refer [sum]]))
 
 (defn parse
   "Parse a multiline string into a list of dimensions"

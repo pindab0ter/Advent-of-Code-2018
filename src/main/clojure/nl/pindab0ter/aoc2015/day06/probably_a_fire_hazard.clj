@@ -1,5 +1,5 @@
 (ns nl.pindab0ter.aoc2015.day06.probably-a-fire-hazard
-  (:require [nl.pindab0ter.common.math :refer [sum]]
+  (:require [nl.pindab0ter.common.collections :refer [sum]]
             [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
 (def width 1000)

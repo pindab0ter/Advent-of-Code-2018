@@ -1,5 +1,5 @@
 (ns nl.pindab0ter.aoc2015.day01.not-quite-lisp
-  (:require [nl.pindab0ter.common.math :refer [sum]]
+  (:require [nl.pindab0ter.common.collections :refer [sum]]
             [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
 
 (defn interpret
