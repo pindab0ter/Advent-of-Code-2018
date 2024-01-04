@@ -12,8 +12,14 @@ class MatchsticksKtTest {
 
     @ParameterizedTest(name = "{1} -> {0}")
     @MethodSource("parseProvider")
-    fun `Test parse function`(expected: Int, input: String) {
-        assertEquals(expected, parse(input).length)
+    fun `Test unescape function`(expected: Int, input: String) {
+        assertEquals(expected, unescape(input).length)
+    }
+
+    @ParameterizedTest(name = "{1} -> {0}")
+    @MethodSource("escapeProvider")
+    fun `Test escape function`(expected: Int, input: String) {
+        assertEquals(expected, escape(input).length)
     }
 
     companion object {
@@ -27,6 +33,14 @@ class MatchsticksKtTest {
             Arguments.of(4, """"\\x66""""),    // \x66
             Arguments.of(2, """"\\\x66""""),   // \f
             Arguments.of(5, """"\\\\x66""""),  // \\x66
+        )
+
+        @JvmStatic
+        fun escapeProvider(): Stream<Arguments> = Stream.of(
+            Arguments.of(6, """"""""),         // ""
+            Arguments.of(9, """"abc""""),      // abc
+            Arguments.of(16, """"aaa\"aaa""""), // aaa"aaa
+            Arguments.of(11, """"\x27""""),     // '
         )
     }
 }

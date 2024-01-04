@@ -1,10 +1,10 @@
 (ns nl.pindab0ter.aoc2015.day08.matchsticks-test
   (:require [clojure.test :refer :all])
-  (:require [nl.pindab0ter.aoc2015.day08.matchsticks :refer [parse]]))
+  (:require [nl.pindab0ter.aoc2015.day08.matchsticks :refer [escape unescape]]))
 
-(deftest parse-test
+(deftest unescape-test
   (are [expected input]
-    (= (count (parse input)) expected)
+    (= (count (unescape input)) expected)
     0 "\"\""
     3 "\"abc\""
     7 "\"aaa\\\"aaa\""
@@ -15,3 +15,11 @@
     4 "\"\\\\x66\""
     2 "\"\\\\\\x66\""
     5 "\"\\\\\\\\x66\""))
+
+(deftest escape-test
+  (are [expected input]
+    (= (count (escape input)) expected)
+    6 "\"\""
+    9 "\"abc\""
+    16 "\"aaa\\\"aaa\""
+    11 "\"\\x27\""))
