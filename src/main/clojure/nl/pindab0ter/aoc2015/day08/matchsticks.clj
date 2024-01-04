@@ -16,8 +16,8 @@
 
 (defn escape [^String s]
   (-> s
-      (str/replace "\\" "\\\\")
-      (str/replace "\"" "\\\"")
+      (str/escape {\\ "\\\\"
+                   \" "\\\""})
       (#(str \" % \"))))
 
 (defn -main []
