@@ -9,7 +9,7 @@
         forbidden       #{"ab" "cd" "pq" "xy"}
         three-vowels?   (>= (count (filter vowels s)) 3)
         double-letters? (boolean (some (fn [[a b]] (= a b)) (partition 2 s)))
-        no-forbidden?   (not (some #(str/includes? s %) forbidden))]
+        no-forbidden?   (not-any? #(str/includes? s %) forbidden)]
     (and three-vowels? double-letters? no-forbidden?)))
 
 (defn first-pair-non-unique?

@@ -30,7 +30,7 @@
       (case instruction
         "turn on" (update-lights acc square (constantly 1))
         "turn off" (update-lights acc square (constantly 0))
-        "toggle" (update-lights acc square #(if (= 0 %) 1 0))))
+        "toggle" (update-lights acc square #(if (zero? %) 1 0))))
     grid
     instructions))
 

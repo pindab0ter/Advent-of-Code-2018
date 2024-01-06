@@ -20,7 +20,7 @@
      -1 i
      (recur (->> instructions first interpret (+ acc))
             (inc i)
-            (drop 1 instructions)))))
+            (rest instructions)))))
 
 (defn -main []
   (let [input (get-input 2015 1)]
