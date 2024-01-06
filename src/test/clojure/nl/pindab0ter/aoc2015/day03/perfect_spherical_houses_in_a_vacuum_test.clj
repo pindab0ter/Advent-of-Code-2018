@@ -1,6 +1,8 @@
 (ns nl.pindab0ter.aoc2015.day03.perfect-spherical-houses-in-a-vacuum-test
-  (:require [clojure.test :refer :all])
-  (:require [nl.pindab0ter.aoc2015.day03.perfect-spherical-houses-in-a-vacuum :refer [follow]]))
+  (:require
+    [clojure.test :refer :all]
+    [nl.pindab0ter.aoc2015.day03.perfect-spherical-houses-in-a-vacuum :refer [follow]]))
+
 
 (deftest follow-test
   (are [expected input]

@@ -1,13 +1,16 @@
 (ns nl.pindab0ter.aoc2015.day02.i-was-told-there-would-be-no-math
-  (:require [clojure.string :as str]
-            [nl.pindab0ter.common.advent-of-code :refer [get-input]]
-            [nl.pindab0ter.common.collections :refer [sum]]))
+  (:require
+    [clojure.string :as str]
+    [nl.pindab0ter.common.advent-of-code :refer [get-input]]
+    [nl.pindab0ter.common.collections :refer [sum]]))
+
 
 (defn parse
   "Parse a multiline string into a list of dimensions"
   [input]
   (for [line (str/split-lines input)]
     (map #(Integer/parseInt %) (str/split line #"x"))))
+
 
 (defn wrapping-paper
   "Calculate the amount of wrapping paper required for a box with the given dimensions"
@@ -17,6 +20,7 @@
         surface-area (sum (map #(* 2 %) sides))]
     (+ min-side surface-area)))
 
+
 (defn ribbon
   "Calculate the amount of ribbon required for a box with the given dimensions"
   [[l w h]]
@@ -24,6 +28,7 @@
         volume     (* l w h)
         min-side   (apply min perimeters)]
     (+ min-side volume)))
+
 
 (defn -main []
   (let [boxes                   (parse (get-input 2015 2))

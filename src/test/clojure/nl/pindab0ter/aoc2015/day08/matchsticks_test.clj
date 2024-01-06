@@ -1,6 +1,8 @@
 (ns nl.pindab0ter.aoc2015.day08.matchsticks-test
-  (:require [clojure.test :refer :all])
-  (:require [nl.pindab0ter.aoc2015.day08.matchsticks :refer [escape unescape]]))
+  (:require
+    [clojure.test :refer :all]
+    [nl.pindab0ter.aoc2015.day08.matchsticks :refer [escape unescape]]))
+
 
 (deftest unescape-test
   (are [expected input]
@@ -10,11 +12,12 @@
     7 "\"aaa\\\"aaa\""
     1 "\"\\x27\""
 
-    ; Extra inputs:
+    ;; Extra inputs:
     1 "\"\\x66\""
     4 "\"\\\\x66\""
     2 "\"\\\\\\x66\""
     5 "\"\\\\\\\\x66\""))
+
 
 (deftest escape-test
   (are [expected input]

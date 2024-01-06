@@ -1,7 +1,9 @@
 (ns nl.pindab0ter.common.advent-of-code
-  (:require [clj-http.client :as http]
-            [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require
+    [clj-http.client :as http]
+    [clojure.java.io :as io]
+    [clojure.string :as str]))
+
 
 (defn get-input
   "Returns the input for the given year and day."

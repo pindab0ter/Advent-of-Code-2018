@@ -1,14 +1,18 @@
 (ns nl.pindab0ter.aoc2015.day07.some-assembly-required
-  (:require [clojure.string :as str]
-            [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
+  (:require
+    [clojure.string :as str]
+    [nl.pindab0ter.common.advent-of-code :refer [get-input]]))
+
 
 (def USHORT_MAX 65535)
 
-(defn parse [^String s]
+
+(defn parse [s]
   (into {} (map
              #(let [[_ a operator b target] (re-find #"^([a-z0-9]+)? ?([A-Z]+)? ?([a-z0-9]+)? -> ([a-z]+)$" %)]
                 {target {:a a, :operator operator, :b b}})
              (str/split-lines s))))
+
 
 (defn parse-uint
   "Returns the unsigned integer value of the string, or nil if it is not a valid unsigned integer."
@@ -18,6 +22,7 @@
       (Integer/parseUnsignedInt s)
       (catch NumberFormatException _ nil)
       (catch IllegalArgumentException _ nil))))
+
 
 (def get-signal
   (memoize
@@ -32,6 +37,7 @@
           "LSHIFT" (bit-shift-left a b)
           "RSHIFT" (bit-shift-right a b)
           "NOT" (bit-xor b USHORT_MAX))))))
+
 
 (defn -main []
   (let [circuit         (parse (get-input 2015 7))

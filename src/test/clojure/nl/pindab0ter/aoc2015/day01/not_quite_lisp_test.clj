@@ -1,6 +1,8 @@
 (ns nl.pindab0ter.aoc2015.day01.not-quite-lisp-test
-  (:require [clojure.test :refer :all])
-  (:require [nl.pindab0ter.aoc2015.day01.not-quite-lisp :refer :all]))
+  (:require
+    [clojure.test :refer :all]
+    [nl.pindab0ter.aoc2015.day01.not-quite-lisp :refer :all]))
+
 
 (deftest final-floor-test
   (are [expected input]
@@ -14,6 +16,7 @@
     -1 "))("
     -3 ")))"
     -3 ")())())"))
+
 
 (deftest basement-instruction-test
   (are [expected input]

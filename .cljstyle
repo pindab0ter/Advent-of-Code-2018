@@ -1,0 +1,5 @@
+{:rules
+ {:eof-newline {:enabled? true}
+  :functions   {:enabled? false}
+  :indentation {:indents {are [[:block 1]]}}}}
+

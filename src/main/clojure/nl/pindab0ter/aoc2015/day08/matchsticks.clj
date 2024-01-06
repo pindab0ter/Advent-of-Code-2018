@@ -1,12 +1,15 @@
 (ns nl.pindab0ter.aoc2015.day08.matchsticks
-  (:require [clojure.string :as str]
-            [nl.pindab0ter.common.advent-of-code :refer [get-input]]
-            [nl.pindab0ter.common.collections :refer [sum]]))
+  (:require
+    [clojure.string :as str]
+    [nl.pindab0ter.common.advent-of-code :refer [get-input]]
+    [nl.pindab0ter.common.collections :refer [sum]]))
 
-(defn hex-to-char [^String s]
+
+(defn hex-to-char [s]
   (-> s second (Integer/parseInt 16) char str))
 
-(defn unescape [^String s]
+
+(defn unescape [s]
   (-> s
       (str/replace "\\\\" "^")                              ; `\\`   -> `^`
       (str/replace #"(?!<^\\)\\x([a-f0-9]{2})" hex-to-char) ; `\x45` -> `a`
@@ -14,11 +17,12 @@
       (str/replace "^" "\\")                                ; `^`    -> `\`
       (str/replace #"^\"|\"$" "")))                         ; Removes first and last `"`
 
-(defn escape [^String s]
+(defn escape [s]
   (-> s
       (str/escape {\\ "\\\\"
                    \" "\\\""})
       (#(str \" % \"))))
+
 
 (defn -main []
   (let [lines     (str/split-lines (get-input 2015 8))
