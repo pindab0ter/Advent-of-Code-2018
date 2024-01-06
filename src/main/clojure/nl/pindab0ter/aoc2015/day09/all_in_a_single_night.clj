@@ -34,4 +34,5 @@
                                 (map (fn [[from to]] (nested-get distances from to)))
                                 sum)
                           (permutations cities))]
-    (println "The shortest route visiting all destinations is:" (reduce min route-distances))))
+    (println "The shortest route visiting all destinations is:" (reduce min route-distances))
+    (println "The longest route visiting all destinations is:" (reduce max route-distances))))
