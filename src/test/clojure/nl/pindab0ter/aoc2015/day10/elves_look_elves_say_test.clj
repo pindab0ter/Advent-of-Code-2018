@@ -7,7 +7,7 @@
 (deftest look-and-say-test
   (are [expected input]
     (= (look-and-say input) expected)
-    "11" "1"
-    "21" "11"
-    "1211" "21"
-    "312211" "111221"))
+    [1 1] [1]
+    [2 1] [1 1]
+    [1 2 1 1] [2 1]
+    [3 1 2 2 1 1] [1 1 1 2 2 1]))
