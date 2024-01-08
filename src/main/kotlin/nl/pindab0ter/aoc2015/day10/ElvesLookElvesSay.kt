@@ -1,14 +1,12 @@
 package nl.pindab0ter.aoc2015.day10
 
-import nl.pindab0ter.common.getInput
-import nl.pindab0ter.common.iterate
-import nl.pindab0ter.common.tail
-import nl.pindab0ter.common.timing
+import nl.pindab0ter.common.*
+import kotlin.io.println
 
 fun lookAndSay(sequence: List<Int>): List<Int> {
     val newSequence = arrayListOf<Int>()
     var count = 1
-    var number = sequence.first()
+    var number = sequence.head()
 
     sequence.tail().forEach { element ->
         if (element == number) count++

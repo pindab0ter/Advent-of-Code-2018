@@ -16,6 +16,11 @@ fun <T> Iterable<T>.allElementsEqual(): Boolean = toSet().size == 1
 fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
 
 /**
+ * @return The first element in the iterable.
+ */
+fun <T> Iterable<T>.head(): T = first()
+
+/**
  * @return A lazy sequence of the results of applying the given [transform] function to the receiver, and then applying
  * the function to the result, and so on.
  */
