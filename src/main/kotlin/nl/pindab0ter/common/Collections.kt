@@ -16,6 +16,18 @@ fun <T> Iterable<T>.allElementsEqual(): Boolean = toSet().size == 1
 fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
 
 /**
+ * @return A lazy sequence of the results of applying the given [transform] function to the receiver, and then applying
+ * the function to the result, and so on.
+ */
+fun <T> T.iterate(transform: (T) -> T): Sequence<T> = sequence {
+    var acc = this@iterate
+    while (true) {
+        yield(acc)
+        acc = transform(acc)
+    }
+}
+
+/**
  * Transforms the elements of the iterable asynchronously using the provided [transform] function. The function suspends
  * until all transformations are complete.
  *
@@ -39,7 +51,7 @@ fun <T, R> Iterable<T>.mapAsync(transform: (T) -> R): List<R> = runBlocking {
 fun <T> Iterable<T>.productOf(selector: (T) -> Int): Int = fold(1) { acc, element -> acc * selector(element) }
 
 /**
- * @return Everything but the first element of the iterable.
+ * @return A new iterable with all elements after the first.
  */
 fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
 
