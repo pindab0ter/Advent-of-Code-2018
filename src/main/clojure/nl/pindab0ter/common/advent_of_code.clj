@@ -13,15 +13,16 @@
     (if-not (.exists file)
       (let [session-cookie (slurp ".session-cookie")
             ;; https://www.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/
-            headers        {:headers {"User-Agent" "https://github.com/pindab0ter/AdventOfCode"
-                                      "From"       "hansvanluttikhuizen@me.com"
-                                      "Cookie"     (str "session=" session-cookie)}
-                            :as      :byte-array}
-            response       (http/get (str "https://adventofcode.com/" year "/day/" day "/input") headers)
+            options        {:headers              {"User-Agent" "https://github.com/pindab0ter/AdventOfCode"
+                                                   "From"       "hansvanluttikhuizen@me.com"
+                                                   "Cookie"     (str "session=" session-cookie)}
+                            :as                   :byte-array
+                            :unexceptional-status #(or (<= 200 % 299) (= 400 %))}
+            response       (http/get (str "https://adventofcode.com/" year "/day/" day "/input") options)
             status         (:status response)
-            body           (str/trim-newline (String. ^bytes (:body response)))]
+            body           (str/trim-newline (slurp (:body response)))]
         (cond
-          (= 400 status) (throw (Exception. "Invalid session cookie"))
-          (not= 200 status) (throw (Exception. (str "Unexpected status code: " (:status response))))
+          (= 400 status) (throw (Exception. "Invalid session cookie. Please provide a valid session cookie in .session-cookie."))
+          (not= 200 status) (throw (Exception. (str "Unexpected status code: " (:status response) "\n" (slurp (:body response)))))
           :else (spit file body))))
     (slurp file)))

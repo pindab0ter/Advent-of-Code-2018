@@ -26,8 +26,8 @@ fun getInput(year: Int, day: Int): String {
         Fuel
             .download("https://adventofcode.com/${year}/day/${day}/input")
             .fileDestination { response, _ ->
-                if (response.statusCode == 400) throw Exception("Invalid session cookie")
-                if (response.statusCode != 200) throw Exception("Unexpected status code: ${response.statusCode}, ${response.responseMessage}")
+                if (response.statusCode == 400) throw Exception("Invalid session cookie. Please provide a valid session cookie in .session-cookie")
+                if (response.statusCode != 200) throw Exception("Unexpected status code: ${response.statusCode}\n${response.responseMessage}")
 
                 file
             }
