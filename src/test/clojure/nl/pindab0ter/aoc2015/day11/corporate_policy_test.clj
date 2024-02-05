@@ -18,4 +18,4 @@
   (are [input expected]
     (= (next-password input) expected)
     "abcdefgh" "abcdffaa"
-    "ghijklmn" "ghjaabcc")) ;; Test takes ±8s
+    "ghizklmn" "ghjaabcc")) ;; Original sample was "ghijklmn", changed 'j' to 'z' for test performance
