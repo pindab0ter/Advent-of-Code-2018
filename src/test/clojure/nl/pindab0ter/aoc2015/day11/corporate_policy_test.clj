@@ -18,4 +18,4 @@
   (are [input expected]
     (= (next-password input) expected)
     "abcdefgh" "abcdffaa"
-    "ghijklmn" "ghjaabcc")) ;; Test takes ±16s
+    "ghijklmn" "ghjaabcc")) ;; Test takes ±8s

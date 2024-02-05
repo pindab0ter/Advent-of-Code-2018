@@ -4,8 +4,12 @@
 
 
 (defn consecutive? [s]
-  (every? (fn [[c1 c2]] (= (inc (int c1)) (int c2)))
-          (partition 2 1 (map char s))))
+  (loop [[c & cs] (map int s)]
+    (if (not (some? cs))
+      true
+      (if (not (= (inc c) (first cs)))
+        false
+        (recur cs)))))
 
 
 (defn three-consecutive-letters? [s]
@@ -24,9 +28,9 @@
 
 (defn valid-password? [s]
   (and
-    (three-consecutive-letters? s)
     (no-disallowed-characters? s)
-    (contains-two-pairs? s)))
+    (contains-two-pairs? s)
+    (three-consecutive-letters? s)))
 
 
 (defn increment-char [^Character c]
@@ -43,8 +47,7 @@
        reverse
        rest
        (reduce
-         (fn [acc c]
-           (conj acc (if (every? #(= \a %) acc) (increment-char c) c)))
+         (fn [acc c] (conj acc (if (every? #(= \a %) acc) (increment-char c) c)))
          [(->> s reverse first increment-char)])
        reverse
        (apply str)))
