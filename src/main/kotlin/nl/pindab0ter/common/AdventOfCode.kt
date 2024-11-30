@@ -1,8 +1,8 @@
 package nl.pindab0ter.common
 
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.awaitUnit
+import fuel.httpGet
 import kotlinx.coroutines.runBlocking
+import kotlinx.io.readByteArray
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -16,29 +16,27 @@ import java.nio.file.Paths
  */
 fun getInput(year: Int, day: Int): String {
     val paddedDay = day.toString().padStart(2, '0')
-    val file = Paths.get("src/main/resources/${year}/day$paddedDay/input").toFile()
+    val inputFile = Paths.get("src/main/resources/${year}/day$paddedDay/input").toFile()
 
-    if (!file.exists()) runBlocking {
-        if (!file.parentFile.exists()) Files.createDirectories(file.parentFile.toPath())
+    if (!inputFile.exists()) runBlocking {
+        if (!inputFile.parentFile.exists()) Files.createDirectories(inputFile.parentFile.toPath())
 
-        val sessionCookie = File(".session-cookie").readText()
+        val sessionCookie = File(".session-cookie").readText().trim()
 
-        Fuel
-            .download("https://adventofcode.com/${year}/day/${day}/input")
-            .fileDestination { response, _ ->
-                if (response.statusCode == 400) throw Exception("Invalid session cookie. Please provide a valid session cookie in .session-cookie")
-                if (response.statusCode != 200) throw Exception("Unexpected status code: ${response.statusCode}\n${response.responseMessage}")
-
-                file
-            }
-            // https://www.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/
-            .appendHeader(
+        val response = "https://adventofcode.com/${year}/day/${day}/input".httpGet(
+            headers = mapOf(
+                // https://www.reddit.com/r/adventofcode/comments/z9dhtd/please_include_your_contact_info_in_the_useragent/
                 "User-Agent" to "https://github.com/pindab0ter/AdventOfCode",
                 "From" to "hansvanluttikhuizen@me.com",
                 "Cookie" to "session=$sessionCookie",
             )
-            .awaitUnit()
+        )
+
+        if (response.statusCode == 400) throw Exception("Invalid session cookie. Please provide a valid session cookie in .session-cookie")
+        if (response.statusCode != 200) throw Exception("Unexpected status code: ${response.statusCode}\n${response.source}")
+
+        inputFile.writeBytes(response.source.readByteArray())
     }
 
-    return file.readText().trimEnd()
+    return inputFile.readText().trimEnd()
 }

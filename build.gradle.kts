@@ -1,8 +1,8 @@
 import java.net.URI
 
 plugins {
-    kotlin("jvm") version "1.9.21"
-    id("dev.clojurephant.clojure") version "0.7.0"
+    kotlin("jvm") version "2.1.0"
+    id("dev.clojurephant.clojure") version "0.8.0-beta.7"
     idea
 }
 
@@ -19,31 +19,24 @@ repositories {
 
 dependencies {
     // Kotlin
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.7.3")
-    implementation("io.arrow-kt", "arrow-core", "1.2.0")
-    implementation("com.github.kittinunf.fuel", "fuel", "2.3.1")
-    implementation("com.github.ajalt.mordant", "mordant", "2.2.0")
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.9.0")
+    implementation("io.arrow-kt", "arrow-core", "2.0.0-rc.1")
+    implementation("com.github.kittinunf.fuel", "fuel", "3.0.0-alpha04")
+    implementation("com.github.ajalt.mordant", "mordant", "3.0.1")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter", "5.8.1")
-    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.8.1")
+    testImplementation("org.junit.jupiter", "junit-jupiter", "5.11.3")
+    testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.11.3")
 
     testImplementation(kotlin("test"))
 
     // Clojure
-    implementation("org.clojure", "clojure", "1.11.1")
-    implementation("org.clojure", "tools.namespace", "1.3.0")
-    implementation("clj-http", "clj-http", "3.12.3")
+    implementation("org.clojure", "clojure", "1.12.0")
+    implementation("org.clojure", "tools.namespace", "1.5.0")
+    implementation("clj-http", "clj-http", "3.12.4")
 
-    testRuntimeOnly("org.ajoberstar", "jovial", "0.3.0")
+    testRuntimeOnly("dev.clojurephant", "jovial", "0.4.2")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
-
-kotlin {
-    jvmToolchain(17)
-}
-
-// Disabling the checkClojure task fixes Kotlin builds, while not appearing to break Clojure builds
-project.gradle.startParameter.excludedTaskNames.add("checkClojure")
