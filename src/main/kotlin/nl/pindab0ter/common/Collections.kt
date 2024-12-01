@@ -21,6 +21,11 @@ fun CharSequence.grouped(): Collection<List<Char>> = groupBy { it }.values
 fun <T> Iterable<T>.head(): T = first()
 
 /**
+ * @return The second element in the iterable.
+ */
+fun <T> Iterable<T>.second(): T = elementAt(1)
+
+/**
  * @return A lazy sequence of the results of applying the given [transform] function to the receiver, and then applying
  * the function to the result, and so on.
  */

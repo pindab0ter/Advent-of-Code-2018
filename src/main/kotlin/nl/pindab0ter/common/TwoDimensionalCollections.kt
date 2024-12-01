@@ -48,7 +48,7 @@ operator fun <T> List<List<T>>.get(x: Long, y: Long): T? = this[x.toInt(), y.toI
  * [[1, 1, 1], [2, 2, 2]] -> [[1, 2], [1, 2], [1, 2]]
  * ```
  */
-fun <T> Collection<Collection<T>>.transpose(): Collection<Collection<T>> {
+fun <T> List<List<T>>.transpose(): List<List<T>> {
     val rows = this.toList()
     if (this.isEmpty()) return this
 

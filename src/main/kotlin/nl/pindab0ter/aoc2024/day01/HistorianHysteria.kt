@@ -1,31 +1,34 @@
 package nl.pindab0ter.aoc2024.day01
 
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.second
 import nl.pindab0ter.common.transpose
 import kotlin.math.abs
 
-fun main() {
-    val input = getInput(2024, 1)
+fun main() = getInput(2024, 1).parse().let { input ->
+    val totalDistance = input.totalDistance()
+    println("Total distance: $totalDistance")
 
-    val result = parse(input)
-        .pairSortedNumbers()
-        .totalDistance()
-
-    println(result)
+    val similarityScore = input.similarityScore()
+    println("Similarity score: $similarityScore")
 }
 
-fun List<Pair<Int, Int>>.totalDistance(): Int = sumOf { it.distance() }
+fun List<List<Int>>.totalDistance(): Int = map(List<Int>::sorted)
+    .let { it.first().zip(it.second()) }
+    .sumOf { abs(it.first - it.second) }
 
-fun Pair<Int, Int>.distance(): Int = abs(first - second)
+fun List<List<Int>>.similarityScore(): Int = second()
+    .fold(mapOf<Int, Int>()) { acc, number ->
+        acc + Pair(number, acc.getOrDefault(number, 0) + 1)
+    }
+    .let { occurrences ->
+        first().sumOf { it * occurrences.getOrDefault(it, 0) }
+    }
 
-private fun List<List<Int>>.pairSortedNumbers(): List<Pair<Int, Int>> = transpose()
-    .map { it.sorted() }
-    .transpose()
-    .map { it.elementAt(0) to it.elementAt(1) }
-
-private fun parse(input: String): List<List<Int>> = Regex("""(\d+)\s+(\d+)""")
-    .findAll(input)
+private fun String.parse(): List<List<Int>> = Regex("""(\d+)\s+(\d+)""")
+    .findAll(this)
     .map { matchResult ->
-        matchResult.destructured.toList().map<String, Int>(String::toInt)
+        matchResult.destructured.toList().map(String::toInt)
     }
     .toList()
+    .transpose()
