@@ -21,6 +21,11 @@ class RedNosedReportsKtTest {
     fun `Determine the report status`(expected: Status, report: Report) =
         assertEquals(expected, report.status())
 
+    @ParameterizedTest(name = "{1} → {0}")
+    @MethodSource("dampenedReportsProvider")
+    fun `Determine the report status with the use of the Problem Dampener`(expected: Status, report: Report) =
+        assertEquals(expected, report.statusWithDampener())
+
     companion object {
         @JvmStatic
         fun levelsProvider(): Stream<Arguments> = Stream.of(
@@ -43,6 +48,19 @@ class RedNosedReportsKtTest {
             arguments(UNSAFE, listOf(1, 3, 2, 4, 5)),
             arguments(UNSAFE, listOf(8, 6, 4, 4, 1)),
             arguments(INCREASING, listOf(1, 3, 6, 7, 9))
+        )
+
+        @JvmStatic
+        fun dampenedReportsProvider(): Stream<Arguments> = Stream.of(
+            arguments(DECREASING, listOf(7, 6, 4, 2, 1)),
+            arguments(UNSAFE, listOf(1, 2, 7, 8, 9)),
+            arguments(UNSAFE, listOf(9, 7, 6, 2, 1)),
+            arguments(INCREASING, listOf(1, 3, 2, 4, 5)),
+            arguments(DECREASING, listOf(8, 6, 4, 4, 1)),
+            arguments(INCREASING, listOf(1, 3, 6, 7, 9)),
+
+            // Custom scenarios
+            arguments(INCREASING, listOf(3, 2, 3, 4, 5))
         )
     }
 }

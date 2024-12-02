@@ -3,13 +3,23 @@ package nl.pindab0ter.aoc2024.day02
 import arrow.core.tail
 import nl.pindab0ter.aoc2024.day02.Status.*
 import nl.pindab0ter.common.getInput
+import nl.pindab0ter.common.second
+import nl.pindab0ter.common.without
 
 fun main() {
     val input = getInput(2024, 2).parse()
 
-    val safeReportCount = input.map(Report::status).count { it != UNSAFE }
+    val safeReportCount = input.map { report ->
+        report.status()
+    }.count { it != UNSAFE }
 
     println("Amount of safe reports: $safeReportCount")
+
+    val dampenedSafeReportCount = input.map { report ->
+        report.statusWithDampener()
+    }.count { it != UNSAFE }
+
+    println("Amount of safe reports using the Problem Dampener: $dampenedSafeReportCount")
 }
 
 typealias Level = Int
@@ -26,8 +36,7 @@ fun Pair<Level, Level>.status(): Status = when (second) {
 }
 
 fun Report.status(): Status {
-    val (firstLevel, secondLevel) = this
-    val firstPairStatus = Pair(firstLevel, secondLevel).status()
+    val firstPairStatus = Pair(first(), second()).status()
 
     if (firstPairStatus == UNSAFE) return UNSAFE
 
@@ -36,6 +45,11 @@ fun Report.status(): Status {
         status
     }
 }
+
+fun Report.statusWithDampener(): Status = (0 until count())
+    .map(::without)
+    .map(Report::status)
+    .find { status -> status !== UNSAFE } ?: UNSAFE
 
 fun String.parse(): List<Report> = lines().map { line ->
     Regex("""(\d+(?=\s+)?)""").findAll(line).map { match ->

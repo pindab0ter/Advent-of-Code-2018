@@ -65,3 +65,7 @@ fun <T> Iterable<T>.productOf(selector: (T) -> Int): Int = fold(1) { acc, elemen
  */
 fun <T> Iterable<T>.tail(): Iterable<T> = drop(1)
 
+/**
+ * @return A new iterable without the element at [index].
+ */
+fun <T> Iterable<T>.without(index: Int) = take(index) + drop(index + 1)
