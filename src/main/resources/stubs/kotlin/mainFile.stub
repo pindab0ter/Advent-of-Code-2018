@@ -1,0 +1,11 @@
+package %s
+
+import nl.pindab0ter.common.getInput
+
+fun main() {
+    val input = getInput(%d, %d).parse()
+
+    println(input)
+}
+
+fun String.parse(): String = TODO()
