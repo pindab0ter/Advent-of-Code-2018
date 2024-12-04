@@ -47,7 +47,7 @@ fun Report.status(): Status {
 }
 
 fun Report.statusWithDampener(): Status = (0 until count())
-    .map(::without)
+    .map { i -> this.without(i) }
     .map(Report::status)
     .find { status -> status !== UNSAFE } ?: UNSAFE
 
