@@ -66,7 +66,7 @@ private fun Terminal.getInput(): Input {
     val title = prompt(
         prompt = "Puzzle title",
         showDefault = false,
-    )!!
+    ) { Valid(it.trim()) }!!
 
     return Input(year, day, title)
 }
