@@ -29,12 +29,12 @@ class %s {
     companion object {
         @JvmStatic
         fun partOneProvider(): Stream<Arguments> = Stream.of(
-            // arguments("expected", "actual"),
+             arguments("expected", "actual"),
         )
 
         @JvmStatic
         fun partTwoProvider(): Stream<Arguments> = Stream.of(
-            // arguments("expected", "actual"),
+             arguments("expected", "actual"),
         )
     }
 }
