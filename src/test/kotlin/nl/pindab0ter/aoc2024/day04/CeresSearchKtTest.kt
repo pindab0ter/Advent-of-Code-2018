@@ -11,14 +11,20 @@ import kotlin.test.assertEquals
 @DisplayName("2024 Day 04 - Ceres Search")
 class CeresSearchKtTest {
     @ParameterizedTest(name = "{1} → {0}")
-    @MethodSource("wordSearchProvider")
+    @MethodSource("xmasProvider")
     fun `Count appearances of 'XMAS' per row`(expected: Int, input: String) {
-        assertEquals(expected, input.lines().map(String::toList).countXmasOccurrences())
+        assertEquals(expected, input.lines().map(String::toList).xmasOccurrences())
+    }
+
+    @ParameterizedTest(name = "{1} → {0}")
+    @MethodSource("crossMasProvider")
+    fun `Count amount of 'X-MAS'es`(expected: Int, input: String) {
+        assertEquals(expected, input.lines().map(String::toList).crossMassOccurrences())
     }
 
     companion object {
         @JvmStatic
-        fun wordSearchProvider(): Stream<Arguments> = Stream.of(
+        fun xmasProvider(): Stream<Arguments> = Stream.of(
             arguments(1, "XMAS"),   // ✔︎
             arguments(1, ".XMAS."), // ✔︎
             arguments(1, "MXMASS"), // ✔︎
@@ -51,6 +57,33 @@ class CeresSearchKtTest {
                 MXMXAXMASX
                 """.trimIndent()
             )
+        )
+
+        @JvmStatic
+        fun crossMasProvider(): Stream<Arguments> = Stream.of(
+            arguments(
+                1,
+                """
+                M.S
+                .A.
+                M.S
+                """.trimIndent()
+            ),
+            arguments(
+                9,
+                """
+                .M.S......
+                ..A..MSMS.
+                .M.S.MAA..
+                ..A.ASMSM.
+                .M.S.M....
+                ..........
+                S.S.S.S.S.
+                .A.A.A.A..
+                M.M.M.M.M.
+                .......... 
+                """.trimIndent()
+            ),
         )
     }
 }
