@@ -9,15 +9,15 @@ import nl.pindab0ter.common.without
 fun main() {
     val input = getInput(2024, 2).parse()
 
-    val safeReportCount = input.map { report ->
-        report.status()
-    }.count { it != UNSAFE }
+    val safeReportCount = input
+        .map { report -> report.status() }
+        .count { it != UNSAFE }
 
     println("Amount of safe reports: $safeReportCount")
 
-    val dampenedSafeReportCount = input.map { report ->
-        report.statusWithDampener()
-    }.count { it != UNSAFE }
+    val dampenedSafeReportCount = input
+        .map { report -> report.statusWithDampener() }
+        .count { it != UNSAFE }
 
     println("Amount of safe reports using the Problem Dampener: $dampenedSafeReportCount")
 }
