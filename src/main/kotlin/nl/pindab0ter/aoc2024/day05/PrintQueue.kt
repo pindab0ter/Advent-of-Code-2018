@@ -8,15 +8,18 @@ typealias Update = List<Int>
 fun main() {
     val (pageOrderingRules, updates) = getInput(2024, 5).parse()
 
-    val correctlyOrderedUpdates = updates.filter { update ->
-        pageOrderingRules.all { rule ->
-            update.conformsTo(rule)
-        }
-    }
-
+    val correctlyOrderedUpdates = updates.filter { pageOrderingRules.all { rule -> it.conformsTo(rule) } }
     val sumOfMiddlePages = correctlyOrderedUpdates.sumOfMiddlePages()
 
     println("Sum of the middle page numbers of all correctly ordered updates: $sumOfMiddlePages")
+
+    val comparator = PageOrderingRulesComparator(pageOrderingRules)
+    val incorrectlyOrderedUpdates = updates.filterNot { pageOrderingRules.all { rule -> it.conformsTo(rule) } }
+    val sumOfOrderedMiddlePagesOfIncorrectlyOrderedUpdates = incorrectlyOrderedUpdates
+        .map { it.sortedWith(comparator) }
+        .sumOfMiddlePages()
+
+    println("Sum of the middle page numbers of all incorrectly ordered updates after ordering them: $sumOfOrderedMiddlePagesOfIncorrectlyOrderedUpdates")
 }
 
 fun String.parse(): Pair<List<PageOrderingRule>, List<Update>> {
@@ -38,3 +41,13 @@ fun Update.conformsTo(rule: PageOrderingRule): Boolean =
     !contains(rule.first) || !contains(rule.second) || indexOf(rule.first) < indexOf(rule.second)
 
 fun List<Update>.sumOfMiddlePages(): Int = sumOf { update -> update[update.count() / 2] }
+
+class PageOrderingRulesComparator(
+    private val rules: List<PageOrderingRule>
+) : Comparator<Int> {
+    override fun compare(o1: Int, o2: Int): Int = when {
+        rules.any { rule -> rule.first == o1 && rule.second == o2 } -> -1
+        rules.any { rule -> rule.first == o2 && rule.second == o1 } -> 1
+        else -> 0
+    }
+}
