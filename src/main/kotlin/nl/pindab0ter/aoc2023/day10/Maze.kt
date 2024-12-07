@@ -85,7 +85,7 @@ data class Maze(val sections: List<List<Section?>>, val startCoordinates: Coordi
     companion object {
         fun from(input: String): Maze {
             val grid = input.lines().map(String::toList)
-            val startCoordinates = grid.coordinatesOfFirst { it == 'S' }!!
+            val startCoordinates = grid.coordinateOfFirst { it == 'S' }!!
 
             return Maze(sections = grid.mapIndexed { y, row ->
                 row.mapIndexed { x, character ->

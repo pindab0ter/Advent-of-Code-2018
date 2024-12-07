@@ -4,10 +4,10 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * @return Coordinates (x, y) of the first element matching the given predicate, or null if the collection does not
+ * @return [Coordinate] (x, y) of the first element matching the given [predicate], or `null` if the collection does not
  * contain such element.
  */
-fun <T> Iterable<Iterable<T>>.coordinatesOfFirst(predicate: (T) -> Boolean): Coordinate? {
+fun <T> Iterable<Iterable<T>>.coordinateOfFirst(predicate: (T) -> Boolean): Coordinate? {
     for ((y, row) in withIndex()) {
         for ((x, cell) in row.withIndex()) {
             if (predicate(cell)) return Coordinate(x.toLong(), y.toLong())

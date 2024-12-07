@@ -45,20 +45,20 @@ class CollectionsKtTest {
             fun `Returns the coordinates of the first match`() = assertAllEquals(
                 Coordinate(0, 0) to listOf(
                     listOf(1)
-                ).coordinatesOfFirst { it == 1 },
+                ).coordinateOfFirst { it == 1 },
                 Coordinate(1, 1) to listOf(
                     listOf(0, 0),
                     listOf(0, 1)
-                ).coordinatesOfFirst { it == 1 },
+                ).coordinateOfFirst { it == 1 },
                 Coordinate(0, 2) to listOf(
                     listOf(0), listOf(0), listOf(1)
-                ).coordinatesOfFirst { it == 1 },
+                ).coordinateOfFirst { it == 1 },
                 Coordinate(2, 0) to listOf(
                     listOf(0, 0, 1)
-                ).coordinatesOfFirst { it == 1 },
+                ).coordinateOfFirst { it == 1 },
                 null to listOf(
                     listOf(0)
-                ).coordinatesOfFirst { it == 1 },
+                ).coordinateOfFirst { it == 1 },
             )
         }
 
