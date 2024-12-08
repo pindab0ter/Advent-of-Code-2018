@@ -1,3 +1,4 @@
+import org.gradle.internal.extensions.stdlib.capitalized
 import java.net.URI
 
 plugins {
@@ -45,3 +46,24 @@ tasks.test {
 application {
     mainClass.set("nl.pindab0ter.ScratchKt")
 }
+
+// Dynamically create run tasks for each Kotlin file with a main function in it
+file("src/main/kotlin")
+    .walkTopDown()
+    .filter<File> { it.isFile && it.extension == "kt" && it.readText().contains("fun main(") }
+    .toList<File>().forEach { file ->
+        val matchResult = Regex("""day\d{2}""").find(file.parentFile.name)
+        if (matchResult == null) return@forEach
+
+        val day = matchResult.value
+        val year = file.parentFile.parentFile.name.removePrefix("aoc")
+        val taskName = "runKotlin${year}${day}"
+        tasks.register<JavaExec>(taskName) {
+            group = "application"
+            description = "Run the ${file.nameWithoutExtension} file"
+            val packageName = file.parentFile.path.replace("/", ".").substringAfter("src.main.kotlin.")
+            val className = file.nameWithoutExtension.capitalized() + "Kt"
+            mainClass.set("$packageName.$className")
+            classpath = sourceSets["main"].runtimeClasspath
+        }
+    }
