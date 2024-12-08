@@ -1,12 +1,17 @@
 package nl.pindab0ter.aoc2024.day06
 
+import com.github.ajalt.mordant.animation.coroutines.animateInCoroutine
 import com.github.ajalt.mordant.animation.textAnimation
 import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.terminal.Terminal
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.pindab0ter.aoc2024.day06.Direction.*
 import nl.pindab0ter.aoc2024.day06.Tile.*
 import nl.pindab0ter.common.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The animation doesn't work when running through IntelliJ.
@@ -20,50 +25,16 @@ fun main() = runBlocking {
 
     val lab = Lab.fromString(input)
 
-    val animation = terminal.textAnimation<Lab> { lab -> lab.toString() }
-    animation.update(lab)
+    val animation = terminal
+        .textAnimation<Unit> { lab.toString() }
+        .animateInCoroutine(fps = 60) { !lab.guardIsInside() }
+        .apply { launch { execute() } }
 
-    val finalState = generateSequence(lab) { currentLab ->
-        if (!currentLab.guardIsInside) return@generateSequence null
+    lab.gallivant(delayBetweenEachStep = 1.milliseconds)
 
-        val tileInFrontOfGuard = currentLab.map[currentLab.guard.coordinateInFront()]
+    animation.stop()
 
-        // TODO: Keep doing this if guard is obstructed again after turning
-        val movedGuard = if (tileInFrontOfGuard == OBSTRUCTION) {
-            val turnedGuard = currentLab.guard.copy(
-                direction = currentLab.guard.direction.ninetyDegreesClockwise()
-            )
-            if (currentLab.map[turnedGuard.coordinateInFront()] == OBSTRUCTION) {
-                throw IllegalStateException("Guard is obstructed in another direction")
-            }
-            turnedGuard.copy(coordinate = turnedGuard.coordinateInFront())
-        } else {
-            currentLab.guard.copy(coordinate = currentLab.guard.coordinateInFront())
-        }
-
-        val updatedMap = currentLab.map.mapIndexed { y, row ->
-            row.mapIndexed { x, tile ->
-                when {
-                    Coordinate(x, y) == currentLab.guard.coordinate -> TRAVELLED
-                    Coordinate(x, y) == movedGuard.coordinate -> GUARD
-                    else -> tile
-                }
-            }
-        }
-
-        currentLab.copy(
-            map = updatedMap,
-            guard = movedGuard,
-        )
-    }.onEach { updatedLab ->
-        runBlocking {
-            animation.update(updatedLab)
-        }
-    }.last()
-
-    val visitedTiles = finalState.map.flatten().count { it == TRAVELLED }
-
-    println("Number of tiles the guard has visited: $visitedTiles")
+    terminal.println("Number of tiles the guard has visited: ${lab.visitedTiles()}")
 }
 
 enum class Direction(val representation: Char) {
@@ -88,18 +59,18 @@ enum class Tile(val recognizedBy: List<Char>) {
     FREE(listOf('.')),
     OBSTRUCTION(listOf('#')),
     GUARD(Direction.entries.map { it.representation }),
-    TRAVELLED(listOf());
+    VISITED(listOf());
 
     companion object {
         fun from(char: Char): Tile? = entries.find { it.recognizedBy.contains(char) }
     }
 }
 
-typealias Map = List<List<Tile>>
+typealias Map = MutableList<MutableList<Tile>>
 
 data class Guard(
-    val coordinate: Coordinate,
-    val direction: Direction,
+    var coordinate: Coordinate,
+    var direction: Direction,
 ) {
     fun coordinateInFront(): Coordinate = when (direction) {
         NORTH -> Coordinate(coordinate.x.toInt(), coordinate.y.toInt() - 1)
@@ -113,7 +84,28 @@ data class Lab(
     val map: Map,
     val guard: Guard,
 ) {
-    val guardIsInside = map.flatten().contains(GUARD)
+    val width = map.first().size
+    val height = map.size
+
+    fun guardIsInside(): Boolean = guard.coordinate.x in 0 until width && guard.coordinate.y in 0 until height
+    fun visitedTiles(): Int = map.flatten().count { it == VISITED }
+
+    suspend fun gallivant(delayBetweenEachStep: Duration = 0.milliseconds) {
+        while (guardIsInside()) {
+            val tileWhereGuardWas = guard.coordinate
+
+            while (map[guard.coordinateInFront()] == OBSTRUCTION) {
+                guard.direction = guard.direction.ninetyDegreesClockwise()
+            }
+
+            guard.coordinate = guard.coordinateInFront()
+            if (guardIsInside()) map[guard.coordinate] = GUARD
+            map[tileWhereGuardWas] = VISITED
+
+            delay(delayBetweenEachStep)
+        }
+    }
+
 
     override fun toString(): String = map.joinToString("\n") { row ->
         row.joinToString("") { tile ->
@@ -129,7 +121,7 @@ data class Lab(
                     }
                 )
 
-                TRAVELLED -> brightGreen("•")
+                VISITED -> brightGreen("•")
             }
         }
     }
@@ -137,7 +129,7 @@ data class Lab(
     companion object {
         fun fromString(input: String): Lab {
             val charGrid = input.lines().map { it.toCharArray().toList() }
-            val map = charGrid.map { row -> row.map { point -> Tile.from(point)!! } }
+            val map = charGrid.map { row -> row.map { point -> Tile.from(point)!! }.toMutableList() }.toMutableList()
             val guardCoordinate = charGrid.coordinateOfAny(GUARD.recognizedBy)!!
             val guard = Guard(
                 coordinate = guardCoordinate,

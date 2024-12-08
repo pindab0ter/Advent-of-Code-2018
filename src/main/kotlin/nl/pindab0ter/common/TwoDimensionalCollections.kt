@@ -37,6 +37,10 @@ operator fun <T> List<List<T>>.get(coordinate: Coordinate): T? = this
     .getOrNull(coordinate.y.toInt())
     ?.getOrNull(coordinate.x.toInt())
 
+operator fun <T> MutableList<MutableList<T>>.set(coordinate: Coordinate, value: T) {
+    this[coordinate.y.toInt()][coordinate.x.toInt()] = value
+}
+
 /**
  * @return The element at the given [x] and [y] coordinate, or null if the coordinates are out of bounds.
  * @see Coordinate

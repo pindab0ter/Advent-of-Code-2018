@@ -24,7 +24,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.9.0")
     implementation("io.arrow-kt", "arrow-core", "2.0.0-rc.1")
     implementation("com.github.kittinunf.fuel", "fuel", "3.0.0-alpha04")
+
     implementation("com.github.ajalt.mordant", "mordant", "3.0.1")
+    implementation("com.github.ajalt.mordant", "mordant-coroutines", "3.0.1")
 
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.11.3")
     testImplementation("org.junit.jupiter", "junit-jupiter-params", "5.11.3")
