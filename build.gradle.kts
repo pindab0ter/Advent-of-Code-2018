@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "2.1.0"
     id("dev.clojurephant.clojure") version "0.8.0-beta.7"
     idea
+    application
 }
 
 group = "nl.pindab0ter"
@@ -39,4 +40,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("nl.pindab0ter.ScratchKt")
 }
