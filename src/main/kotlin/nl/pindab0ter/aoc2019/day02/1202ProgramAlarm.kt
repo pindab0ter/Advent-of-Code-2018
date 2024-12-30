@@ -1,78 +1,93 @@
 package nl.pindab0ter.aoc2019.day02
 
-import arrow.core.firstOrNone
-import arrow.core.getOrElse
-import nl.pindab0ter.aoc2019.day02.Instruction.*
+import com.github.ajalt.mordant.terminal.ConversionResult.Invalid
+import com.github.ajalt.mordant.terminal.ConversionResult.Valid
+import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.terminal.prompt
 import nl.pindab0ter.common.getInput
 
-fun main() {
-    val memory = getInput(2019, 2).parse()
+fun main(args: Array<String>) {
+    val inputMemory = getInput(2019, 2).split(",").map(String::toInt)
+    val expectedOutput = args.getOrElse(0) {
+        Terminal().prompt("Expected output") { input ->
+            if (input.trim().toIntOrNull() == null) Invalid("Must be an integer")
+            else Valid(input.trim())
+        }!!
+    }.toInt()
 
-    val computer = IntcodeComputer(memory)
+    val computer = IntcodeComputer(inputMemory.toMutableList())
 
     computer.memory[1] = 12
     computer.memory[2] = 2
-
     computer.run()
-
     println("The value at position 0 is ${computer.memory[0]}")
+
+    val nounAndVerb = (0..99).fold(null) { acc: Int?, noun: Int ->
+        if (acc != null) return@fold acc
+
+        val verb = (0..99).firstOrNull { verb ->
+            val computer = IntcodeComputer(inputMemory.toMutableList())
+            computer.memory[1] = noun
+            computer.memory[2] = verb
+            computer.run()
+            computer.memory[0] == expectedOutput
+        }
+
+        if (verb != null) return@fold 100 * noun + verb
+        else return@fold null
+    }
+
+    println("The noun and verb that produce the output $expectedOutput are $nounAndVerb")
 }
 
 fun String.parse(): Memory = split(",").map(String::toInt).toMutableList()
 
-typealias Memory = MutableList<Int>
+typealias Value = Int
+typealias Address = Int
+typealias Memory = MutableList<Value>
 
-class UnknownOpcodeException() : Exception()
-
-enum class Instruction(val integer: Int) {
-    ADD(1),
-    MULTIPLY(2),
-    EXIT(99);
-
-    companion object {
-        fun fromOpcode(opcode: Int) = entries
-            .firstOrNone { it.integer == opcode }
-            .getOrElse { throw UnknownOpcodeException() }
-    }
-}
+class UnknownOpcodeException(opcode: Value) : Exception("Unknown opcode: $opcode")
 
 class IntcodeComputer(val memory: Memory) {
-    var currentPosition = 0
-    private val instruction: Instruction
-        get() = Instruction.fromOpcode(memory[currentPosition])
-    private val leftOperandPosition: Int
-        get() = memory[currentPosition + 1]
-    private val leftOperandValue: Int
-        get() = memory[leftOperandPosition]
-    private val rightOperandPosition: Int
-        get() = memory[currentPosition + 2]
-    private val rightOperandValue: Int
-        get() = memory[rightOperandPosition]
-    private val resultPosition: Int
-        get() = memory[currentPosition + 3]
+    var pointer = 0
 
-    private fun moveToNextInstruction() {
-        currentPosition += 4
-    }
+    val leftParameter: Address
+        get() = memory[pointer + 1]
+    val rightParameter: Address
+        get() = memory[pointer + 2]
+    val output: Address
+        get() = memory[pointer + 3]
 
     private fun executeInstruction() {
-        println(this)
-        when (instruction) {
-            ADD -> memory[resultPosition] = leftOperandValue + rightOperandValue
-            MULTIPLY -> memory[resultPosition] = leftOperandValue * rightOperandValue
-            EXIT -> return
+        when (memory[pointer]) {
+            ADD -> {
+                memory[output] = memory[leftParameter] + memory[rightParameter]
+                pointer += 4
+            }
+
+            MULTIPLY -> {
+                memory[output] = memory[leftParameter] * memory[rightParameter]
+                pointer += 4
+            }
+
+            else -> throw UnknownOpcodeException(opcode = memory[pointer])
         }
     }
 
     fun run(): Memory {
-        while (instruction != EXIT) {
+        while (memory[pointer] != EXIT) {
             executeInstruction()
-            moveToNextInstruction()
         }
         return memory
     }
 
     override fun toString(): String {
-        return "IntcodeComputer(memory=$memory, currentPosition=$currentPosition, instruction=$instruction, leftOperandPosition=$leftOperandPosition, leftOperandValue=$leftOperandValue, rightOperandPosition=$rightOperandPosition, rightOperandValue=$rightOperandValue, resultPosition=$resultPosition)"
+        return "IntcodeComputer(memory=$memory, pointer=$pointer)"
+    }
+
+    companion object {
+        const val ADD = 1
+        const val MULTIPLY = 2
+        const val EXIT = 99
     }
 }

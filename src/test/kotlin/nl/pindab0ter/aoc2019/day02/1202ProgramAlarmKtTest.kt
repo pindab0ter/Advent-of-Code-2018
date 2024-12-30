@@ -18,14 +18,6 @@ class `1202ProgramAlarmKtTest` {
         assertEquals(expected, computer.run())
     }
 
-    //    @ParameterizedTest(name = "{1} → {0}")
-    @MethodSource("partTwoProvider")
-    fun `Part two`(expected: String, input: String) {
-        val actual = TODO()
-
-        assertEquals(expected, actual)
-    }
-
     companion object {
         @JvmStatic
         fun partOneProvider(): Stream<Arguments> = Stream.of(
@@ -33,11 +25,6 @@ class `1202ProgramAlarmKtTest` {
             arguments(listOf(2, 3, 0, 6, 99), listOf(2, 3, 0, 3, 99)), // 3 * 2 = 6
             arguments(listOf(2, 4, 4, 5, 99, 9801), listOf(2, 4, 4, 5, 99, 0)), // 99 * 99 = 9801
             arguments(listOf(30, 1, 1, 4, 2, 5, 6, 0, 99), listOf(1, 1, 1, 4, 99, 5, 6, 0, 99)),
-        )
-
-        @JvmStatic
-        fun partTwoProvider(): Stream<Arguments> = Stream.of(
-            arguments("expected", "actual"),
         )
     }
 }
