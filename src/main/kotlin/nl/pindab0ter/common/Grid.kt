@@ -14,5 +14,5 @@ class Grid<T>(grid: List<List<T>>) {
         require(columns.all { it.size == columns.first().size })
     }
 
-    override fun toString(): String =  rows.joinToString("\n") { row -> row.joinToString(", ") }
+    override fun toString(): String = rows.joinToString("\n") { row -> row.joinToString(", ") }
 }

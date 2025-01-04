@@ -17,4 +17,6 @@ data class Coordinate(val x: Long, val y: Long) {
      * @return The Manhattan distance between the two [Coordinate]s.
      */
     fun manhattanDistance(to: Coordinate) = abs(x - to.x) + abs(y - to.y)
+    fun manhattanDistance(x: Long, y: Long) = manhattanDistance(Coordinate(x, y))
+    fun manhattanDistance(x: Int, y: Int) = manhattanDistance(Coordinate(x, y))
 }

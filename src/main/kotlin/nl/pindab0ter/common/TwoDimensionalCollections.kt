@@ -3,6 +3,10 @@ package nl.pindab0ter.common
 import kotlin.math.max
 import kotlin.math.min
 
+fun Iterable<Coordinate>.contains(x: Long, y: Long): Boolean = any { it.x == x && it.y == y }
+
+fun Iterable<Coordinate>.contains(x: Int, y: Int): Boolean = contains(x.toLong(), y.toLong())
+
 /**
  * @return [Coordinate] (x, y) of the first element matching the given [predicate], or `null` if the collection does not
  * contain such element.

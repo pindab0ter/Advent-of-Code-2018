@@ -10,6 +10,8 @@ import kotlinx.coroutines.runBlocking
  */
 fun <T> Iterable<T>.allElementsEqual(): Boolean = toSet().size == 1
 
+fun <T> Iterable<T>.containsAll(vararg elements: T): Boolean = elements.all { this.contains(it) }
+
 /**
  * @return A collection of lists of characters grouped by their value.
  */
@@ -60,7 +62,9 @@ fun <T, R> Iterable<T>.mapAsync(transform: (T) -> R): List<R> = runBlocking {
  */
 fun <T> Iterable<T>.productOf(selector: (T) -> Int): Int = fold(1) { acc, element -> acc * selector(element) }
 
-fun <T> Iterable<T>.replace(index: Int, transform: (T) -> T): List<T> = mapIndexed { i, e -> if (i == index) transform(e) else e }
+fun <T> Iterable<T>.replace(index: Int, transform: (T) -> T): List<T> =
+    mapIndexed { i, e -> if (i == index) transform(e) else e }
+
 fun <T> Iterable<T>.replace(index: Int, element: T): Iterable<T> = mapIndexed { i, e -> if (i == index) element else e }
 
 /**
