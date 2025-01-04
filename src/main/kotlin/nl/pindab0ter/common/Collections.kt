@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
  */
 fun <T> Iterable<T>.allElementsEqual(): Boolean = toSet().size == 1
 
-fun <T> Iterable<T>.containsAll(vararg elements: T): Boolean = elements.all { this.contains(it) }
+fun <T> Iterable<T>.containsAll(vararg elements: T): Boolean = elements.all { it in this }
 
 /**
  * @return A collection of lists of characters grouped by their value.
